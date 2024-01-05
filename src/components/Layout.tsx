@@ -1,4 +1,3 @@
-import Cookies from './Cookies';
 import Prompt from './Prompt';
 import type { ReactNode } from 'react';
 import { LazyMotion, MotionConfig, domAnimation } from 'framer-motion';
@@ -15,7 +14,6 @@ export default function Layout({ children }: Props) {
   return (
     <MotionConfig reducedMotion='user'>
       <LazyMotion strict={true} features={domAnimation}>
-        <Cookies />
         <Toast key={toast.title.split(' ').join('') || undefined} />
         <Prompt key={prompt.title.split(' ').join('') || undefined} />
         {children}
