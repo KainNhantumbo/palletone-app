@@ -2,3 +2,113 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --transparent: transparent;
+    --error: 253 56 79;
+    --font: 95 99 104;
+    --black: 36 35 36;
+    --white: 255 255 255;
+    --primary: 166 118 67;
+    --secondary: 216 73 43;
+    --foreground: 255 255 255;
+    --background: 250 250 250;
+  }
+
+  .dark {
+    --transparent: transparent;
+    --error: 253 56 79;
+    --font: 198 197 205;
+    --black: 46 45 46;
+    --white: 255 255 255;
+    --primary: 166 118 67;
+    --secondary: 216 73 43;
+    --foreground: 39 40 45;
+    --background: 27 27 31;
+  }
+
+  label {
+    @apply select-none;
+  }
+
+  h1 {
+    @apply font-sans text-3xl leading-10 font-semibold;
+  }
+
+  h2 {
+    @apply font-sans font-semibold leading-6 text-xl;
+  }
+
+  h3 {
+    @apply font-semibold;
+  }
+
+  li {
+    @apply list-disc list-inside;
+  }
+
+  em {
+    @apply italic;
+  }
+
+  i {
+    @apply not-italic;
+  }
+
+  u {
+    @apply underline-offset-4;
+  }
+
+  s {
+    @apply line-through;
+  }
+
+  hr,
+  .hr-class {
+    @apply text-font stroke-font my-2 rounded-[3px];
+  }
+
+  body {
+    @apply w-[100%] relative font-sans m-0 bg-background text-font selection:bg-primary/20 selection:text-font selection:text-opacity-90 font-normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    @apply overflow-x-hidden m-0 p-0 scroll-smooth text-font;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-[8px] bg-transparent bg-opacity-70 hover:transition-all hover:delay-200 hover:ease-in-out;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-lg bg-primary hover:transition-all hover:delay-200 hover:ease-in-out absolute top-[50%] bottom-[50%] before:w-[100%] before:h-[100%] before:min-h-[44px] before:min-w-[44px] before:translate-x-[50%] before:translate-y-[50%];
+  }
+
+  * {
+    @apply text-font box-border;
+  }
+}
+
+@layer components {
+  .base-image {
+    @apply rounded-[50%] object-cover w-[100%] h-[100%];
+  }
+
+  .base-border {
+    @apply border-solid border-[1px] border-font/[.12];
+  }
+
+  .base-link {
+    @apply text-center sm:text-left transition-colors hover:underline hover:underline-offset-4 w-fit;
+  }
+
+  .base-input {
+    @apply w-full base-border py-[10px] px-[18px] outline-none rounded-lg bg-background/70 transition-colors focus:shadow-[0_0_20px_rgba(0,0,0,.06)] placeholder:text-font/60 resize-y disabled:bg-foreground disabled:placeholder:text-transparent disabled:border-none;
+  }
+
+  .inputs {
+    @apply w-[100%] max-w-[200px] mobile:max-w-[260px] sm:max-w-md md:max-w-lg h-fit py-[10px] px-[18px] leading-7 outline-none resize-y rounded-xl bg-background bg-opacity-70 border-solid border-[1px] border-opacity-50 border-font text-font focus:border-font focus:border-opacity-70 focus:transition-shadow focus:shadow-[0_0_20px_rgba(0,0,0,0.1)] placeholder:text-[0.9rem] disabled:bg-foreground disabled:placeholder:text-transparent disabled:border-none;
+  }
+}

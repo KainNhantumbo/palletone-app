@@ -15,5 +15,5 @@ export type InputEvent =
   | ChangeEvent<HTMLInputElement>
   | ChangeEvent<HTMLSelectElement>
   | ChangeEvent<HTMLTextAreaElement>;
-
+  
 export type SubmitEvent = FormEvent<HTMLFormElement>;
