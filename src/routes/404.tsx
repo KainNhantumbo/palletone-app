@@ -1,4 +1,4 @@
-import { metadata } from '../shared/data';
+import { metadata } from '../shared/constants';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 export default function NotFoundError() {
