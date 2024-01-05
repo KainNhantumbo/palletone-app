@@ -1,6 +1,5 @@
 import { CSSProperties } from 'react';
 import { BeatLoader } from 'react-spinners';
-import { useTheme } from 'styled-components';
 
 const styles: CSSProperties = {
   width: '100vw',
@@ -15,12 +14,11 @@ const styles: CSSProperties = {
 };
 
 export default function Loader() {
-  const theme = useTheme();
   return (
     <section style={{ ...styles }}>
       <h3>Backing your boards...</h3>
       <BeatLoader
-        color={`rgb(${theme.primary_a})`}
+        color={`rgb(#000)`}
         cssOverride={{
           display: 'block',
           background: `transparent})`

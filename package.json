@@ -1,6 +1,6 @@
 {
-  "name": "template",
-  "description": "vite app template",
+  "name": "Palletone",
+  "description": "Color pallete creator and coletor app",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -31,7 +31,7 @@
     "name": "Apache License Version 2.0",
     "url": " http://www.apache.org/licenses"
   },
-  "repository": "https://github.com/KainNhantumbo/vite-app-template",
+  "repository": "https://github.com/KainNhantumbo/palletone",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

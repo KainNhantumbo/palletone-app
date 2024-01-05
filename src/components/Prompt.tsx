@@ -1,5 +1,4 @@
 import { m as motion, AnimatePresence } from 'framer-motion';
-import { _prompt as Container } from '@/styles/modules/_prompt';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/state/store';
@@ -12,7 +11,7 @@ export default function Prompt() {
   return (
     <AnimatePresence>
       {prompt.status && (
-        <Container
+        <section
           className='main'
           onClick={(e: any) => {
             const target = e.target.classList.contains('main');
@@ -53,7 +52,7 @@ export default function Prompt() {
               </div>
             </div>
           </motion.section>
-        </Container>
+        </section>
       )}
     </AnimatePresence>
   );

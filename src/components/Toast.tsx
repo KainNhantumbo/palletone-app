@@ -1,6 +1,5 @@
 import { RiCloseLine } from 'react-icons/ri';
 import { m as motion, AnimatePresence } from 'framer-motion';
-import { _toast as Container } from '@/styles/modules/_toast';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -23,7 +22,7 @@ export default function Toast() {
   return (
     <AnimatePresence>
       {toast.status && (
-        <Container>
+        <section>
           <motion.section
             className='dialog-modal'
             initial={{ opacity: 0, y: 500 }}
@@ -86,7 +85,7 @@ export default function Toast() {
               </div>
             </div>
           </motion.section>
-        </Container>
+        </section>
       )}
     </AnimatePresence>
   );
