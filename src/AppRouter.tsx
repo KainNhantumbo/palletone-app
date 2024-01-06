@@ -1,4 +1,4 @@
-import { JSX } from 'react';
+import type { JSX } from 'react';
 import Home from './routes/Home';
 import NotFoundError from './routes/404';
 import { Route, Routes } from 'react-router-dom';

@@ -14,8 +14,8 @@ export default function Prompt() {
     <AnimatePresence>
       <section
         className='main'
-        onClick={(e: any) => {
-          const target = e.target.classList.contains('main');
+        onClick={(e) => {
+          const target = (e.target as any).classList.contains('main');
           if (target)
             return dispatch(updatePrompt({ ...prompt, isOpen: false }));
         }}>

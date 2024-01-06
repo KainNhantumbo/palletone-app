@@ -4,6 +4,7 @@ import { LazyMotion, MotionConfig, domAnimation } from 'framer-motion';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/state/store';
 import Toast from './Toast';
+import Header from './Header';
 
 type Props = { children: ReactNode };
 
@@ -16,6 +17,7 @@ export default function Layout({ children }: Props) {
       <LazyMotion strict={true} features={domAnimation}>
         <Toast key={toast.title.split(' ').join('') || undefined} />
         <Prompt key={prompt.title.split(' ').join('') || undefined} />
+        <Header />
         {children}
       </LazyMotion>
     </MotionConfig>
