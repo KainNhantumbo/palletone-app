@@ -1,33 +1,28 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { type ClassValue, clsx } from 'clsx';
+import { toast } from 'sonner';
+import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export const exportToClipboard = async (content: string) => {
   try {
     await navigator.clipboard.writeText(content);
+    toast.success('Copied to clipboard!');
   } catch (error) {
     console.warn(error);
-    return {
-      error: true,
-      message:
-        (error as Error).message || 'Error while trying to copy to clipboard.'
-    };
+    toast.error('Error while trying to copy to clipboard.');
   }
 };
 
 export const importFromClipboard = async () => {
   try {
-    return await navigator.clipboard.readText();
+    const data = await navigator.clipboard.readText();
+    toast.success('Pasted successfully!');
+    return data;
   } catch (error) {
     console.warn(error);
-    return {
-      error: true,
-      message:
-        (error as Error).message ||
-        'Error while trying to retrieve data from clipboard.'
-    };
+    toast.error('Error while trying to retrieve data from clipboard.');
   }
 };

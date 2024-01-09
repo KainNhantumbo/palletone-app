@@ -14,7 +14,7 @@ const styles: CSSProperties = {
   padding: 'calc(25% - 1px) 12px'
 };
 
-export default function Loader() {
+export const Loader = () => {
   return (
     <section style={{ ...styles }}>
       <h3>Mixing colors...</h3>
@@ -27,4 +27,4 @@ export default function Loader() {
       />
     </section>
   );
-}
+};

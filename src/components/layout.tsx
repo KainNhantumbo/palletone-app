@@ -1,20 +1,20 @@
 import type { ReactNode } from 'react';
 import { LazyMotion, MotionConfig, domAnimation } from 'framer-motion';
-import Header from './Header';
-import Drawer from './Drawer';
+import { Header } from './header';
+import { Drawer } from './drawer';
 import { Toaster } from '@/components/ui/sonner';
 
 type Props = { children: ReactNode };
 
-export default function Layout({ children }: Props) {
+export const Layout = ({ children }: Props) => {
   return (
     <MotionConfig reducedMotion='user'>
       <LazyMotion strict={true} features={domAnimation}>
         <Header />
         {children}
         <Drawer />
-        <Toaster />
+        <Toaster closeButton loadingIcon />
       </LazyMotion>
     </MotionConfig>
   );
-}
+};

@@ -52,10 +52,16 @@ module.exports = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))'
         },
+
+        // base colors
         error: 'rgb(var(--error) / <alpha-value>)',
         font: 'rgb(var(--font) / <alpha-value>)',
         black: 'rgb(var(--black) / <alpha-value>)',
-        white: 'rgb(var(--white) / <alpha-value>)'
+        white: 'rgb(var(--white) / <alpha-value>)',
+        'secondary-default': 'rgb(var(--secondary-default) / <alpha-value>)',
+        'foreground-default': 'rgb(var(--foreground-default) / <alpha-value>)',
+        'background-default': 'rgb(var(--background-default) / <alpha-value>)',
+        'primary-default': 'rgb(var(--primary-default) / <alpha-value>)'
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -78,7 +84,7 @@ module.exports = {
       },
       screens: {
         mobile: '420px',
-        'mobile-x': '480px'
+        'mobile-x': '520px'
       },
       fontFamily: {
         sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
@@ -87,5 +93,5 @@ module.exports = {
       }
     }
   },
-  plugins: [require("tailwindcss-animate")]
+  plugins: [require('tailwindcss-animate')]
 };
