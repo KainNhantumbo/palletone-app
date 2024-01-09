@@ -9,6 +9,7 @@ const styles: CSSProperties = {
   fontSize: '1.2rem',
   flexDirection: 'column',
   gap: '20px',
+  color: 'rgb(var(--font))',
   alignItems: 'center',
   padding: 'calc(25% - 1px) 12px'
 };
@@ -16,9 +17,9 @@ const styles: CSSProperties = {
 export default function Loader() {
   return (
     <section style={{ ...styles }}>
-      <h3>Backing your boards...</h3>
+      <h3>Mixing colors...</h3>
       <BeatLoader
-        color={`rgb(#000)`}
+        color={`hsl(var(--primary))`}
         cssOverride={{
           display: 'block',
           background: `transparent})`

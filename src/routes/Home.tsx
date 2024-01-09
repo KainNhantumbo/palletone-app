@@ -21,7 +21,7 @@ export default function Home() {
             {colors.map((color, i) => (
               <div
                 key={i}
-                className='flex flex-col gap-3 bg-foreground  p-2 rounded-2xl base-border'>
+                className='flex flex-col gap-3 bg-foreground  p-2 rounded-2xl base-border shadow-xl'>
                 <div
                   className='rounded-2xl shadow-lg'
                   style={{

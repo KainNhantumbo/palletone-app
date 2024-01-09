@@ -1,5 +1,4 @@
 import './styles/index.css'
-import 'rc-dropdown/assets/index.css';
 import React, { lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 
