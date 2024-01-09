@@ -2,6 +2,7 @@ import logoImage from '@/assets/favicon.png';
 import { CogIcon, MoonStarIcon } from 'lucide-react';
 import { Button } from './ui/button';
 import { Link } from 'react-router-dom';
+import { ThemeToggle } from './theme-toggle';
 
 export const Header = () => {
   return (
@@ -25,9 +26,7 @@ export const Header = () => {
               <CogIcon className='group-hover:stroke-primary-default group-active:stroke-blue-400 transition-colors w-5 h-auto' />
             </Button>
           </Link>
-          <Button variant={'ghost'} size={'icon'} className='group'>
-            <MoonStarIcon className='group-hover:stroke-primary-default group-active:stroke-blue-400 transition-colors w-5 h-auto' />
-          </Button>
+         <ThemeToggle/>
         </div>
       </div>
     </section>
