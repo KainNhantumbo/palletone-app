@@ -1,18 +1,4 @@
-import { CSSProperties } from 'react';
-import { BeatLoader, RiseLoader } from 'react-spinners';
-
-const styles: CSSProperties = {
-  width: '100vw',
-  height: '100vh',
-  display: 'flex',
-  fontWeight: '500',
-  fontSize: '1.2rem',
-  flexDirection: 'column',
-  gap: '20px',
-  color: 'rgb(var(--font))',
-  alignItems: 'center',
-  padding: 'calc(25% - 1px) 12px'
-};
+import { RiseLoader } from 'react-spinners';
 
 const messages: Array<string> = [
   'floating color backets',
@@ -29,17 +15,19 @@ const ramdomMessage = (): string => {
 
 export const Loader = () => {
   return (
-    <section style={{ ...styles }}>
-      <h3 className='font-medium uppercase font-sans-display text-md'>
-        {ramdomMessage()}
-      </h3>
-      <RiseLoader
-        color={`rgb(var(--primary-default))`}
-        cssOverride={{
-          display: 'block',
-          background: `transparent})`
-        }}
-      />
-    </section>
+    <div className='w-[100vw] h-[100vh] grid place-content-center place-items-center'>
+      <section className='w-full h-full font-medium flex flex-col gap-8 items-center p-[calc(25%_-_1px)_12px]'>
+        <h3 className='font-medium uppercase font-sans-display text-lg text-center'>
+          {ramdomMessage()}
+        </h3>
+        <RiseLoader
+          color={`rgb(var(--primary-default))`}
+          cssOverride={{
+            display: 'block',
+            background: `transparent})`
+          }}
+        />
+      </section>
+    </div>
   );
 };
