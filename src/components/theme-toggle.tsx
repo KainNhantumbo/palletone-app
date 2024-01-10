@@ -1,5 +1,5 @@
 import { toast } from 'sonner';
-import { Moon, Sun } from 'lucide-react';
+import { MoonStarIcon, SunIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLocalStore } from '@/hooks/local-store';
 
@@ -25,8 +25,8 @@ export const ThemeToggle = () => {
       size='icon'
       className='p-0 group bg-transparent'
       onClick={onClick}>
-      <Sun className='h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 group-hover:stroke-primary-default' />
-      <Moon className='absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 group-hover:stroke-primary-default' />
+      <MoonStarIcon className='absolute h-[1.2rem] w-[1.2rem] rotate-120 scale-100 transition-all dark:rotate-0 dark:scale-0 group-hover:stroke-primary-default' />
+      <SunIcon className='h-[1.2rem] w-[1.2rem] rotate-0 scale-0 transition-all dark:-rotate-90 dark:scale-100 group-hover:stroke-primary-default' />
     </Button>
   );
 };

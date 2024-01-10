@@ -61,7 +61,7 @@ export const InitialColors = () => {
                 size={'icon'}
                 className='group'
                 onClick={() => exportToClipboard(color.value)}>
-                <CopyIcon className='group-hover:stroke-primary group-active:stroke-blue-400 transition-colors ' />
+                <CopyIcon className='group-hover:stroke-primary-default group-active:stroke-blue-400 transition-colors' />
               </Button>
             </div>
           </div>

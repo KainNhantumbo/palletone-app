@@ -13,7 +13,7 @@ const routes: RouteType[] = [
   { path: '/', element: Home },
   { path: '/swatch', element: Swatch },
   { path: '/preferences', element: Preferences },
-  { path: '/palletes', element: Palletes },
+  { path: '/palettes', element: Palletes },
   { path: '/saved', element: Saved },
   { path: '*', element: NotFoundError }
 ];

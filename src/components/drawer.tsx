@@ -4,7 +4,7 @@ import { ColorWheelIcon } from '@radix-ui/react-icons';
 import { Link } from 'react-router-dom';
 
 const routes = [
-  { path: '/palletes', icon: PaintBucketIcon, label: 'Palletes' },
+  { path: '/palettes', icon: PaintBucketIcon, label: 'Palettes' },
   { path: '/swatch', icon: ColorWheelIcon, label: 'Swatch' },
   { path: '/saved', icon: BookmarkCheckIcon, label: 'Saved' }
 ];
