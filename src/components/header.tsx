@@ -10,7 +10,7 @@ export const Header = () => {
 
   return (
     <section className='w-full min-h-20 flex items-center justify-center fixed px-2 z-50'>
-      <div className='w-full h-full flex items-center justify-between mx-auto max-w-4xl base-shadow rounded-lg backdrop-blur-md bg-foreground-default/60 py-2 px-4'>
+      <div className='w-full h-full flex items-center justify-between mx-auto max-w-4xl base-shadow rounded-lg backdrop-blur-md bg-foreground-default/80 py-2 px-4'>
         <div
           className='flex items-center gap-2 select-none cursor-pointer'
           onClick={() => naviagate('/')}>
@@ -21,7 +21,10 @@ export const Header = () => {
             className='w-[38px] rounded-full h-auto '
           />
           <h1 className='font-semibold font-sans-display text-xl text-primary-default'>
-            Palletone
+            Palletone{' '}
+            <i className='font-medium font-sans text-xs text-primary-default uppercase'>
+              | Desktop
+            </i>
           </h1>
         </div>
 

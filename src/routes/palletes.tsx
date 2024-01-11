@@ -6,10 +6,9 @@ import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsTrigger, TabsList } from '@/components/ui/tabs';
 import { useLocalStore } from '@/hooks/local-store';
 import { exportToClipboard } from '@/lib/utils';
-import { Slider } from '@radix-ui/react-slider';
+import { Slider } from '@/components/ui/slider';
 import {
   CopyIcon,
-  PaintBucketIcon,
   Paintbrush2Icon,
   PaletteIcon,
   PencilIcon,
@@ -17,26 +16,8 @@ import {
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import tinyColors from 'tinycolor2';
-
-import { Range } from 'react-range';
-import {
-  ButtonIcon,
-  CrumpledPaperIcon,
-  ShadowInnerIcon
-} from '@radix-ui/react-icons';
-
-type ColorVariants = {
-  hex: number;
-  hsl: number;
-  rgb: number;
-};
-
-type RGBA = {
-  r: number;
-  g: number;
-  b: number;
-  a: number;
-};
+import { ShadowInnerIcon } from '@radix-ui/react-icons';
+import type { RGBA } from '@/types';
 
 export default function Palettes() {
   // const { value: solidColorsStore, setValue: updateSolidColorsStore } =
@@ -49,30 +30,27 @@ export default function Palettes() {
   const [rgbaColor, setRgbaColor] = useState<RGBA>(() => randomizeColor());
 
   const colorVariants = useMemo(() => {
-    const hsv = tinyColors(rgbaColor).toHsv();
-    const hex = tinyColors(rgbaColor).toHex8();
-    const hsl = tinyColors(rgbaColor).toHsl();
+    const hsv = tinyColors(rgbaColor).toHsvString();
+    const hex = tinyColors(rgbaColor).toHex8String();
+    const hsl = tinyColors(rgbaColor).toHslString();
+    const rgba = `rgba(${rgbaColor.r}, ${rgbaColor.g}, ${rgbaColor.b}, ${rgbaColor.a})`;
 
     return {
       hex,
       hsl,
-      hsv
+      hsv,
+      rgba
     };
   }, [rgbaColor]);
 
-  const rgbaColorString: string = useMemo(() => {
-    return `${rgbaColor.r}, ${rgbaColor.g}, ${rgbaColor.b}, ${rgbaColor.a}`;
-  }, [rgbaColor]);
-
-
   return (
     <Layout>
-      <main className='w-full pb-24 pt-20 mx-auto max-w-4xl'>
+      <main className='w-full pb-24 pt-20 mx-auto max-w-5xl'>
         <Tabs defaultValue='solid' className='w-full px-2'>
           <TabsList className='grid w-full grid-cols-2 mx-auto bg-background-default'>
             <TabsTrigger
               value='solid'
-              className='group w-full mx-auto max-w-[200px] flex items-center gap-1'>
+              className='group w-full mx-auto max-w-[200px] flex items-center gap-1 rounded-3xl'>
               <Paintbrush2Icon className='w-[18px] group-hover:stroke-blue-400 transition-colors' />
               <span className='font-semibold  group-hover:text-blue-400 transition-colors'>
                 Solid
@@ -80,7 +58,7 @@ export default function Palettes() {
             </TabsTrigger>
             <TabsTrigger
               value='gradient'
-              className='group w-full mx-auto max-w-[200px] flex items-center gap-1'>
+              className='group w-full mx-auto max-w-[200px] flex items-center gap-1 rounded-3xl'>
               <ShadowInnerIcon className='w-[18px] group-hover:stroke-blue-400 transition-colors' />
               <span className='font-semibold group-hover:text-blue-400 transition-colors'>
                 Gradient
@@ -100,7 +78,7 @@ export default function Palettes() {
                   <Button
                     variant={'outline'}
                     size={'lg'}
-                    onClick={()=> setRgbaColor(randomizeColor())}
+                    onClick={() => setRgbaColor(randomizeColor())}
                     className='group flex items-center gap-2 rounded-3xl'>
                     <ShuffleIcon className='group-hover:stroke-blue-400 group-active:stroke-blue-400 transition-colors w-4' />
                     <span className='group-hover:text-blue-400 transition-colors'>
@@ -120,11 +98,11 @@ export default function Palettes() {
 
                 <Separator decorative />
 
-                <div className='w-full flex flex-col'>
-                  <div className='w-full flex-col flex gap-1'>
+                <div className='w-full flex items-center justify-center gap-3'>
+                  <div className='w-fit flex flex-col items-center gap-1'>
                     <div className='flex items-center gap-3 w-fit'>
                       <h3 className='uppercase font-semibold text-sm text-primary-default'>
-                        rgb
+                        rgba
                       </h3>
                       <Button
                         variant={'ghost'}
@@ -135,12 +113,101 @@ export default function Palettes() {
                       </Button>
                     </div>
                     <div className='flex items-center gap-1'>
-                      <p className='font-bold uppercase'>{rgbaColorString}</p>
+                      <p className='font-medium text-sm uppercase'>
+                        {colorVariants.rgba}
+                      </p>
                       <Button
                         variant={'ghost'}
                         size={'icon'}
                         className='group'
-                        onClick={() => exportToClipboard(rgbaColorString)}>
+                        onClick={() => exportToClipboard(colorVariants.rgba)}>
+                        <CopyIcon className='group-hover:stroke-primary group-active:stroke-blue-400 transition-colors w-4' />
+                      </Button>
+                    </div>
+                  </div>
+
+                  <Separator decorative orientation='vertical' />
+
+                  <div className='w-fit flex flex-col items-center gap-1'>
+                    <div className='flex items-center gap-3 w-fit'>
+                      <h3 className='uppercase font-semibold text-sm text-primary-default'>
+                        hex
+                      </h3>
+                      <Button
+                        variant={'ghost'}
+                        size={'icon'}
+                        className='group'
+                        onClick={() => {}}>
+                        <PencilIcon className='group-hover:stroke-primary group-active:stroke-blue-400 transition-colors w-4' />
+                      </Button>
+                    </div>
+                    <div className='flex items-center gap-1'>
+                      <p className='font-medium text-sm uppercase'>
+                        {colorVariants.hex}
+                      </p>
+                      <Button
+                        variant={'ghost'}
+                        size={'icon'}
+                        className='group'
+                        onClick={() => exportToClipboard(colorVariants.hex)}>
+                        <CopyIcon className='group-hover:stroke-primary group-active:stroke-blue-400 transition-colors w-4' />
+                      </Button>
+                    </div>
+                  </div>
+
+                  <Separator decorative orientation='vertical' />
+
+                  <div className='w-fit flex flex-col items-center gap-1'>
+                    <div className='flex items-center gap-3 w-fit'>
+                      <h3 className='uppercase font-semibold text-sm text-primary-default'>
+                        hsl
+                      </h3>
+                      <Button
+                        variant={'ghost'}
+                        size={'icon'}
+                        className='group'
+                        onClick={() => {}}>
+                        <PencilIcon className='group-hover:stroke-primary group-active:stroke-blue-400 transition-colors w-4' />
+                      </Button>
+                    </div>
+                    <div className='flex items-center gap-1'>
+                      <p className='font-medium text-sm uppercase'>
+                        {colorVariants.hsl}
+                      </p>
+                      <Button
+                        variant={'ghost'}
+                        size={'icon'}
+                        className='group'
+                        onClick={() => exportToClipboard(colorVariants.hsl)}>
+                        <CopyIcon className='group-hover:stroke-primary group-active:stroke-blue-400 transition-colors w-4' />
+                      </Button>
+                    </div>
+                  </div>
+
+                  <Separator decorative orientation='vertical' />
+
+                  <div className='w-fit flex flex-col items-center gap-1'>
+                    <div className='flex items-center gap-3 w-fit'>
+                      <h3 className='uppercase font-semibold text-sm text-primary-default'>
+                        hsv
+                      </h3>
+                      <Button
+                        variant={'ghost'}
+                        size={'icon'}
+                        className='group'
+                        onClick={() => {}}>
+                        <PencilIcon className='group-hover:stroke-primary group-active:stroke-blue-400 transition-colors w-4' />
+                      </Button>
+                    </div>
+                    <div className='flex items-center gap-1'>
+                      <p className='font-medium text-sm uppercase'>
+                        {colorVariants.hsv}
+                      </p>
+                      <Button
+                        variant={'ghost'}
+                        size={'icon'}
+                        className='group'
+                        onClick={() => exportToClipboard(colorVariants.hsv)}>
                         <CopyIcon className='group-hover:stroke-primary group-active:stroke-blue-400 transition-colors w-4' />
                       </Button>
                     </div>
@@ -149,27 +216,89 @@ export default function Palettes() {
 
                 <Separator />
 
-                <div className='w-full flex flex-col gap-2'>
+                <div className='w-full max-w-lg mx-auto flex flex-col gap-3'>
                   <div className='w-full flex items-center gap-3'>
-                    <Label htmlFor='alpha-input' className='capitalize'>
+                    <Label
+                      htmlFor='alpha-input'
+                      className='w-12 uppercase text-xs font-medium'>
                       alpha
                     </Label>
-                    <Slider
-                      id='alpha-input'
-                      min={0}
-                      max={1}
-                      step={0.1}
-                      onChange={(e) => {
-                        console.info(e.currentTarget.ariaValueNow);
-                      }}
-                    />
                     <input
                       type='range'
                       step={0.1}
                       min={0}
                       max={1}
-                      onChange={(values) => console.log({ values })}
-                      className='base-range-input bg-black '
+                      value={rgbaColor.a}
+                      onChange={(e) => {
+                        setRgbaColor((current) => ({
+                          ...current,
+                          a: parseFloat(e.target.value)
+                        }));
+                      }}
+                      className='base-range-input bg-slate-400 dark:bg-slate-600'
+                    />
+                  </div>
+                  <div className='w-full flex items-center gap-3'>
+                    <Label
+                      htmlFor='alpha-input'
+                      className='w-12 uppercase text-xs font-medium'>
+                      red
+                    </Label>
+                    <input
+                      type='range'
+                      step={1}
+                      min={0}
+                      max={255}
+                      value={rgbaColor.r}
+                      onChange={(e) => {
+                        setRgbaColor((current) => ({
+                          ...current,
+                          r: parseInt(e.target.value)
+                        }));
+                      }}
+                      className='base-range-input bg-red-600'
+                    />
+                  </div>
+                  <div className='w-full flex items-center gap-3'>
+                    <Label
+                      htmlFor='alpha-input'
+                      className='w-12 uppercase text-xs font-medium'>
+                      green
+                    </Label>
+                    <input
+                      type='range'
+                      step={1}
+                      min={0}
+                      max={255}
+                      value={rgbaColor.g}
+                      onChange={(e) => {
+                        setRgbaColor((current) => ({
+                          ...current,
+                          g: parseInt(e.target.value)
+                        }));
+                      }}
+                      className='base-range-input bg-green-600'
+                    />
+                  </div>
+                  <div className='w-full flex items-center gap-3'>
+                    <Label
+                      htmlFor='alpha-input'
+                      className='w-12 uppercase text-xs font-medium'>
+                      blue
+                    </Label>
+                    <input
+                      type='range'
+                      step={1}
+                      min={0}
+                      max={255}
+                      value={rgbaColor.b}
+                      onChange={(e) => {
+                        setRgbaColor((current) => ({
+                          ...current,
+                          b: parseInt(e.target.value)
+                        }));
+                      }}
+                      className='base-range-input bg-blue-400'
                     />
                   </div>
                 </div>

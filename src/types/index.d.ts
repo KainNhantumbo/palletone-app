@@ -15,5 +15,12 @@ export type InputEvent =
   | ChangeEvent<HTMLInputElement>
   | ChangeEvent<HTMLSelectElement>
   | ChangeEvent<HTMLTextAreaElement>;
-  
+
 export type SubmitEvent = FormEvent<HTMLFormElement>;
+
+export type RGBA = {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+};
