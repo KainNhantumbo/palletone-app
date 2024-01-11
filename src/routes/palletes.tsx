@@ -1,12 +1,11 @@
 import { Layout } from '@/components/layout';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-import { Tabs, TabsContent, TabsTrigger, TabsList } from '@/components/ui/tabs';
-import { useLocalStore } from '@/hooks/local-store';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { exportToClipboard } from '@/lib/utils';
-import { Slider } from '@/components/ui/slider';
+import type { RGBA } from '@/types';
+import { ShadowInnerIcon } from '@radix-ui/react-icons';
 import {
   CopyIcon,
   Paintbrush2Icon,
@@ -16,15 +15,8 @@ import {
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import tinyColors from 'tinycolor2';
-import { ShadowInnerIcon } from '@radix-ui/react-icons';
-import type { RGBA } from '@/types';
 
 export default function Palettes() {
-  // const { value: solidColorsStore, setValue: updateSolidColorsStore } =
-  //   useLocalStore('solid-colors', []);
-  // const { value: solidGradientStore, setValue: updateGradientColorsStore } =
-  //   useLocalStore('gradient-colors', []);
-
   const randomizeColor = () => tinyColors.random().toRgb();
 
   const [rgbaColor, setRgbaColor] = useState<RGBA>(() => randomizeColor());
