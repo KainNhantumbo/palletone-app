@@ -1,23 +1,10 @@
-import { toast } from 'sonner';
-import { MoonStarIcon, SunIcon } from 'lucide-react';
+import { SunIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useLocalStore } from '@/hooks/local-store';
-
-export type Theme = { theme: 'light' | 'dark' };
+import { useTheme } from './theme-provider';
+import { MoonIcon } from '@radix-ui/react-icons';
 
 export const ThemeToggle = () => {
-  const {
-    value: { theme },
-    setValue: setTheme
-  } = useLocalStore<Theme>('ui-theme', { theme: 'light' });
-
-  const onClick = () => {
-    const html = document.querySelector('html');
-    if (!html) return toast.error('Failed to change theme');
-    const currentTheme = theme === 'light' ? 'dark' : 'light';
-    html.setAttribute('class', currentTheme);
-    setTheme({ theme: currentTheme });
-  };
+  const { setTheme: onClick } = useTheme();
 
   return (
     <Button
@@ -25,8 +12,8 @@ export const ThemeToggle = () => {
       size='icon'
       className='p-0 group bg-transparent'
       onClick={onClick}>
-      <MoonStarIcon className='absolute h-[1.2rem] w-[1.2rem] rotate-120 scale-100 transition-all dark:rotate-0 dark:scale-0 group-hover:stroke-primary-default' />
-      <SunIcon className='h-[1.2rem] w-[1.2rem] rotate-0 scale-0 transition-all dark:-rotate-90 dark:scale-100 group-hover:stroke-primary-default' />
+      <MoonIcon className='absolute h-[1.2rem] w-[1.2rem] rotate-120 scale-100 transition-all dark:rotate-0 dark:scale-0' />
+      <SunIcon className='h-[1.2rem] w-[1.2rem] rotate-0 scale-0 transition-all dark:-rotate-90 dark:scale-100' />
     </Button>
   );
 };

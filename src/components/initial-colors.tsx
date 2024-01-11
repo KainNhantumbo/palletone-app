@@ -21,6 +21,7 @@ export const InitialColors = () => {
       );
   }, [params]);
 
+  // TODO: debounce this function
   const onChange = (e: InputEvent) => setParams({ q: e.target.value }, {});
 
   return (
