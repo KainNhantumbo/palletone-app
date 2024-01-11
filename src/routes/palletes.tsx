@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { Layout } from '@/components/layout';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -8,6 +9,8 @@ import type { RGBA } from '@/types';
 import { ShadowInnerIcon } from '@radix-ui/react-icons';
 import {
   CopyIcon,
+  DownloadIcon,
+  LucideIcon,
   Paintbrush2Icon,
   PaletteIcon,
   PencilIcon,
@@ -15,6 +18,15 @@ import {
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import tinyColors from 'tinycolor2';
+import { toast } from 'sonner';
+
+type ColorVariantsHeadings = Array<{
+  name: string;
+  editFunc: () => void;
+  color: string;
+}>;
+
+type Actions = Array<{ handler: () => void; name: string; icon: LucideIcon }>;
 
 export default function Palettes() {
   const randomizeColor = () => tinyColors.random().toRgb();
@@ -22,10 +34,18 @@ export default function Palettes() {
   const [rgbaColor, setRgbaColor] = useState<RGBA>(() => randomizeColor());
 
   const colorVariants = useMemo(() => {
-    const hsv = tinyColors(rgbaColor).toHsvString();
     const hex = tinyColors(rgbaColor).toHex8String();
-    const hsl = tinyColors(rgbaColor).toHslString();
-    const rgba = `rgba(${rgbaColor.r}, ${rgbaColor.g}, ${rgbaColor.b}, ${rgbaColor.a})`;
+    const hsv = tinyColors(rgbaColor)
+      .toHsvString()
+      .trim()
+      .substring(5)
+      .replace(')', '');
+    const hsl = tinyColors(rgbaColor)
+      .toHslString()
+      .trim()
+      .substring(5)
+      .replace(')', '');
+    const rgba = `${rgbaColor.r}, ${rgbaColor.g}, ${rgbaColor.b}, ${rgbaColor.a}`;
 
     return {
       hex,
@@ -35,11 +55,56 @@ export default function Palettes() {
     };
   }, [rgbaColor]);
 
+  const colorHeadings: ColorVariantsHeadings = [
+    {
+      name: 'rgba',
+      color: colorVariants.rgba,
+      editFunc: () => {}
+    },
+    {
+      name: 'hex',
+      color: colorVariants.hex,
+      editFunc: () => {}
+    },
+    {
+      name: 'hsl',
+      color: colorVariants.hsl,
+      editFunc: () => {}
+    },
+    {
+      name: 'hsv',
+      color: colorVariants.hsv,
+      editFunc: () => {}
+    }
+  ];
+
+  const actions: Actions = [
+    {
+      name: 'random color',
+      icon: ShuffleIcon,
+      handler: () => setRgbaColor(randomizeColor())
+    },
+    {
+      name: 'pick color',
+      icon: PaletteIcon,
+      handler: () => {}
+    },
+    {
+      name: 'save color',
+      icon: DownloadIcon,
+      handler: () => onSaveColor(rgbaColor)
+    }
+  ];
+
+  const onSaveColor = (color: RGBA) => {
+    toast.loading('Color saved successfully.');
+  };
+
   return (
     <Layout>
       <main className='w-full pb-24 pt-20 mx-auto max-w-5xl'>
         <Tabs defaultValue='solid' className='w-full px-2'>
-          <TabsList className='grid w-full grid-cols-2 mx-auto bg-background-default'>
+          <TabsList className='grid w-fit grid-cols-2 place-content-center place-items-center mx-auto mb-3 bg-background-default gap-8'>
             <TabsTrigger
               value='solid'
               className='group w-full mx-auto max-w-[200px] flex items-center gap-1 rounded-3xl'>
@@ -67,146 +132,61 @@ export default function Palettes() {
 
               <section className='w-full flex flex-col gap-3'>
                 <div className='w-full flex items-center gap-2'>
-                  <Button
-                    variant={'outline'}
-                    size={'lg'}
-                    onClick={() => setRgbaColor(randomizeColor())}
-                    className='group flex items-center gap-2 rounded-3xl'>
-                    <ShuffleIcon className='group-hover:stroke-blue-400 group-active:stroke-blue-400 transition-colors w-4' />
-                    <span className='group-hover:text-blue-400 transition-colors'>
-                      Random color
-                    </span>
-                  </Button>
-                  <Button
-                    variant={'outline'}
-                    size={'lg'}
-                    className='group flex items-center gap-2 rounded-3xl'>
-                    <PaletteIcon className='group-hover:stroke-blue-400 group-active:stroke-blue-400 transition-colors w-4' />
-                    <span className='group-hover:text-blue-400 transition-colors'>
-                      Pick color
-                    </span>
-                  </Button>
+                  {actions.map((action, i) => (
+                    <Button
+                      key={i}
+                      variant={'outline'}
+                      size={'lg'}
+                      onClick={action.handler}
+                      className='group flex items-center gap-2 rounded-3xl'>
+                      <action.icon className='group-hover:stroke-blue-400 group-active:stroke-blue-400 transition-colors w-4' />
+                      <span className='group-hover:text-blue-400 transition-colors capitalize'>
+                        {action.name}
+                      </span>
+                    </Button>
+                  ))}
                 </div>
 
                 <Separator decorative />
 
                 <div className='w-full flex items-center justify-center gap-3'>
-                  <div className='w-fit flex flex-col items-center gap-1'>
-                    <div className='flex items-center gap-3 w-fit'>
-                      <h3 className='uppercase font-semibold text-sm text-primary-default'>
-                        rgba
-                      </h3>
-                      <Button
-                        variant={'ghost'}
-                        size={'icon'}
-                        className='group'
-                        onClick={() => {}}>
-                        <PencilIcon className='group-hover:stroke-primary group-active:stroke-blue-400 transition-colors w-4' />
-                      </Button>
-                    </div>
-                    <div className='flex items-center gap-1'>
-                      <p className='font-medium text-sm uppercase'>
-                        {colorVariants.rgba}
-                      </p>
-                      <Button
-                        variant={'ghost'}
-                        size={'icon'}
-                        className='group'
-                        onClick={() => exportToClipboard(colorVariants.rgba)}>
-                        <CopyIcon className='group-hover:stroke-primary group-active:stroke-blue-400 transition-colors w-4' />
-                      </Button>
-                    </div>
-                  </div>
+                  {colorHeadings.map((item, i) => (
+                    <div key={i} className='flex items-center gap-3'>
+                      <div className='w-fit flex flex-col items-center gap-1'>
+                        <div className='flex items-center gap-3 w-fit'>
+                          <h3 className='uppercase font-semibold text-sm text-primary-default'>
+                            {item.name}
+                          </h3>
+                          <Button
+                            variant={'ghost'}
+                            size={'icon'}
+                            className='group'
+                            onClick={() => item.editFunc()}>
+                            <PencilIcon className='group-hover:stroke-primary group-active:stroke-blue-400 transition-colors w-4' />
+                          </Button>
+                        </div>
+                        <div className='flex items-center gap-1'>
+                          <p className='font-medium text-sm uppercase'>
+                            {item.color}
+                          </p>
+                          <Button
+                            variant={'ghost'}
+                            size={'icon'}
+                            className='group'
+                            onClick={() => exportToClipboard(item.color)}>
+                            <CopyIcon className='group-hover:stroke-primary group-active:stroke-blue-400 transition-colors w-4' />
+                          </Button>
+                        </div>
+                      </div>
 
-                  <Separator decorative orientation='vertical' />
-
-                  <div className='w-fit flex flex-col items-center gap-1'>
-                    <div className='flex items-center gap-3 w-fit'>
-                      <h3 className='uppercase font-semibold text-sm text-primary-default'>
-                        hex
-                      </h3>
-                      <Button
-                        variant={'ghost'}
-                        size={'icon'}
-                        className='group'
-                        onClick={() => {}}>
-                        <PencilIcon className='group-hover:stroke-primary group-active:stroke-blue-400 transition-colors w-4' />
-                      </Button>
+                      {colorHeadings[i + 1] ? (
+                        <Separator decorative orientation='vertical' />
+                      ) : null}
                     </div>
-                    <div className='flex items-center gap-1'>
-                      <p className='font-medium text-sm uppercase'>
-                        {colorVariants.hex}
-                      </p>
-                      <Button
-                        variant={'ghost'}
-                        size={'icon'}
-                        className='group'
-                        onClick={() => exportToClipboard(colorVariants.hex)}>
-                        <CopyIcon className='group-hover:stroke-primary group-active:stroke-blue-400 transition-colors w-4' />
-                      </Button>
-                    </div>
-                  </div>
-
-                  <Separator decorative orientation='vertical' />
-
-                  <div className='w-fit flex flex-col items-center gap-1'>
-                    <div className='flex items-center gap-3 w-fit'>
-                      <h3 className='uppercase font-semibold text-sm text-primary-default'>
-                        hsl
-                      </h3>
-                      <Button
-                        variant={'ghost'}
-                        size={'icon'}
-                        className='group'
-                        onClick={() => {}}>
-                        <PencilIcon className='group-hover:stroke-primary group-active:stroke-blue-400 transition-colors w-4' />
-                      </Button>
-                    </div>
-                    <div className='flex items-center gap-1'>
-                      <p className='font-medium text-sm uppercase'>
-                        {colorVariants.hsl}
-                      </p>
-                      <Button
-                        variant={'ghost'}
-                        size={'icon'}
-                        className='group'
-                        onClick={() => exportToClipboard(colorVariants.hsl)}>
-                        <CopyIcon className='group-hover:stroke-primary group-active:stroke-blue-400 transition-colors w-4' />
-                      </Button>
-                    </div>
-                  </div>
-
-                  <Separator decorative orientation='vertical' />
-
-                  <div className='w-fit flex flex-col items-center gap-1'>
-                    <div className='flex items-center gap-3 w-fit'>
-                      <h3 className='uppercase font-semibold text-sm text-primary-default'>
-                        hsv
-                      </h3>
-                      <Button
-                        variant={'ghost'}
-                        size={'icon'}
-                        className='group'
-                        onClick={() => {}}>
-                        <PencilIcon className='group-hover:stroke-primary group-active:stroke-blue-400 transition-colors w-4' />
-                      </Button>
-                    </div>
-                    <div className='flex items-center gap-1'>
-                      <p className='font-medium text-sm uppercase'>
-                        {colorVariants.hsv}
-                      </p>
-                      <Button
-                        variant={'ghost'}
-                        size={'icon'}
-                        className='group'
-                        onClick={() => exportToClipboard(colorVariants.hsv)}>
-                        <CopyIcon className='group-hover:stroke-primary group-active:stroke-blue-400 transition-colors w-4' />
-                      </Button>
-                    </div>
-                  </div>
+                  ))}
                 </div>
 
-                <Separator />
+                <Separator decorative />
 
                 <div className='w-full max-w-lg mx-auto flex flex-col gap-3'>
                   <div className='w-full flex items-center gap-3'>
@@ -304,54 +284,3 @@ export default function Palettes() {
     </Layout>
   );
 }
-
-/**
-   <Input
-      id='rgb'
-      value={colors.rgb}
-      placeholder='Type a valid RGB color'
-      onChange={(e) => {
-        const value = e.target.value;
-        if (tinyColors(value).isValid()) {
-          setColors((current) => ({
-            ...current,
-            rgb: tinyColors(value).toRgbString()
-          }));
-          console.info(value);
-        }
-      }}
-      className='w-fit base-border'
-
-      <Range
-        step={0.1}
-        min={0}
-        max={100}
-        values={this.state.values}
-        onChange={(values) => this.setState({ values })}
-        renderTrack={({ props, children }) => (
-          <div
-            {...props}
-            style={{
-              ...props.style,
-              height: '6px',
-              width: '100%',
-              backgroundColor: '#ccc'
-            }}
-          >
-            {children}
-          </div>
-        )}
-        renderThumb={({ props }) => (
-          <div
-            {...props}
-            style={{
-              ...props.style,
-              height: '42px',
-              width: '42px',
-              backgroundColor: '#999'
-            }}
-          />
-        )}
-      />
-    />
- */

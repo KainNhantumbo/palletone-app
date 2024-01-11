@@ -18,8 +18,8 @@ const routes = [
 
 export const Drawer = () => {
   return (
-    <section className='w-full min-h-12 flex items-center rounded-lg justify-center fixed px-2 z-50 bottom-2'>
-      <div className='w-fit h-full flex items-center justify-between mx-auto max-w-5xl rounded-lg bg-foreground-default/80 backdrop-blur-md py-2 pb-3 base-shadow px-3'>
+    <section className='w-full min-h-12 flex items-center rounded-3xl justify-center fixed px-2 z-50 bottom-2'>
+      <div className='w-fit h-full flex items-center justify-between mx-auto max-w-5xl rounded-3xl bg-foreground-default/80 backdrop-blur-md py-2 pb-3 base-shadow px-3'>
         <div className='flex items-center gap-2'>
           {routes.map((route, i) => (
             <Link
@@ -29,7 +29,7 @@ export const Drawer = () => {
                 'before:absolute before:w-8 before:h-1 before:-bottom-2 before:left-[calc(50%_-_16px)] before:bg-blue-400 before:rounded-full':
                   location.href.includes(route.alias)
               })}>
-              <Button className='group gap-2' variant={'outline'}>
+              <Button className='group gap-2 rounded-3xl' variant={'outline'}>
                 <route.icon
                   className={cn(
                     'group-hover:stroke-primary-default group-active:stroke-blue-400 transition-colors w-5 h-auto relative'

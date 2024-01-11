@@ -6,6 +6,8 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { InputEvent } from '@/types';
 import { useSearchParams } from 'react-router-dom';
+import { Label } from './ui/label';
+import { Separator } from './ui/separator';
 
 export const InitialColors = () => {
   const [params, setParams] = useSearchParams('');
@@ -26,23 +28,38 @@ export const InitialColors = () => {
 
   return (
     <section className='w-full max-w-5xl mx-auto p-2 flex flex-col gap-3'>
-      <section className='max-w-xl  mx-auto w-full'>
-        <form onSubmit={(e) => e.preventDefault()}>
+      <section className='max-w-xl mx-auto w-full flex flex-col gap-3'>
+        <form
+          onSubmit={(e) => e.preventDefault()}
+          className='flex flex-col gap-2'>
+          <Label className='pl-3'>Search</Label>
           <Input
             type='search'
-            placeholder='Search color name...'
-            className='w-full'
+            placeholder='Start by typing a color name...'
+            className='w-full rounded-3xl'
             onChange={onChange}
           />
         </form>
+
+        <p className='leading-relaxed'>
+          About{' '}
+          <span className='font-sans-display font-medium'>{colors.length}</span>{' '}
+          colors in your workspace!
+        </p>
+
+        <Separator
+          decorative
+          className='w-full max-w-4xl mx-auto bg-primary-default/20'
+        />
       </section>
+
       <section className='w-full max-w-5xl mx-auto p-2 md:flex md:justify-center md:items-center md:flex-wrap md:gap-3 grid grid-cols-2 mobile-x:grid-cols-3 gap-2'>
         {colors.map((color, i) => (
           <div
             key={i}
-            className='flex flex-col gap-3 bg-foreground-default p-2 rounded-lg base-shadow'>
+            className='flex flex-col gap-3 bg-foreground-default p-2 rounded-2xl base-shadow'>
             <div
-              className='md:w-[200px] md:h-[120px] w-full h-[90px] rounded-lg shadow-lg'
+              className='md:w-[200px] md:h-[120px] w-full h-[90px] rounded-2xl shadow-lg'
               style={{
                 background: color.value
               }}
@@ -60,13 +77,14 @@ export const InitialColors = () => {
               <Button
                 variant={'ghost'}
                 size={'icon'}
-                className='group'
+                className='group rounded-xl'
                 onClick={() => exportToClipboard(color.value)}>
                 <CopyIcon className='group-hover:stroke-primary-default group-active:stroke-blue-400 transition-colors' />
               </Button>
             </div>
           </div>
         ))}
+        se
       </section>
     </section>
   );
