@@ -1,27 +1,23 @@
-'use client';
-
 import { useEffect, useState } from 'react';
 
-export const useInnerWindowSize = () => {
-  const [innerWindowSize, setInnerWindowSize] = useState({
+export const useWindowSize = () => {
+  const [windowSize, setWindowSize] = useState({
     width: 0,
     height: 0
   });
 
-  const computeInnerWindowSize = (): void => {
-    setInnerWindowSize({
+  const onResize = (): void => {
+    setWindowSize({
       width: +window.innerWidth.toFixed(0),
       height: +window.innerHeight.toFixed(0)
     });
   };
 
   useEffect(() => {
-    computeInnerWindowSize();
-    window.addEventListener('resize', computeInnerWindowSize);
-    return () => {
-      window.removeEventListener('resize', computeInnerWindowSize);
-    };
+    onResize();
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  return innerWindowSize;
+  return windowSize;
 };

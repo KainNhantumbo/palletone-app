@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const exportToClipboard = async (content: string) => {
+export const copyToClipboard = async (content: string) => {
   try {
     await navigator.clipboard.writeText(content);
     toast.success('Copied to clipboard!');

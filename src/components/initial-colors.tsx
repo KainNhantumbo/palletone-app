@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import tinyColors from 'tinycolor2';
-import { exportToClipboard } from '@/lib/utils';
+import { copyToClipboard } from '@/lib/utils';
 import { CopyIcon } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -9,8 +9,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Label } from './ui/label';
 import { Separator } from './ui/separator';
 
-import { extractColors } from 'extract-colors';
-import { useCopyToClipboard, useLocalStorage } from '@uidotdev/usehooks';
+import { useLocalStorage } from '@uidotdev/usehooks';
 
 export const InitialColors = () => {
   const [params, setParams] = useSearchParams();
@@ -52,12 +51,12 @@ export const InitialColors = () => {
           <span className='font-sans-display font-medium'>{colors.length}</span>{' '}
           colors in your workspace!
         </p>
-
-        <Separator
-          decorative
-          className='w-full max-w-4xl mx-auto bg-primary-default/20'
-        />
       </section>
+
+      <Separator
+        decorative
+        className='w-full max-w-4xl mx-auto bg-primary-default/20'
+      />
 
       <section className='w-full max-w-5xl mx-auto p-2 md:flex md:justify-center md:items-center md:flex-wrap md:gap-3 grid grid-cols-2 mobile-x:grid-cols-3 gap-2'>
         {colors.map((color, i) => (
@@ -84,7 +83,7 @@ export const InitialColors = () => {
                 variant={'ghost'}
                 size={'icon'}
                 className='group rounded-xl'
-                onClick={() => exportToClipboard(color.value)}>
+                onClick={() => copyToClipboard(color.value)}>
                 <CopyIcon className='group-hover:stroke-primary-default group-active:stroke-blue-400 transition-colors' />
               </Button>
             </div>

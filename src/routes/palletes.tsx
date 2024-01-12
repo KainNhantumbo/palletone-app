@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { exportToClipboard } from '@/lib/utils';
+import { copyToClipboard } from '@/lib/utils';
 import type { RGBA } from '@/types';
 import { ShadowInnerIcon } from '@radix-ui/react-icons';
 import {
@@ -173,7 +173,7 @@ export default function Palettes() {
                             variant={'ghost'}
                             size={'icon'}
                             className='group'
-                            onClick={() => exportToClipboard(item.color)}>
+                            onClick={() => copyToClipboard(item.color)}>
                             <CopyIcon className='group-hover:stroke-primary group-active:stroke-blue-400 transition-colors w-4' />
                           </Button>
                         </div>

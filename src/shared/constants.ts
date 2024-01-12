@@ -1,7 +1,6 @@
 import { Option } from '@/types';
-import { IconType } from 'react-icons';
 import Package from '../../package.json';
-import { RiGithubLine, RiMailCheckLine, RiStackLine } from 'react-icons/ri';
+import { GithubIcon, MailCheckIcon, SquareStackIcon } from 'lucide-react';
 
 export const metadata = {
   author: Package.author,
@@ -17,17 +16,17 @@ export const metadata = {
   contacts: [
     {
       name: 'Github',
-      icon: RiGithubLine,
+      icon: GithubIcon,
       url: Package.author.github
     },
     {
       name: 'Portfolio',
-      icon: RiStackLine,
+      icon: SquareStackIcon,
       url: Package.author.portfolio
     },
     {
       name: 'E-mail',
-      icon: RiMailCheckLine,
+      icon: MailCheckIcon,
       url: Package.author.email
     }
   ]
@@ -38,16 +37,7 @@ export const nav_anchors = [
   { name: 'Features', url: '#features', alias: 'features' }
 ];
 
-export const app_features: {
-  icon: IconType;
-  title: string;
-  content: string;
-}[] = [];
-
-export const footerAnchors = [
-  { name: 'Privacy Policy', anchor: '/docs/privacy-policy' },
-  { name: 'Contact', anchor: '/docs/contact' },
-  { name: 'FAQ', anchor: '/docs/faq' },
+export const anchors = [
   { name: 'Donate', anchor: metadata.author.donate },
   { name: 'Github', anchor: metadata.repository },
   { name: 'Portfolio', anchor: metadata.author.portfolio }
@@ -60,10 +50,4 @@ export const sortOptions: Option[] = [
   { value: 'createdAt', label: 'Date Created [Inverted]' },
   { value: '-updatedAt', label: 'Date Updated' },
   { value: 'updatedAt', label: 'Date Updated [Inverted]' }
-];
-
-export const colorSchemeOptions = [
-  { label: 'Light Theme', value: `{"mode":"manual", "scheme": "light"}` },
-  { label: 'Dark Theme', value: `{"mode":"manual", "scheme": "dark"}` },
-  { label: 'Automatic', value: `{"mode":"auto", "scheme": "dark"}` }
 ];
