@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { copyToClipboard } from '@/lib/utils';
 import type { RGBA, SolidColor } from '@/types';
 import { ShadowInnerIcon } from '@radix-ui/react-icons';
-import { useLocalStorage } from '@uidotdev/usehooks';
+import { useDocumentTitle, useLocalStorage } from '@uidotdev/usehooks';
 import {
   CopyIcon,
   DownloadIcon,
@@ -30,6 +30,8 @@ type ColorVariantsHeadings = Array<{
 type Actions = Array<{ handler: () => void; name: string; icon: LucideIcon }>;
 
 export default function Palettes() {
+  useDocumentTitle('Palletone | Palettes');
+
   const randomizeColor = () => tinyColors.random().toRgb();
 
   const [rgbaColor, setRgbaColor] = useState<RGBA>(() => randomizeColor());
