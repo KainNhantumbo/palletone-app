@@ -1,10 +1,17 @@
+import {
+  EditSolidColorDialog,
+  EditSolidColorDialogProps
+} from '@/components/edit-solid-color-dialog';
 import { Layout } from '@/components/layout';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { copyToClipboard } from '@/lib/utils';
+import {
+  copyToClipboard,
+  randomColor,
+  transformColorsToString
+} from '@/lib/utils';
 import type { RGBA, SolidColor } from '@/types';
 import { ShadowInnerIcon } from '@radix-ui/react-icons';
 import { useDocumentTitle, useLocalStorage } from '@uidotdev/usehooks';
@@ -13,13 +20,12 @@ import {
   DownloadIcon,
   LucideIcon,
   Paintbrush2Icon,
-  PaletteIcon,
   PencilIcon,
   ShuffleIcon
 } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import { toast } from 'sonner';
-import tinyColors from 'tinycolor2';
+import tinycolor from 'tinycolor2';
 
 type ColorVariantsHeadings = Array<{
   name: string;
@@ -32,35 +38,16 @@ type Actions = Array<{ handler: () => void; name: string; icon: LucideIcon }>;
 export default function Palettes() {
   useDocumentTitle('Palletone | Palettes');
 
-  const randomizeColor = () => tinyColors.random().toRgb();
-
-  const [rgbaColor, setRgbaColor] = useState<RGBA>(() => randomizeColor());
-
-  const colorVariants = useMemo(() => {
-    const hex = tinyColors(rgbaColor).toHex8String();
-    const hsv = tinyColors(rgbaColor)
-      .toHsvString()
-      .trim()
-      .substring(5)
-      .replace(')', '');
-    const hsl = tinyColors(rgbaColor)
-      .toHslString()
-      .trim()
-      .substring(5)
-      .replace(')', '');
-    const rgba = `${rgbaColor.r}, ${rgbaColor.g}, ${rgbaColor.b}, ${rgbaColor.a}`;
-
-    return {
-      hex,
-      hsl,
-      hsv,
-      rgba
-    };
-  }, [rgbaColor]);
+  const [rgbaColor, setRgbaColor] = useState<RGBA>(() => randomColor());
 
   const [, updateSolidColorDB] = useLocalStorage<SolidColor[]>(
     'solid-colors-db',
     []
+  );
+
+  const colorVariants = useMemo(
+    () => transformColorsToString(rgbaColor),
+    [rgbaColor]
   );
 
   const colorHeadings: ColorVariantsHeadings = [
@@ -90,7 +77,7 @@ export default function Palettes() {
     {
       name: 'random color',
       icon: ShuffleIcon,
-      handler: () => setRgbaColor(randomizeColor())
+      handler: () => setRgbaColor(randomColor())
     },
     {
       name: 'save color',
@@ -111,13 +98,19 @@ export default function Palettes() {
     toast.success('Color saved successfully.');
   };
 
+  const [editColorProps, setEditColorProps] =
+    useState<EditSolidColorDialogProps>({
+      isOpen: true,
+      title: '',
+      description: '',
+      onClose: () => {},
+      onConfirm: () => {}
+    });
+
   return (
     <Layout>
-      <Dialog modal={true} open >
+      <EditSolidColorDialog {...editColorProps} />
 
-        <DialogTitle></DialogTitle>
-
-      </Dialog>
       <main className='w-full pb-24 pt-20 mx-auto max-w-5xl'>
         <Tabs defaultValue='solid' className='w-full px-2'>
           <TabsList className='grid w-fit grid-cols-2 place-content-center place-items-center mx-auto mb-3 bg-background-default gap-8'>
@@ -142,7 +135,7 @@ export default function Palettes() {
           <TabsContent value='solid' className='w-full flex flex-col'>
             <section className='w-full bg-foreground-default p-4 rounded-2xl base-border flex gap-3'>
               <div
-                style={{ background: tinyColors(rgbaColor).toRgbString() }}
+                style={{ background: tinycolor(rgbaColor).toRgbString() }}
                 className='w-[280px] h-[300px] rounded-2xl base-shadow base-border'
               />
 
@@ -163,11 +156,11 @@ export default function Palettes() {
                   ))}
                 </div>
 
-                <Separator decorative className='bg-font/10' />
+                <Separator decorative />
 
                 <div className='w-full flex items-center justify-center gap-3'>
                   {colorHeadings.map((item, i) => (
-                    <div key={i} className='flex items-center gap-3'>
+                    <Fragment key={i}>
                       <div className='w-fit flex flex-col items-center gap-1'>
                         <div className='flex items-center gap-3 w-fit'>
                           <h3 className='uppercase font-semibold text-sm text-primary-default'>
@@ -198,7 +191,7 @@ export default function Palettes() {
                       {colorHeadings[i + 1] ? (
                         <Separator decorative orientation='vertical' />
                       ) : null}
-                    </div>
+                    </Fragment>
                   ))}
                 </div>
 
