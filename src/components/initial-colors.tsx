@@ -9,8 +9,11 @@ import { useSearchParams } from 'react-router-dom';
 import { Label } from './ui/label';
 import { Separator } from './ui/separator';
 
+import { extractColors } from 'extract-colors';
+import { useCopyToClipboard, useLocalStorage } from '@uidotdev/usehooks';
+
 export const InitialColors = () => {
-  const [params, setParams] = useSearchParams('');
+  const [params, setParams] = useSearchParams();
 
   const colors = useMemo((): Array<{ value: string; name: string }> => {
     return Object.entries(tinyColors.names)
@@ -24,7 +27,10 @@ export const InitialColors = () => {
   }, [params]);
 
   // TODO: debounce this function
-  const onChange = (e: InputEvent) => setParams({ q: e.target.value }, {});
+  const onChange = (e: InputEvent) =>
+    setParams((current) => ({ ...current, q: e.target.value }), {
+      replace: false
+    });
 
   return (
     <section className='w-full max-w-5xl mx-auto p-2 flex flex-col gap-3'>
@@ -84,7 +90,6 @@ export const InitialColors = () => {
             </div>
           </div>
         ))}
-        se
       </section>
     </section>
   );
