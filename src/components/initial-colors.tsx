@@ -8,11 +8,11 @@ import { InputEvent } from '@/types';
 import { useSearchParams } from 'react-router-dom';
 import { Label } from './ui/label';
 import { Separator } from './ui/separator';
-
-import { useLocalStorage } from '@uidotdev/usehooks';
+import { useDebounce } from '@uidotdev/usehooks';
 
 export const InitialColors = () => {
   const [params, setParams] = useSearchParams();
+  const debouncedParams = useDebounce(params, 300);
 
   const colors = useMemo((): Array<{ value: string; name: string }> => {
     return Object.entries(tinyColors.names)
@@ -23,9 +23,8 @@ export const InitialColors = () => {
       .filter((element) =>
         element.name.includes(String(params.get('q') || ''))
       );
-  }, [params]);
+  }, [debouncedParams]);
 
-  // TODO: debounce this function
   const onChange = (e: InputEvent) =>
     setParams((current) => ({ ...current, q: e.target.value }), {
       replace: false
@@ -41,7 +40,7 @@ export const InitialColors = () => {
           <Input
             type='search'
             placeholder='Start by typing a color name...'
-            className='w-full rounded-3xl'
+            className='w-full rounded-3xl border-font/15'
             onChange={onChange}
           />
         </form>
@@ -53,10 +52,7 @@ export const InitialColors = () => {
         </p>
       </section>
 
-      <Separator
-        decorative
-        className='w-full max-w-4xl mx-auto bg-primary-default/20'
-      />
+      <Separator decorative className='w-full max-w-4xl mx-auto' />
 
       <section className='w-full max-w-5xl mx-auto p-2 md:flex md:justify-center md:items-center md:flex-wrap md:gap-3 grid grid-cols-2 mobile-x:grid-cols-3 gap-2'>
         {colors.map((color, i) => (

@@ -29,7 +29,9 @@ export const Drawer = () => {
                 'before:absolute before:w-8 before:h-1 before:-bottom-2 before:left-[calc(50%_-_16px)] before:bg-blue-400 before:rounded-full':
                   location.href.includes(route.alias)
               })}>
-              <Button className='group gap-2 rounded-3xl' variant={'outline'}>
+              <Button
+                className='group gap-2 rounded-3xl border-font/15'
+                variant={'outline'}>
                 <route.icon
                   className={cn(
                     'group-hover:stroke-primary-default group-active:stroke-blue-400 transition-colors w-5 h-auto relative'

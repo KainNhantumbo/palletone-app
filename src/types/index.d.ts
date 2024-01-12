@@ -24,3 +24,9 @@ export type RGBA = {
   b: number;
   a: number;
 };
+
+export type SolidColor = {
+  id: string;
+  value: RGBA;
+  createdAt: string;
+};

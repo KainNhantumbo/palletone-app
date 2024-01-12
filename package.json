@@ -57,7 +57,6 @@
     "clsx": "^2.1.0",
     "extract-colors": "^4.0.2",
     "framer-motion": "^10.16.4",
-    "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.306.0",
     "moment": "^2.29.4",
     "react": "^18.2.0",
@@ -73,7 +72,6 @@
     "tinycolor2": "^1.6.0"
   },
   "devDependencies": {
-    "@types/lodash.debounce": "^4.0.9",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@types/tinycolor2": "^1.4.6",

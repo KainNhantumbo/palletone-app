@@ -1,12 +1,13 @@
-import moment from 'moment';
 import { Layout } from '@/components/layout';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { copyToClipboard } from '@/lib/utils';
-import type { RGBA } from '@/types';
+import type { RGBA, SolidColor } from '@/types';
 import { ShadowInnerIcon } from '@radix-ui/react-icons';
+import { useLocalStorage } from '@uidotdev/usehooks';
 import {
   CopyIcon,
   DownloadIcon,
@@ -17,8 +18,8 @@ import {
   ShuffleIcon
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import tinyColors from 'tinycolor2';
 import { toast } from 'sonner';
+import tinyColors from 'tinycolor2';
 
 type ColorVariantsHeadings = Array<{
   name: string;
@@ -55,6 +56,11 @@ export default function Palettes() {
     };
   }, [rgbaColor]);
 
+  const [, updateSolidColorDB] = useLocalStorage<SolidColor[]>(
+    'solid-colors-db',
+    []
+  );
+
   const colorHeadings: ColorVariantsHeadings = [
     {
       name: 'rgba',
@@ -85,23 +91,31 @@ export default function Palettes() {
       handler: () => setRgbaColor(randomizeColor())
     },
     {
-      name: 'pick color',
-      icon: PaletteIcon,
-      handler: () => {}
-    },
-    {
       name: 'save color',
       icon: DownloadIcon,
-      handler: () => onSaveColor(rgbaColor)
+      handler: () => onSaveColor()
     }
   ];
 
-  const onSaveColor = (color: RGBA) => {
-    toast.loading('Color saved successfully.');
+  const onSaveColor = () => {
+    updateSolidColorDB((current) => [
+      ...current,
+      {
+        id: crypto.randomUUID(),
+        value: rgbaColor,
+        createdAt: new Date().toISOString()
+      }
+    ]);
+    toast.success('Color saved successfully.');
   };
 
   return (
     <Layout>
+      <Dialog modal={true} open >
+
+        <DialogTitle></DialogTitle>
+
+      </Dialog>
       <main className='w-full pb-24 pt-20 mx-auto max-w-5xl'>
         <Tabs defaultValue='solid' className='w-full px-2'>
           <TabsList className='grid w-fit grid-cols-2 place-content-center place-items-center mx-auto mb-3 bg-background-default gap-8'>
@@ -131,7 +145,7 @@ export default function Palettes() {
               />
 
               <section className='w-full flex flex-col gap-3'>
-                <div className='w-full flex items-center gap-2'>
+                <div className='w-full flex items-center justify-center gap-2'>
                   {actions.map((action, i) => (
                     <Button
                       key={i}
@@ -147,7 +161,7 @@ export default function Palettes() {
                   ))}
                 </div>
 
-                <Separator decorative />
+                <Separator decorative className='bg-font/10' />
 
                 <div className='w-full flex items-center justify-center gap-3'>
                   {colorHeadings.map((item, i) => (
