@@ -41,14 +41,3 @@ export const copyToClipboard = async (content: string) => {
     toast.error('Error while trying to copy to clipboard.');
   }
 };
-
-export const importFromClipboard = async () => {
-  try {
-    const data = await navigator.clipboard.readText();
-    toast.success('Pasted successfully!');
-    return data;
-  } catch (error) {
-    console.warn(error);
-    toast.error('Error while trying to retrieve data from clipboard.');
-  }
-};

@@ -1,14 +1,18 @@
 import { CheckIcon, XIcon } from 'lucide-react';
 import { Button } from './ui/button';
 import { Modal } from './ui/modal';
-import { useEffect, useState } from 'react';
+import { Input } from './ui/input';
+import { InputEvent } from '@/types';
 
 export type EditSolidColorDialogProps = {
   title: string;
   description: string;
   isOpen: boolean;
+  inputPlaceholder: string;
+  currentInputValue: string;
   onClose: () => void;
   onConfirm: () => void;
+  onChange: (e: InputEvent) => void;
 };
 
 export const EditSolidColorDialog = ({
@@ -16,23 +20,26 @@ export const EditSolidColorDialog = ({
   description,
   isOpen,
   onClose,
-  onConfirm
+  onChange,
+  onConfirm,
+  inputPlaceholder,
+  currentInputValue
 }: EditSolidColorDialogProps) => {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return null;
-  }
   return (
     <Modal
       title={title}
       description={description}
       isOpen={isOpen}
       onClose={onClose}>
+      <div className=''>
+        <Input
+          type='text'
+          value={currentInputValue}
+          onChange={onChange}
+          placeholder={inputPlaceholder}
+          className='w-full rounded-3xl border-font/15'
+        />
+      </div>
       <div className='pt-6 space-x-2 flex items-center justify-end w-full'>
         <Button
           variant='ghost'
