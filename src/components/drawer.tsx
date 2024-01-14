@@ -1,19 +1,29 @@
-import { BookmarkCheckIcon, HomeIcon, PaintBucketIcon } from 'lucide-react';
+import { Pocket, BlocksIcon, PyramidIcon, PaintBucketIcon, SunDimIcon } from 'lucide-react';
 import { Button } from './ui/button';
-import { ColorWheelIcon } from '@radix-ui/react-icons';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
 const routes = [
-  { path: '/?r=colors', alias: 'colors', icon: HomeIcon, label: 'Colors' },
+  { path: '/?r=colors', alias: 'colors', icon: PyramidIcon, label: 'Colors' },
   {
     path: '/palettes',
     alias: 'palettes',
     icon: PaintBucketIcon,
     label: 'Palettes'
   },
-  { path: '/swatch', alias: 'swatch', icon: ColorWheelIcon, label: 'Swatch' },
-  { path: '/saved', alias: 'saved', icon: BookmarkCheckIcon, label: 'Saved' }
+  {
+    path: '/color-extractor',
+    alias: 'color-extrator',
+    icon: BlocksIcon,
+    label: 'Extrator'
+  },
+  {
+    path: '/harmony-colors',
+    alias: 'harmony-colors',
+    icon: SunDimIcon,
+    label: 'Harmony'
+  },
+  { path: '/saved', alias: 'saved', icon: Pocket, label: 'Saved' }
 ];
 
 export const Drawer = () => {

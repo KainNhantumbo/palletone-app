@@ -1,36 +1,34 @@
 import {
-  EditSolidColorDialog,
-  EditSolidColorDialogProps
-} from '@/components/edit-solid-color-dialog';
-import { Layout } from '@/components/layout';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {
   buildGradient,
   copyToClipboard,
   randomColor,
   transformColorsToString
 } from '@/lib/utils';
 import {
-  MIXED_GRADIENT_STORAGE_KEY,
-  SOLID_COLORS_STORAGE_KEY
-} from '@/shared/constants';
-import type { RGBA, SolidColor, MixedGradient, ColorActions } from '@/types';
-import { ShadowInnerIcon } from '@radix-ui/react-icons';
-import { useDocumentTitle, useLocalStorage } from '@uidotdev/usehooks';
-import {
   CandyIcon,
   CopyIcon,
   DownloadIcon,
   Paintbrush2Icon,
-  PencilIcon,
   ShuffleIcon
 } from 'lucide-react';
-import { Fragment, useMemo, useState } from 'react';
+import {
+  EditSolidColorDialog,
+  EditSolidColorDialogProps
+} from '@/components/edit-solid-color-dialog';
+import {
+  MIXED_GRADIENT_STORAGE_KEY,
+  SOLID_COLORS_STORAGE_KEY
+} from '@/shared/constants';
 import { toast } from 'sonner';
 import tinycolor from 'tinycolor2';
+import { Layout } from '@/components/layout';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { Fragment, useMemo, useState } from 'react';
+import { Separator } from '@/components/ui/separator';
+import type { ColorActions, MixedGradient, RGBA, SolidColor } from '@/types';
+import { useDocumentTitle, useLocalStorage } from '@uidotdev/usehooks';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 type ColorVariantsHeadings = Array<{
   name: string;
@@ -39,7 +37,7 @@ type ColorVariantsHeadings = Array<{
 }>;
 
 export default function Palettes() {
-  useDocumentTitle('Palletone | Palettes');
+  useDocumentTitle('Palletone - Palettes');
 
   const [rgbaColor, setRgbaColor] = useState<RGBA>(() => randomColor());
 
@@ -116,8 +114,7 @@ export default function Palettes() {
         setGradientRGBA((current) => ({
           ...current,
           color_1: randomColor(),
-          color_2: randomColor(),
-          amount: 50
+          color_2: randomColor()
         }))
     },
     {
@@ -229,7 +226,7 @@ export default function Palettes() {
             <section className='w-full bg-foreground-default p-4 rounded-2xl base-border flex gap-3'>
               <div
                 style={{ background: tinycolor(rgbaColor).toRgbString() }}
-                className='w-[280px] h-[300px] rounded-2xl base-shadow base-border'
+                className='w-[280px] rounded-2xl base-shadow base-border'
               />
 
               <section className='w-full flex flex-col gap-3'>
@@ -384,7 +381,7 @@ export default function Palettes() {
             <section className='w-full bg-foreground-default p-4 rounded-2xl base-border flex gap-3'>
               <div
                 style={{ ...gradients.css }}
-                className='w-[280px] h-[300px] rounded-2xl base-shadow base-border'
+                className='w-[380px] rounded-2xl base-shadow base-border'
               />
 
               <section className='w-full flex flex-col gap-3'>

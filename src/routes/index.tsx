@@ -3,7 +3,7 @@ import { InitialColors } from '@/components/initial-colors';
 import { useDocumentTitle } from '@uidotdev/usehooks';
 
 export default function Home() {
-  useDocumentTitle('Palletone | Colors');
+  useDocumentTitle('Palletone - Colors');
 
   return (
     <Layout>

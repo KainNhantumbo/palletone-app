@@ -52,6 +52,6 @@ export const sortOptions: Option[] = [
   { value: 'updatedAt', label: 'Date Updated [Inverted]' }
 ];
 
+export const SOLID_COLORS_STORAGE_KEY = 'solids-db';
 
-export const SOLID_COLORS_STORAGE_KEY = 'solid-colors-db'
-export const MIXED_GRADIENT_STORAGE_KEY = 'mixed-gradient-db';
+export const MIXED_GRADIENT_STORAGE_KEY = 'gradients-db';
