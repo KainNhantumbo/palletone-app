@@ -5,10 +5,10 @@ import {
   transformColorsToString
 } from '@/lib/utils';
 import {
-  CandyIcon,
   CopyIcon,
   DownloadIcon,
-  Paintbrush2Icon,
+  DropletIcon,
+  PaintbrushIcon,
   ShuffleIcon
 } from 'lucide-react';
 import {
@@ -207,7 +207,7 @@ export default function Palettes() {
             <TabsTrigger
               value='solid'
               className='group w-full mx-auto max-w-[200px] flex items-center gap-1 rounded-3xl'>
-              <Paintbrush2Icon className='w-[18px] group-hover:stroke-blue-400 transition-colors' />
+              <DropletIcon className='w-[18px] group-hover:stroke-blue-400 transition-colors' />
               <span className='font-semibold group-hover:text-blue-400 transition-colors'>
                 Solids
               </span>
@@ -215,7 +215,7 @@ export default function Palettes() {
             <TabsTrigger
               value='gradient'
               className='group w-full mx-auto max-w-[200px] flex items-center gap-1 rounded-3xl'>
-              <CandyIcon className='w-[18px] group-hover:stroke-blue-400 transition-colors' />
+              <PaintbrushIcon className='w-[18px] group-hover:stroke-blue-400 transition-colors' />
               <span className='font-semibold group-hover:text-blue-400 transition-colors'>
                 Gradients
               </span>

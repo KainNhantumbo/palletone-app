@@ -55,3 +55,10 @@ export const sortOptions: Option[] = [
 export const SOLID_COLORS_STORAGE_KEY = 'solids-db';
 
 export const MIXED_GRADIENT_STORAGE_KEY = 'gradients-db';
+
+export const ALLOWED_MIMETYPES: string[] = [
+  'image/png',
+  'image/jpeg',
+  'image/jpg'
+];
+

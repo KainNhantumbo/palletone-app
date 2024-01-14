@@ -1,4 +1,5 @@
 import {
+  BoxSelectIcon,
   DiamondIcon,
   Dice2Icon,
   Dice3Icon,
@@ -25,13 +26,29 @@ export default function HarmonyColors() {
     <Layout>
       <main className='w-full pb-24 pt-20 mx-auto max-w-5xl'>
         <Tabs defaultValue='complement' className='w-full px-2'>
-          <TabsList className='grid w-fit grid-cols-4 place-content-center place-items-center mx-auto mb-3 bg-background-default gap-3'>
+          <TabsList className='grid w-fit grid-cols-6 place-content-center place-items-center mx-auto mb-3 bg-background-default gap-3'>
             <TabsTrigger
               value='complement'
               className='group w-full mx-auto max-w-[200px] flex items-center gap-1 rounded-3xl'>
               <DicesIcon className='w-[18px] group-hover:stroke-blue-400 transition-colors' />
               <span className='font-semibold capitalize group-hover:text-blue-400 transition-colors'>
                 complement
+              </span>
+            </TabsTrigger>
+            <TabsTrigger
+              value='splitcomplement'
+              className='group w-full mx-auto max-w-[200px] flex items-center gap-1 rounded-3xl'>
+              <Dice2Icon className='w-[18px] group-hover:stroke-blue-400 transition-colors' />
+              <span className='font-semibold capitalize group-hover:text-blue-400 transition-colors'>
+                complement/2
+              </span>
+            </TabsTrigger>
+            <TabsTrigger
+              value='monochromatic'
+              className='group w-full mx-auto max-w-[200px] flex items-center gap-1 rounded-3xl'>
+              <BoxSelectIcon className='w-[18px] group-hover:stroke-blue-400 transition-colors' />
+              <span className='font-semibold capitalize group-hover:text-blue-400 transition-colors'>
+                monochromatic
               </span>
             </TabsTrigger>
             <TabsTrigger

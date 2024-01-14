@@ -1,3 +1,4 @@
+import type { FinalColor } from 'extract-colors/lib/types/Color';
 import type { LucideIcon } from 'lucide-react';
 import type { ChangeEvent, FormEvent } from 'react';
 
@@ -37,3 +38,14 @@ export type ColorActions = Array<{
   name: string;
   icon: LucideIcon;
 }>;
+
+export type ExtractedColors = {
+  palette: {
+    colors: FinalColor[];
+    image: string;
+  };
+  swatch: {
+    colors: FinalColor[];
+    image: string;
+  };
+};
