@@ -1,5 +1,6 @@
 import { RGBA } from '@/types';
 import { type ClassValue, clsx } from 'clsx';
+import { CSSProperties } from 'react';
 import { toast } from 'sonner';
 import { twMerge } from 'tailwind-merge';
 import tinycolor from 'tinycolor2';
@@ -29,6 +30,23 @@ export const transformColorsToString = (color: RGBA) => {
     hsl,
     hsv,
     rgba
+  };
+};
+
+export const buildGradient = (color1: RGBA, color2: RGBA) => {
+  const gradient = {
+    color_1: `${color1.r}, ${color1.g}, ${color1.b}, ${color1.a}`,
+    color_2: `${color2.r}, ${color2.g}, ${color2.b}, ${color2.a}`
+  };
+
+  const cssGradient: CSSProperties = {
+    background: `linear-gradient(180deg, rgba(${gradient.color_1}), rgba(${gradient.color_2}))`
+  };
+
+  return {
+    css: cssGradient,
+    cssString: cssGradient.background?.toString(),
+    gradient
   };
 };
 

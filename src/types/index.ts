@@ -27,7 +27,8 @@ export type MixedGradient = {
   id: string;
   color_1: RGBA;
   color_2: RGBA;
-  amount: number;
+  // amount_1: number;
+  // amount_2: number;
   createdAt: string;
 };
 

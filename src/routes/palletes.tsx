@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
+  buildGradient,
   copyToClipboard,
   randomColor,
   transformColorsToString
@@ -47,8 +48,7 @@ export default function Palettes() {
   >(() => {
     return {
       color_1: randomColor(),
-      color_2: randomColor(),
-      amount: 50
+      color_2: randomColor()
     };
   });
 
@@ -65,6 +65,11 @@ export default function Palettes() {
   const colorVariants = useMemo(
     () => transformColorsToString(rgbaColor),
     [rgbaColor]
+  );
+
+  const gradients = useMemo(
+    () => buildGradient(gradientRGBA.color_1, gradientRGBA.color_2),
+    [gradientRGBA]
   );
 
   const colorHeadings: ColorVariantsHeadings = [
@@ -114,6 +119,11 @@ export default function Palettes() {
           color_2: randomColor(),
           amount: 50
         }))
+    },
+    {
+      name: 'copy as CSS gradient',
+      icon: CopyIcon,
+      handler: () => copyToClipboard(String(gradients.cssString))
     },
     {
       name: 'save gradient',
@@ -373,7 +383,7 @@ export default function Palettes() {
           <TabsContent value='gradient' className='w-full flex flex-col'>
             <section className='w-full bg-foreground-default p-4 rounded-2xl base-border flex gap-3'>
               <div
-                style={{ background: tinycolor(rgbaColor).toRgbString() }}
+                style={{ ...gradients.css }}
                 className='w-[280px] h-[300px] rounded-2xl base-shadow base-border'
               />
 
@@ -392,33 +402,6 @@ export default function Palettes() {
                       </span>
                     </Button>
                   ))}
-                </div>
-
-                <Separator decorative />
-                <h3 className='w-full max-w-lg mx-auto'>Gradient Amount</h3>
-
-                <div className='w-full max-w-lg mx-auto flex flex-col gap-3'>
-                  <div className='w-full flex items-center gap-3'>
-                    <Label
-                      htmlFor='alpha-input'
-                      className='w-12 uppercase text-xs font-medium'>
-                      amount
-                    </Label>
-                    <input
-                      type='range'
-                      step={0.1}
-                      min={0}
-                      max={1}
-                      value={gradientRGBA.amount}
-                      className='base-range-input bg-slate-400 dark:bg-slate-600'
-                      onChange={(e) =>
-                        setGradientRGBA((current) => ({
-                          ...current,
-                          amount: parseFloat(e.target.value)
-                        }))
-                      }
-                    />
-                  </div>
                 </div>
 
                 <Separator decorative />
