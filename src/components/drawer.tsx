@@ -1,9 +1,24 @@
-import { Pocket, BlocksIcon, PyramidIcon, PaintBucketIcon, SunDimIcon } from 'lucide-react';
+import {
+  Pocket,
+  BlocksIcon,
+  PyramidIcon,
+  PaintBucketIcon,
+  SunDimIcon,
+  type LucideIcon
+} from 'lucide-react';
 import { Button } from './ui/button';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import { m as motion } from 'framer-motion';
 
-const routes = [
+type RouteList = Array<{
+  path: string;
+  alias: string;
+  icon: LucideIcon;
+  label: string;
+}>;
+
+const routes: RouteList = [
   { path: '/?r=colors', alias: 'colors', icon: PyramidIcon, label: 'Colors' },
   {
     path: '/palettes',
@@ -13,9 +28,9 @@ const routes = [
   },
   {
     path: '/color-extractor',
-    alias: 'color-extrator',
+    alias: 'color-extractor',
     icon: BlocksIcon,
-    label: 'Extrator'
+    label: 'Extractor'
   },
   {
     path: '/harmony-colors',
@@ -28,7 +43,11 @@ const routes = [
 
 export const Drawer = () => {
   return (
-    <section className='w-full min-h-12 flex items-center rounded-3xl justify-center fixed px-2 z-50 bottom-2'>
+    <motion.footer
+      initial={{ y: 500 }}
+      animate={{ y: 0, }}
+      transition={{ delay: 0.6, duration: .6 }}
+     className='w-full min-h-12 flex items-center rounded-3xl justify-center fixed px-2 z-50 bottom-2'>
       <div className='w-fit h-full flex items-center justify-between mx-auto max-w-5xl rounded-3xl bg-foreground-default/80 backdrop-blur-md py-2 pb-3 base-shadow px-3'>
         <div className='flex items-center gap-2'>
           {routes.map((route, i) => (
@@ -55,6 +74,6 @@ export const Drawer = () => {
           ))}
         </div>
       </div>
-    </section>
+    </motion.footer>
   );
 };
