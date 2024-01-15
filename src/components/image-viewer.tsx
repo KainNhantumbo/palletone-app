@@ -17,7 +17,7 @@ export const ImageViewer = ({
       src={imageData}
       loading='lazy'
       alt='user selected image'
-      className='w-full h-full rounded-md shadow-2xl base-border'
+      className='w-full h-full max-h-[600px] object-cover rounded-md shadow-2xl base-border'
     />
     <div className='w-full flex items-center flex-wrap gap-3 justify-center'>
       <Button
