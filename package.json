@@ -3,7 +3,6 @@
   "description": "Color palette creator and picker app",
   "private": true,
   "version": "1.0.0",
-  "type": "module",
   "url": "",
   "website_name": "",
   "browserslist": [
@@ -35,9 +34,12 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "electron:dev": "vite",
+    "electron:build": "tsc && vite build && electron-builder",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
+  "main": "dist-electron/main.js",
   "dependencies": {
     "@radial-color-picker/react-color-picker": "^4.0.1",
     "@radix-ui/react-alert-dialog": "^1.0.5",
@@ -81,6 +83,7 @@
     "@types/tinycolor2": "^1.4.6",
     "@typescript-eslint/eslint-plugin": "^6.18.1",
     "@typescript-eslint/parser": "^6.18.1",
+    "@vitejs/plugin-react": "^4.2.1",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "autoprefixer": "^10.4.16",
     "electron": "^28.1.3",
