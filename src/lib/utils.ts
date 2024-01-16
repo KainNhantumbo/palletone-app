@@ -25,12 +25,7 @@ export const transformColorsToString = (color: RGBA) => {
     .replace(')', '');
   const rgba = `${color.r}, ${color.g}, ${color.b}, ${color.a}`;
 
-  return {
-    hex,
-    hsl,
-    hsv,
-    rgba
-  };
+  return { hex, hsl, hsv, rgba };
 };
 
 export const buildGradient = (color1: RGBA, color2: RGBA) => {

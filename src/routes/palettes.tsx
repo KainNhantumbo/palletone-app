@@ -129,14 +129,19 @@ export default function Palettes() {
   ];
 
   const handleSaveSolidColor = () => {
-    updateSolidColorDB((current) => [
-      ...current,
-      {
-        id: crypto.randomUUID(),
-        value: rgbaColor,
-        createdAt: new Date().toISOString()
-      }
-    ]);
+    updateSolidColorDB((current) => {
+      // current.find(color=>  )
+      // isEqual
+
+      return [
+        ...current,
+        {
+          id: crypto.randomUUID(),
+          value: rgbaColor,
+          createdAt: new Date().toISOString()
+        }
+      ];
+    });
     toast.success('Color saved successfully.');
   };
 
@@ -197,37 +202,37 @@ export default function Palettes() {
   };
 
   return (
-    <main className='w-full pb-24 pt-20 mx-auto max-w-5xl'>
+    <main className='mx-auto w-full max-w-5xl pb-24 pt-20'>
       <EditSolidColorDialog {...editColorProps} />
       <Tabs defaultValue='solid' className='w-full px-2'>
-        <TabsList className='grid w-fit grid-cols-2 place-content-center place-items-center mx-auto mb-3 bg-background-default gap-8'>
+        <TabsList className='mx-auto mb-3 grid w-fit grid-cols-2 place-content-center place-items-center gap-8 bg-background-default'>
           <TabsTrigger
             value='solid'
-            className='group w-full mx-auto max-w-[200px] flex items-center gap-1 rounded-3xl'>
-            <DropletIcon className='w-[18px] group-hover:stroke-blue-400 transition-colors' />
-            <span className='font-semibold group-hover:text-blue-400 transition-colors'>
+            className='group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl'>
+            <DropletIcon className='w-[18px] transition-colors group-hover:stroke-blue-400' />
+            <span className='font-semibold transition-colors group-hover:text-blue-400'>
               Solids
             </span>
           </TabsTrigger>
           <TabsTrigger
             value='gradient'
-            className='group w-full mx-auto max-w-[200px] flex items-center gap-1 rounded-3xl'>
-            <PaintbrushIcon className='w-[18px] group-hover:stroke-blue-400 transition-colors' />
-            <span className='font-semibold group-hover:text-blue-400 transition-colors'>
+            className='group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl'>
+            <PaintbrushIcon className='w-[18px] transition-colors group-hover:stroke-blue-400' />
+            <span className='font-semibold transition-colors group-hover:text-blue-400'>
               Gradients
             </span>
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value='solid' className='w-full flex flex-col'>
-          <section className='w-full bg-foreground-default p-4 rounded-2xl base-border flex gap-3'>
+        <TabsContent value='solid' className='flex w-full flex-col'>
+          <section className='base-border flex w-full gap-3 rounded-2xl bg-foreground-default p-4'>
             <div
               style={{ background: tinycolor(rgbaColor).toRgbString() }}
-              className='w-[280px] rounded-2xl base-shadow base-border'
+              className='base-shadow base-border w-[280px] rounded-2xl'
             />
 
-            <section className='w-full flex flex-col gap-3'>
-              <div className='w-full flex items-center justify-center gap-2'>
+            <section className='flex w-full flex-col gap-3'>
+              <div className='flex w-full items-center justify-center gap-2'>
                 {solidColorActions.map((action, i) => (
                   <Button
                     key={i}
@@ -235,8 +240,8 @@ export default function Palettes() {
                     size={'lg'}
                     onClick={action.handler}
                     className='group flex items-center gap-2 rounded-3xl'>
-                    <action.icon className='group-hover:stroke-blue-400 group-active:stroke-blue-400 transition-colors w-4' />
-                    <span className='group-hover:text-blue-400 transition-colors capitalize'>
+                    <action.icon className='w-4 transition-colors group-hover:stroke-blue-400 group-active:stroke-blue-400' />
+                    <span className='capitalize transition-colors group-hover:text-blue-400'>
                       {action.name}
                     </span>
                   </Button>
@@ -245,12 +250,12 @@ export default function Palettes() {
 
               <Separator decorative />
 
-              <div className='w-full flex items-center justify-center gap-3'>
+              <div className='flex w-full items-center justify-center gap-3'>
                 {colorHeadings.map((item, i) => (
                   <Fragment key={i}>
-                    <div className='w-fit flex flex-col items-center gap-1'>
-                      <div className='flex items-center gap-3 w-fit'>
-                        <h3 className='uppercase font-semibold text-sm text-primary-default'>
+                    <div className='flex w-fit flex-col items-center gap-1'>
+                      <div className='flex w-fit items-center gap-3'>
+                        <h3 className='text-sm font-semibold uppercase text-primary-default'>
                           {item.name}
                         </h3>
                         {/* <Button
@@ -262,7 +267,7 @@ export default function Palettes() {
                           </Button> */}
                       </div>
                       <div className='flex items-center gap-1'>
-                        <p className='font-medium text-sm uppercase'>
+                        <p className='text-sm font-medium uppercase'>
                           {item.color}
                         </p>
                         <Button
@@ -270,7 +275,7 @@ export default function Palettes() {
                           size={'icon'}
                           className='group rounded-full'
                           onClick={() => copyToClipboard(item.color)}>
-                          <CopyIcon className='group-hover:stroke-primary group-active:stroke-blue-400 transition-colors w-4' />
+                          <CopyIcon className='w-4 transition-colors group-hover:stroke-primary group-active:stroke-blue-400' />
                         </Button>
                       </div>
                     </div>
@@ -284,11 +289,11 @@ export default function Palettes() {
 
               <Separator decorative />
 
-              <div className='w-full max-w-lg mx-auto flex flex-col gap-3'>
-                <div className='w-full flex items-center gap-3'>
+              <div className='mx-auto flex w-full max-w-lg flex-col gap-3'>
+                <div className='flex w-full items-center gap-3'>
                   <Label
                     htmlFor='alpha-input'
-                    className='w-12 uppercase text-xs font-medium'>
+                    className='w-12 text-xs font-medium uppercase'>
                     alpha
                   </Label>
                   <input
@@ -306,10 +311,10 @@ export default function Palettes() {
                     className='base-range-input bg-slate-400 dark:bg-slate-600'
                   />
                 </div>
-                <div className='w-full flex items-center gap-3'>
+                <div className='flex w-full items-center gap-3'>
                   <Label
                     htmlFor='alpha-input'
-                    className='w-12 uppercase text-xs font-medium'>
+                    className='w-12 text-xs font-medium uppercase'>
                     red
                   </Label>
                   <input
@@ -327,10 +332,10 @@ export default function Palettes() {
                     className='base-range-input bg-red-600'
                   />
                 </div>
-                <div className='w-full flex items-center gap-3'>
+                <div className='flex w-full items-center gap-3'>
                   <Label
                     htmlFor='alpha-input'
-                    className='w-12 uppercase text-xs font-medium'>
+                    className='w-12 text-xs font-medium uppercase'>
                     green
                   </Label>
                   <input
@@ -348,10 +353,10 @@ export default function Palettes() {
                     className='base-range-input bg-green-600'
                   />
                 </div>
-                <div className='w-full flex items-center gap-3'>
+                <div className='flex w-full items-center gap-3'>
                   <Label
                     htmlFor='alpha-input'
-                    className='w-12 uppercase text-xs font-medium'>
+                    className='w-12 text-xs font-medium uppercase'>
                     blue
                   </Label>
                   <input
@@ -374,15 +379,15 @@ export default function Palettes() {
           </section>
         </TabsContent>
 
-        <TabsContent value='gradient' className='w-full flex flex-col'>
-          <section className='w-full bg-foreground-default p-4 rounded-2xl base-border flex gap-3'>
+        <TabsContent value='gradient' className='flex w-full flex-col'>
+          <section className='base-border flex w-full gap-3 rounded-2xl bg-foreground-default p-4'>
             <div
               style={{ ...gradients.css }}
-              className='w-[380px] rounded-2xl base-shadow base-border'
+              className='base-shadow base-border w-[380px] rounded-2xl'
             />
 
-            <section className='w-full flex flex-col gap-3'>
-              <div className='w-full flex items-center justify-center gap-2'>
+            <section className='flex w-full flex-col gap-3'>
+              <div className='flex w-full items-center justify-center gap-2'>
                 {gradientColorActions.map((action, i) => (
                   <Button
                     key={i}
@@ -390,8 +395,8 @@ export default function Palettes() {
                     size={'lg'}
                     onClick={action.handler}
                     className='group flex items-center gap-2 rounded-3xl'>
-                    <action.icon className='group-hover:stroke-blue-400 group-active:stroke-blue-400 transition-colors w-4' />
-                    <span className='group-hover:text-blue-400 transition-colors capitalize'>
+                    <action.icon className='w-4 transition-colors group-hover:stroke-blue-400 group-active:stroke-blue-400' />
+                    <span className='capitalize transition-colors group-hover:text-blue-400'>
                       {action.name}
                     </span>
                   </Button>
@@ -399,14 +404,14 @@ export default function Palettes() {
               </div>
 
               <Separator decorative />
-              <h3 className='w-full max-w-lg mx-auto'>Gradient Color 1</h3>
+              <h3 className='mx-auto w-full max-w-lg'>Gradient Color 1</h3>
 
-              <section className='w-full flex flex-col gap-3'>
-                <div className='w-full max-w-lg mx-auto flex flex-col gap-3'>
-                  <div className='w-full flex items-center gap-3'>
+              <section className='flex w-full flex-col gap-3'>
+                <div className='mx-auto flex w-full max-w-lg flex-col gap-3'>
+                  <div className='flex w-full items-center gap-3'>
                     <Label
                       htmlFor='gradient-1-alpha-input'
-                      className='w-12 uppercase text-xs font-medium'>
+                      className='w-12 text-xs font-medium uppercase'>
                       alpha
                     </Label>
                     <input
@@ -428,10 +433,10 @@ export default function Palettes() {
                       className='base-range-input bg-slate-400 dark:bg-slate-600'
                     />
                   </div>
-                  <div className='w-full flex items-center gap-3'>
+                  <div className='flex w-full items-center gap-3'>
                     <Label
                       htmlFor='gradient-1-red-input'
-                      className='w-12 uppercase text-xs font-medium'>
+                      className='w-12 text-xs font-medium uppercase'>
                       red
                     </Label>
                     <input
@@ -453,10 +458,10 @@ export default function Palettes() {
                       }
                     />
                   </div>
-                  <div className='w-full flex items-center gap-3'>
+                  <div className='flex w-full items-center gap-3'>
                     <Label
                       htmlFor='gradient-1-green-input'
-                      className='w-12 uppercase text-xs font-medium'>
+                      className='w-12 text-xs font-medium uppercase'>
                       green
                     </Label>
                     <input
@@ -478,10 +483,10 @@ export default function Palettes() {
                       }
                     />
                   </div>
-                  <div className='w-full flex items-center gap-3'>
+                  <div className='flex w-full items-center gap-3'>
                     <Label
                       htmlFor='gradient-1-blue-input'
-                      className='w-12 uppercase text-xs font-medium'>
+                      className='w-12 text-xs font-medium uppercase'>
                       blue
                     </Label>
                     <input
@@ -507,14 +512,14 @@ export default function Palettes() {
               </section>
 
               <Separator decorative />
-              <h3 className='w-full max-w-lg mx-auto'>Gradient Color 2</h3>
+              <h3 className='mx-auto w-full max-w-lg'>Gradient Color 2</h3>
 
-              <section className='w-full flex flex-col gap-3'>
-                <div className='w-full max-w-lg mx-auto flex flex-col gap-3'>
-                  <div className='w-full flex items-center gap-3'>
+              <section className='flex w-full flex-col gap-3'>
+                <div className='mx-auto flex w-full max-w-lg flex-col gap-3'>
+                  <div className='flex w-full items-center gap-3'>
                     <Label
                       htmlFor='gradient-2-alpha-input'
-                      className='w-12 uppercase text-xs font-medium'>
+                      className='w-12 text-xs font-medium uppercase'>
                       alpha
                     </Label>
                     <input
@@ -536,10 +541,10 @@ export default function Palettes() {
                       className='base-range-input bg-slate-400 dark:bg-slate-600'
                     />
                   </div>
-                  <div className='w-full flex items-center gap-3'>
+                  <div className='flex w-full items-center gap-3'>
                     <Label
                       htmlFor='gradient-2-red-input'
-                      className='w-12 uppercase text-xs font-medium'>
+                      className='w-12 text-xs font-medium uppercase'>
                       red
                     </Label>
                     <input
@@ -561,10 +566,10 @@ export default function Palettes() {
                       }
                     />
                   </div>
-                  <div className='w-full flex items-center gap-3'>
+                  <div className='flex w-full items-center gap-3'>
                     <Label
                       htmlFor='gradient-2-green-input'
-                      className='w-12 uppercase text-xs font-medium'>
+                      className='w-12 text-xs font-medium uppercase'>
                       green
                     </Label>
                     <input
@@ -586,10 +591,10 @@ export default function Palettes() {
                       }
                     />
                   </div>
-                  <div className='w-full flex items-center gap-3'>
+                  <div className='flex w-full items-center gap-3'>
                     <Label
                       htmlFor='gradient-2-blue-input'
-                      className='w-12 uppercase text-xs font-medium'>
+                      className='w-12 text-xs font-medium uppercase'>
                       blue
                     </Label>
                     <input

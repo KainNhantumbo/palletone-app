@@ -12,5 +12,6 @@
   "bracketSpacing": true,
   "bracketSameLine": true,
   "arrowParens": "always",
-  "vueIndentScriptAndStyle": true
+  "vueIndentScriptAndStyle": true,
+  "plugins": ["prettier-plugin-tailwindcss"]
 }

@@ -1,7 +1,7 @@
 import { ComponentIcon, CopyIcon, SparklesIcon, XIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Separator } from '@/components/ui/separator';
 import type { ExtractedColors, RGBA } from '@/types';
 import { useDocumentTitle } from '@uidotdev/usehooks';
@@ -77,10 +77,6 @@ export default function ColorExtractor() {
       name: key,
       value
     }));
-
-  useEffect(() => {
-    console.info(extractedColors.palette);
-  }, [extractedColors]);
 
   return (
     <main className='w-full pb-24 pt-20 mx-auto max-w-5xl'>
