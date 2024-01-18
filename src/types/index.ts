@@ -44,8 +44,15 @@ export type ExtractedColors = {
     colors: FinalColor[];
     image: string;
   };
-  swatch: {
+  picker: {
     colors: FinalColor[];
     image: string;
   };
 };
+
+export type RouteList = Array<{
+  path: string;
+  alias: string;
+  icon: LucideIcon;
+  label: string;
+}>;

@@ -1,5 +1,5 @@
 import logoImage from '@/assets/favicon.png';
-import { Settings2 } from 'lucide-react';
+import { PocketIcon, Settings2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Link } from 'react-router-dom';
 import { ThemeToggle } from './theme-toggle';
@@ -26,14 +26,19 @@ export const Header = () => {
             className='w-[38px] rounded-full h-auto '
           />
           <h1 className='font-semibold font-sans-display text-xl text-primary-default'>
-            Palletone{' '}
-            <i className='font-medium font-sans text-xs text-primary-default uppercase'>
-              | Desktop
-            </i>
+            Palletone
           </h1>
         </div>
 
         <div className='flex items-center gap-2'>
+          <Link to={'/saved'} >
+            <Button
+              variant={'ghost'}
+              size={'icon'}
+              className='group rounded-full'>
+              <PocketIcon className='group-hover:stroke-primary-default group-active:stroke-blue-400 transition-colors w-5 h-auto' />
+            </Button>
+          </Link>
           <Link to={'/preferences'}>
             <Button
               variant={'ghost'}

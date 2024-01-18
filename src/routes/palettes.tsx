@@ -12,10 +12,6 @@ import {
   ShuffleIcon
 } from 'lucide-react';
 import {
-  EditSolidColorDialog,
-  EditSolidColorDialogProps
-} from '@/components/edit-solid-color-dialog';
-import {
   MIXED_GRADIENT_STORAGE_KEY,
   SOLID_COLORS_STORAGE_KEY
 } from '@/shared/constants';
@@ -31,7 +27,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 type ColorVariantsHeadings = Array<{
   name: string;
-  editFunc: () => void;
   color: string;
 }>;
 
@@ -70,26 +65,10 @@ export default function Palettes() {
   );
 
   const colorHeadings: ColorVariantsHeadings = [
-    {
-      name: 'rgba',
-      color: colorVariants.rgba,
-      editFunc: () => editRgbaColor()
-    },
-    {
-      name: 'hex',
-      color: colorVariants.hex,
-      editFunc: () => {}
-    },
-    {
-      name: 'hsl',
-      color: colorVariants.hsl,
-      editFunc: () => {}
-    },
-    {
-      name: 'hsv',
-      color: colorVariants.hsv,
-      editFunc: () => {}
-    }
+    { name: 'rgba', color: colorVariants.rgba },
+    { name: 'hex', color: colorVariants.hex },
+    { name: 'hsl', color: colorVariants.hsl },
+    { name: 'hsv', color: colorVariants.hsv }
   ];
 
   const solidColorActions: ColorActions = [
@@ -107,7 +86,7 @@ export default function Palettes() {
 
   const gradientColorActions: ColorActions = [
     {
-      name: 'random gradient',
+      name: 'randomize',
       icon: ShuffleIcon,
       handler: () =>
         setGradientRGBA((current) => ({
@@ -117,12 +96,12 @@ export default function Palettes() {
         }))
     },
     {
-      name: 'copy as CSS gradient',
+      name: 'copy as CSS',
       icon: CopyIcon,
       handler: () => copyToClipboard(String(gradients.cssString))
     },
     {
-      name: 'save gradient',
+      name: 'save',
       icon: DownloadIcon,
       handler: () => handleSaveGradient()
     }
@@ -157,53 +136,8 @@ export default function Palettes() {
     toast.success('Gradient saved successfully.');
   };
 
-  const [editColorProps, setEditColorProps] =
-    useState<EditSolidColorDialogProps>({
-      isOpen: false,
-      title: '',
-      description: '',
-      inputPlaceholder: '',
-      onClose: () => {},
-      onConfirm: () => {},
-      onChange: () => {},
-      currentInputValue: ''
-    });
-
-  const editRgbaColor = () => {
-    setEditColorProps((current) => ({
-      ...current,
-      isOpen: true,
-      title: 'RGBA Color Editor',
-      inputPlaceholder: 'Ex: 19, 179, 51, 0.7',
-      description:
-        'Edit or paste custom RGB or RGBA values in the below. Example: Ex: 19, 179, 51, 0.7',
-      onClose() {
-        setEditColorProps((current) => ({
-          ...current,
-          isOpen: false,
-          currentInputValue: ''
-        }));
-      },
-      onChange(e) {
-        const currentInputValue = e.target.value;
-        setEditColorProps((current) => ({ ...current, currentInputValue }));
-      },
-      onConfirm() {
-        const color = editColorProps.currentInputValue;
-        const isValid = tinycolor(`rgba (34, 138, 205),`).isValid();
-        console.info(`207, 74, 99, 1`.split(', '), isValid);
-
-        if (!isValid)
-          return toast.error(
-            'Parse Error: color syntax must meet the example.'
-          );
-      }
-    }));
-  };
-
   return (
     <main className='mx-auto w-full max-w-5xl pb-24 pt-20'>
-      <EditSolidColorDialog {...editColorProps} />
       <Tabs defaultValue='solid' className='w-full px-2'>
         <TabsList className='mx-auto mb-3 grid w-fit grid-cols-2 place-content-center place-items-center gap-8 bg-background-default'>
           <TabsTrigger
@@ -225,21 +159,21 @@ export default function Palettes() {
         </TabsList>
 
         <TabsContent value='solid' className='flex w-full flex-col'>
-          <section className='base-border flex w-full gap-3 rounded-2xl bg-foreground-default p-4'>
+          <section className='base-border flex w-full flex-col gap-3 rounded-2xl bg-foreground-default p-4 md:flex-row'>
             <div
               style={{ background: tinycolor(rgbaColor).toRgbString() }}
-              className='base-shadow base-border w-[280px] rounded-2xl'
+              className='base-shadow base-border min-h-[200px] rounded-2xl md:w-full md:max-w-[220px]'
             />
 
             <section className='flex w-full flex-col gap-3'>
-              <div className='flex w-full items-center justify-center gap-2'>
+              <div className='flex w-full flex-wrap items-center justify-center gap-2 md:flex-nowrap'>
                 {solidColorActions.map((action, i) => (
                   <Button
                     key={i}
                     variant={'outline'}
                     size={'lg'}
                     onClick={action.handler}
-                    className='group flex items-center gap-2 rounded-3xl'>
+                    className='group flex w-full items-center gap-2 rounded-3xl mobile:w-fit'>
                     <action.icon className='w-4 transition-colors group-hover:stroke-blue-400 group-active:stroke-blue-400' />
                     <span className='capitalize transition-colors group-hover:text-blue-400'>
                       {action.name}
@@ -250,7 +184,7 @@ export default function Palettes() {
 
               <Separator decorative />
 
-              <div className='flex w-full items-center justify-center gap-3'>
+              <div className='flex w-full flex-wrap md:flex-nowrap items-center justify-center gap-3'>
                 {colorHeadings.map((item, i) => (
                   <Fragment key={i}>
                     <div className='flex w-fit flex-col items-center gap-1'>
@@ -258,13 +192,6 @@ export default function Palettes() {
                         <h3 className='text-sm font-semibold uppercase text-primary-default'>
                           {item.name}
                         </h3>
-                        {/* <Button
-                            variant={'ghost'}
-                            size={'icon'}
-                            className='group rounded-full'
-                            onClick={() => item.editFunc()}>
-                            <PencilIcon className='group-hover:stroke-primary group-active:stroke-blue-400 transition-colors w-4' />
-                          </Button> */}
                       </div>
                       <div className='flex items-center gap-1'>
                         <p className='text-sm font-medium uppercase'>
@@ -380,21 +307,21 @@ export default function Palettes() {
         </TabsContent>
 
         <TabsContent value='gradient' className='flex w-full flex-col'>
-          <section className='base-border flex w-full gap-3 rounded-2xl bg-foreground-default p-4'>
+          <section className='base-border flex w-full flex-col gap-3 rounded-2xl bg-foreground-default p-4 md:flex-row'>
             <div
               style={{ ...gradients.css }}
-              className='base-shadow base-border w-[380px] rounded-2xl'
+              className='base-shadow base-border min-h-[200px] w-full rounded-2xl md:w-[480px]'
             />
 
             <section className='flex w-full flex-col gap-3'>
-              <div className='flex w-full items-center justify-center gap-2'>
+              <div className='flex w-full flex-wrap items-center justify-center gap-2 md:flex-nowrap'>
                 {gradientColorActions.map((action, i) => (
                   <Button
                     key={i}
                     variant={'outline'}
                     size={'lg'}
                     onClick={action.handler}
-                    className='group flex items-center gap-2 rounded-3xl'>
+                    className='group flex w-full items-center gap-2 rounded-3xl mobile:w-fit'>
                     <action.icon className='w-4 transition-colors group-hover:stroke-blue-400 group-active:stroke-blue-400' />
                     <span className='capitalize transition-colors group-hover:text-blue-400'>
                       {action.name}

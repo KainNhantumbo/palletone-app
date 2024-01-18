@@ -1,12 +1,9 @@
 import {
   BoxSelectIcon,
-  DiamondIcon,
   Dice2Icon,
   Dice3Icon,
-  Dice4,
   Dice4Icon,
-  DicesIcon,
-  SparklesIcon
+  DicesIcon
 } from 'lucide-react';
 import { toast } from 'sonner';
 import tinycolor from 'tinycolor2';
@@ -16,10 +13,30 @@ import { useMemo, useState } from 'react';
 import { Separator } from '@/components/ui/separator';
 import type { RGBA } from '@/types';
 import { useDocumentTitle, useLocalStorage } from '@uidotdev/usehooks';
+import RadialColorPicker from '@radial-color-picker/react-color-picker';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {} from 'react-colorful';
+import { randomColor } from '@/lib/utils';
+
+export type HarmonyColors = {
+  complement: {
+    phase_1: RGBA;
+    phase_2: RGBA;
+  };
+};
 
 export default function HarmonyColors() {
   useDocumentTitle('Palletone - Harmony Colors');
+  const [harmonyColors, setHarmonyColors] = useState<HarmonyColors>({
+    complement: { phase_1: randomColor(), phase_2: randomColor() }
+  });
+
+  const complementColor = useMemo(() => {
+    const complement = tinycolor('').complement();
+    return complement;
+  }, []);
+
+  console.info(tinycolor(harmonyColors.complement.phase_1).complement().toRgb()); 
 
   return (
     <main className='mx-auto w-full max-w-5xl pb-24 pt-20'>
@@ -29,15 +46,15 @@ export default function HarmonyColors() {
             value='complement'
             className='group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl'>
             <DicesIcon className='w-[18px] transition-colors group-hover:stroke-blue-400' />
-            <span className='font-semibold capitalize transition-colors group-hover:text-blue-400'>
+            <span className='hidden font-semibold capitalize transition-colors group-hover:text-blue-400 md:block'>
               complement
             </span>
           </TabsTrigger>
           <TabsTrigger
-            value='splitcomplement'
+            value='split-complement'
             className='group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl'>
             <Dice2Icon className='w-[18px] transition-colors group-hover:stroke-blue-400' />
-            <span className='font-semibold capitalize transition-colors group-hover:text-blue-400'>
+            <span className='hidden font-semibold capitalize transition-colors group-hover:text-blue-400 md:block'>
               complement/2
             </span>
           </TabsTrigger>
@@ -45,7 +62,7 @@ export default function HarmonyColors() {
             value='monochromatic'
             className='group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl'>
             <BoxSelectIcon className='w-[18px] transition-colors group-hover:stroke-blue-400' />
-            <span className='font-semibold capitalize transition-colors group-hover:text-blue-400'>
+            <span className='hidden font-semibold capitalize transition-colors group-hover:text-blue-400 md:block'>
               monochromatic
             </span>
           </TabsTrigger>
@@ -53,7 +70,7 @@ export default function HarmonyColors() {
             value='analogous'
             className='group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl'>
             <Dice2Icon className='w-[18px] transition-colors group-hover:stroke-blue-400' />
-            <span className='font-semibold capitalize transition-colors group-hover:text-blue-400'>
+            <span className='hidden font-semibold capitalize transition-colors group-hover:text-blue-400 md:block'>
               analogous
             </span>
           </TabsTrigger>
@@ -61,7 +78,7 @@ export default function HarmonyColors() {
             value='triadic'
             className='group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl'>
             <Dice3Icon className='w-[18px] transition-colors group-hover:stroke-blue-400' />
-            <span className='font-semibold capitalize transition-colors group-hover:text-blue-400'>
+            <span className='hidden font-semibold capitalize transition-colors group-hover:text-blue-400 md:block'>
               triadic
             </span>
           </TabsTrigger>
@@ -69,7 +86,7 @@ export default function HarmonyColors() {
             value='tetradic'
             className='group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl'>
             <Dice4Icon className='w-[18px] transition-colors group-hover:stroke-blue-400' />
-            <span className='font-semibold capitalize transition-colors group-hover:text-blue-400'>
+            <span className='hidden font-semibold capitalize transition-colors group-hover:text-blue-400 md:block'>
               tetradic
             </span>
           </TabsTrigger>

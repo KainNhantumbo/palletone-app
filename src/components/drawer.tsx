@@ -1,25 +1,22 @@
 import {
-  Pocket,
   BlocksIcon,
   PyramidIcon,
   PaintBucketIcon,
-  SunDimIcon,
-  type LucideIcon
+  SunDimIcon
 } from 'lucide-react';
 import { Button } from './ui/button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { m as motion } from 'framer-motion';
-
-type RouteList = Array<{
-  path: string;
-  alias: string;
-  icon: LucideIcon;
-  label: string;
-}>;
+import type { RouteList } from '@/types';
 
 const routes: RouteList = [
-  { path: '/?r=colors', alias: 'colors', icon: PyramidIcon, label: 'Colors' },
+  {
+    path: '/?r=default-colors',
+    alias: 'default-colors',
+    icon: PyramidIcon,
+    label: 'Colors'
+  },
   {
     path: '/palettes',
     alias: 'palettes',
@@ -37,11 +34,12 @@ const routes: RouteList = [
     alias: 'harmony-colors',
     icon: SunDimIcon,
     label: 'Harmony'
-  },
-  { path: '/saved', alias: 'saved', icon: Pocket, label: 'Saved' }
+  }
 ];
 
 export const Drawer = () => {
+  useNavigate();
+
   return (
     <motion.footer
       initial={{ y: 500 }}
@@ -55,8 +53,8 @@ export const Drawer = () => {
               to={route.path}
               key={i}
               className={cn('relative', {
-                'before:absolute before:-bottom-2 before:left-[calc(50%_-_16px)] before:h-1 before:w-8 before:rounded-full before:bg-blue-400':
-                  location.href.includes(route.alias)
+                'before:absolute before:-bottom-2 before:left-[calc(50%_-_4px)] before:h-1 before:w-2 before:rounded-full before:bg-blue-400 min-[540px]:before:left-[calc(50%_-_16px)] min-[540px]:before:w-8':
+                  window.location.href.includes(route.alias)
               })}>
               <Button
                 className='group gap-2 rounded-3xl border-font/15 bg-transparent'
@@ -66,7 +64,7 @@ export const Drawer = () => {
                     'relative h-auto w-5 transition-colors group-hover:stroke-primary-default group-active:stroke-blue-400'
                   )}
                 />
-                <span className='font-semibold group-active:text-blue-400'>
+                <span className='hidden font-semibold group-active:text-blue-400 min-[540px]:block'>
                   {route.label}
                 </span>
               </Button>
