@@ -1,24 +1,27 @@
-import { toast } from 'sonner';
-import { Button } from '@/components/ui/button';
-import { useState } from 'react';
-import { Separator } from '@/components/ui/separator';
-import type { ExtractedColors, RGBA } from '@/types';
-import { useDocumentTitle } from '@uidotdev/usehooks';
-import { BirdIcon, CopyIcon, SparklesIcon, XIcon } from 'lucide-react';
-import { DropzoneArea } from '@/components/dropzone';
-import { extractColors } from 'extract-colors';
-import { ImageViewer } from '@/components/image-viewer';
-import { FinalColor } from 'extract-colors/lib/types/Color';
-import { copyToClipboard, transformColorsToString } from '@/lib/utils';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import 'eyedropper-polyfill';
+import { DropzoneArea } from "@/components/dropzone";
+import { ImageViewer } from "@/components/image-viewer";
+import { PaletteRenderer } from "@/components/palette-renderer";
+import { PickerColorsRenderer } from "@/components/picker-colors-renderer";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { transformColorsToString } from "@/lib/utils";
+import type { ExtractedColors, RGBA } from "@/types";
+import { useDocumentTitle, useIdle } from "@uidotdev/usehooks";
+import { extractColors } from "extract-colors";
+import { FinalColor } from "extract-colors/lib/types/Color";
+// import "eyedropper-polyfill";
+import { BirdIcon, SparklesIcon, XIcon } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+import tinycolor from "tinycolor2";
 
 export default function ColorExtractor() {
-  useDocumentTitle('Palletone - Color Extractor');
+  useDocumentTitle("Palletone - Color Extractor");
+  const isIdle = useIdle(500);
 
   const [extractedColors, setExtractedColors] = useState<ExtractedColors>({
-    palette: { colors: [], image: '' },
-    picker: { colors: [], image: '' }
+    palette: { colors: [], image: "" },
+    picker: { colors: [], image: "" }
   });
 
   const generateAutoPalette = async (imageData: string) => {
@@ -30,33 +33,48 @@ export default function ColorExtractor() {
       }));
     } catch (error) {
       console.error(error);
-      toast.error('Error: failed to generate palette from selected image.');
+      toast.error("Error: failed to generate palette from selected image.");
     }
   };
 
-  const handlePickColor = async () => {
-    if ('EyeDropper' in window) {
+  const handlePickColor = async (imageData: string) => {
+    setExtractedColors((current) => ({
+      ...current,
+      picker: { ...current.picker, image: imageData }
+    }));
+
+    if ("EyeDropper" in window) {
       // @ts-expect-error: eyeDropper might not exist in some browsers
       const eyeDropper = new window.EyeDropper();
+      const abortController = new AbortController();
+
+
       eyeDropper
-        .open()
+        .open({ signal: abortController.signal })
         .then((result: unknown) => {
-          // Use the selected color information
-          console.log(
-            'Selected color:',
-            (result as { sRGBHex: string }).sRGBHex
-          );
+          const hexColorString: string = (result as { sRGBHex: string })
+            .sRGBHex;
+          const rgbaColor: RGBA = tinycolor(hexColorString).toRgb();
+
+          setExtractedColors((current) => ({
+            ...current,
+            picker: {
+              ...current.picker,
+              colors: [
+                ...current.picker.colors,
+                { id: crypto.randomUUID(), value: rgbaColor }
+              ],
+              image: imageData
+            }
+          }));
         })
         .catch((error: unknown) => {
-          console.error('Error:', error);
+          console.error("Error:", error);
         });
 
-      // setExtractedColors((current) => ({
-      //   ...current,
-      //   picker: { ...current.picker, colors: [...current.picker.colors] }
-      // }));
+      isIdle && abortController.abort();
     } else {
-      return toast.error('Picker feature not supported in your browser');
+      return toast.error("Picker feature not supported in your browser");
     }
   };
 
@@ -76,10 +94,19 @@ export default function ColorExtractor() {
       }
     }));
 
+  const removeColorFromPicker = (id: string) =>
+    setExtractedColors((state) => ({
+      ...state,
+      picker: {
+        ...state.picker,
+        colors: state.picker.colors.filter((item) => item.id != id)
+      }
+    }));
+
   const handleClearPaletteImage = () => {
     setExtractedColors((state) => ({
       ...state,
-      palette: { ...state.palette, image: '' }
+      palette: { ...state.palette, image: "" }
     }));
   };
 
@@ -93,7 +120,7 @@ export default function ColorExtractor() {
   const handleClearPickerImage = () => {
     setExtractedColors((state) => ({
       ...state,
-      picker: { ...state.picker, image: '' }
+      picker: { ...state.picker, image: "" }
     }));
   };
 
@@ -103,56 +130,68 @@ export default function ColorExtractor() {
       value
     }));
 
+  const mappedPickerColors = (color: { id: string; value: RGBA }) =>
+    [...Object.entries(transformColorsToString(color.value))].map(
+      ([key, value]) => ({
+        id: color.id,
+        name: key,
+        value
+      })
+    );
+
   return (
-    <main className='mx-auto w-full max-w-5xl pb-24 pt-20'>
-      <Tabs defaultValue='automatic-palette' className='w-full px-2'>
-        <TabsList className='mx-auto mb-3 grid w-fit grid-cols-2 place-content-center place-items-center gap-8 bg-background-default'>
+    <main className="mx-auto w-full max-w-5xl pb-24 pt-20">
+      <Tabs defaultValue="automatic-palette" className="w-full px-2">
+        <TabsList className="mx-auto mb-3 grid w-fit grid-cols-2 place-content-center place-items-center gap-8 bg-background-default">
           <TabsTrigger
-            value='automatic-palette'
-            className='group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl'>
-            <SparklesIcon className='w-[18px] transition-colors group-hover:stroke-blue-400' />
-            <span className='font-semibold capitalize transition-colors group-hover:text-blue-400'>
+            value="automatic-palette"
+            className="group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl">
+            <SparklesIcon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
+            <span className="font-semibold capitalize transition-colors group-hover:text-blue-400">
               palette
             </span>
           </TabsTrigger>
-          <TabsTrigger
-            value='picker'
-            className='group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl'>
-            <BirdIcon className='w-[18px] transition-colors group-hover:stroke-blue-400' />
-            <span className='font-semibold capitalize transition-colors group-hover:text-blue-400'>
+
+         {/*  TODO: solve problems about color picker  */}
+          {/* <TabsTrigger
+            value="picker"
+            className="group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl">
+            <BirdIcon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
+            <span className="font-semibold capitalize transition-colors group-hover:text-blue-400">
               picker
             </span>
-          </TabsTrigger>
+          </TabsTrigger> */}
         </TabsList>
-        <TabsContent value='automatic-palette' className='flex w-full flex-col'>
-          <section className='base-border flex w-full flex-col gap-3 rounded-2xl bg-foreground-default p-4'>
+
+        <TabsContent value="automatic-palette" className="flex w-full flex-col">
+          <section className="base-border flex w-full flex-col gap-3 rounded-2xl bg-foreground-default p-4">
             {extractedColors.palette.image ? (
-              <section className='mx-auto flex w-full max-w-xl flex-col gap-3'>
+              <section className="mx-auto flex w-full max-w-xl flex-col gap-3">
                 <ImageViewer imageData={extractedColors.palette.image} />
               </section>
             ) : (
               <DropzoneArea handler={generateAutoPalette} />
             )}
 
-            <div className='flex w-full flex-wrap items-center justify-center gap-3'>
+            <div className="flex w-full flex-wrap items-center justify-center gap-3">
               {extractedColors.palette.image ? (
                 <Button
-                  variant='ghost'
+                  variant="ghost"
                   onClick={handleClearPaletteImage}
-                  className='base-border group flex items-center gap-2 rounded-3xl'>
-                  <XIcon className='w-4 transition-colors group-hover:stroke-red-500 group-active:stroke-red-500' />
-                  <span className='font-medium capitalize transition-colors group-hover:text-red-500'>
+                  className="base-border group flex items-center gap-2 rounded-3xl">
+                  <XIcon className="w-4 transition-colors group-hover:stroke-red-500 group-active:stroke-red-500" />
+                  <span className="font-medium capitalize transition-colors group-hover:text-red-500">
                     Clear Image
                   </span>
                 </Button>
               ) : null}
               {extractedColors.palette.colors.length > 0 ? (
                 <Button
-                  variant='ghost'
+                  variant="ghost"
                   onClick={handleClearPaletteColors}
-                  className='base-border group flex items-center gap-2 rounded-3xl'>
-                  <XIcon className='w-4 transition-colors group-hover:stroke-red-500 group-active:stroke-red-500' />
-                  <span className='font-medium capitalize transition-colors group-hover:text-red-500'>
+                  className="base-border group flex items-center gap-2 rounded-3xl">
+                  <XIcon className="w-4 transition-colors group-hover:stroke-red-500 group-active:stroke-red-500" />
+                  <span className="font-medium capitalize transition-colors group-hover:text-red-500">
                     Clear Colors
                   </span>
                 </Button>
@@ -160,9 +199,9 @@ export default function ColorExtractor() {
             </div>
 
             {!extractedColors.palette.image ? (
-              <div className='mx-auto flex w-full max-w-xl flex-col gap-2'>
-                <h3 className='text-md'>Notes:</h3>
-                <ul className='text-sm'>
+              <div className="mx-auto flex w-full max-w-xl flex-col gap-2">
+                <h3 className="text-md">Notes:</h3>
+                <ul className="text-sm">
                   <li>
                     Add an image to extract to automatically extract colors and
                     build a palette.
@@ -176,95 +215,73 @@ export default function ColorExtractor() {
               </div>
             ) : null}
 
-            {extractedColors.palette.colors.length > 0 ? (
-              <div className='flex w-full flex-col gap-3'>
-                <Separator decorative />
-                <h3 className='mx-auto w-full max-w-2xl'>Palette</h3>
-
-                <div className='mx-auto grid w-full max-w-2xl  place-items-center gap-3 mobile:grid-cols-2 md:grid-cols-3'>
-                  {extractedColors.palette.colors.map((color, i) => (
-                    <div
-                      key={i}
-                      className={`base-border flex h-full w-full flex-col rounded-2xl bg-foreground-default shadow-lg`}>
-                      <div
-                        style={{ backgroundColor: color.hex }}
-                        className='relative mb-2 h-[120px] w-full rounded-2xl shadow-2xl'>
-                        <Button
-                          variant='default'
-                          size={'icon'}
-                          onClick={() => removeColorFromPalette(color)}
-                          className='group absolute right-2 top-2 flex h-5 w-5 items-center gap-2 rounded-3xl'>
-                          <XIcon className='w-4 transition-colors group-hover:stroke-red-500 group-active:stroke-red-500' />
-                        </Button>
-                      </div>
-                      {mappedPaletteColors({
-                        r: color.red,
-                        g: color.green,
-                        b: color.blue,
-                        a: 1
-                      }).map((item, i) => (
-                        <div
-                          key={i}
-                          className='mx-auto flex w-full items-center justify-between gap-2 px-2'>
-                          <div className='flex w-full items-center gap-1'>
-                            <p className='text-[.85rem] font-medium uppercase'>
-                              {item.name}:
-                            </p>
-                            <p className='text-[.85rem] font-medium uppercase'>
-                              {item.value}
-                            </p>
-                          </div>
-                          <Button
-                            variant={'ghost'}
-                            size={'icon'}
-                            className='group rounded-full'
-                            onClick={() => copyToClipboard(item.value)}>
-                            <CopyIcon className='w-4 transition-colors group-hover:stroke-primary group-active:stroke-blue-400' />
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ) : null}
+            <PaletteRenderer
+              colors={extractedColors.palette.colors}
+              handleRemove={removeColorFromPalette}
+              paletteColors={mappedPaletteColors}
+            />
           </section>
         </TabsContent>
 
-        <TabsContent value='picker' className='flex w-full flex-col'>
-          {extractedColors.picker.image ? (
-            <section className='mx-auto flex w-full max-w-xl flex-col gap-3'>
-              <ImageViewer imageData={extractedColors.picker.image} />
-              <div className='flex w-full flex-wrap items-center justify-center gap-3'>
+        <TabsContent value="picker" className="flex w-full flex-col">
+          <section className="base-border flex w-full flex-col gap-3 rounded-2xl bg-foreground-default p-4">
+            {extractedColors.picker.image ? (
+              <section className="mx-auto flex w-full max-w-xl flex-col gap-3">
+                <ImageViewer imageData={extractedColors.picker.image} />
+              </section>
+            ) : (
+              <DropzoneArea handler={handlePickColor} />
+            )}
+
+            <div className="flex w-full flex-wrap items-center justify-center gap-3">
+              {extractedColors.picker.image ? (
                 <Button
-                  variant='ghost'
+                  variant="ghost"
                   onClick={handleClearPickerImage}
-                  className='base-border group flex items-center gap-2 rounded-3xl'>
-                  <XIcon className='w-4 transition-colors group-hover:stroke-red-500 group-active:stroke-red-500' />
-                  <span className='font-medium capitalize transition-colors group-hover:text-red-500'>
+                  className="base-border group flex items-center gap-2 rounded-3xl">
+                  <XIcon className="w-4 transition-colors group-hover:stroke-red-500 group-active:stroke-red-500" />
+                  <span className="font-medium capitalize transition-colors group-hover:text-red-500">
                     Clear Image
                   </span>
                 </Button>
+              ) : null}
+
+              {extractedColors.picker.colors.length > 0 ? (
                 <Button
-                  variant='ghost'
+                  variant="ghost"
                   onClick={handleClearPickerColors}
-                  className='base-border group flex items-center gap-2 rounded-3xl'>
-                  <XIcon className='w-4 transition-colors group-hover:stroke-red-500 group-active:stroke-red-500' />
-                  <span className='font-medium capitalize transition-colors group-hover:text-red-500'>
+                  className="base-border group flex items-center gap-2 rounded-3xl">
+                  <XIcon className="w-4 transition-colors group-hover:stroke-red-500 group-active:stroke-red-500" />
+                  <span className="font-medium capitalize transition-colors group-hover:text-red-500">
                     Clear Colors
                   </span>
                 </Button>
-              </div>
-            </section>
-          ) : (
-            <DropzoneArea
-              handler={() => {
-                handlePickColor();
-              }}
-            />
-          )}
+              ) : null}
+            </div>
 
-          <Separator decorative />
+            {!extractedColors.picker.image ? (
+              <div className="mx-auto flex w-full max-w-xl flex-col gap-2">
+                <h3 className="text-md">Notes:</h3>
+                <ul className="text-sm">
+                  <li>
+                    Add an image to activate picker and select colors you want
+                    to picker from image to build a palette.
+                  </li>
+                  <li>Extracted colors form image will appear here.</li>
+                  <li>
+                    You can click on the delete button to delete color from the
+                    list.
+                  </li>
+                </ul>
+              </div>
+            ) : null}
+
+            <PickerColorsRenderer
+              colors={extractedColors.picker.colors}
+              handleRemove={removeColorFromPicker}
+              paletteColors={mappedPickerColors}
+            />
+          </section>
         </TabsContent>
       </Tabs>
     </main>

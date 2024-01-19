@@ -1,6 +1,7 @@
-import type { FinalColor } from 'extract-colors/lib/types/Color';
-import type { LucideIcon } from 'lucide-react';
-import type { ChangeEvent, FormEvent } from 'react';
+import type { FinalColor } from "extract-colors/lib/types/Color";
+import type { LucideIcon } from "lucide-react";
+import type { ChangeEvent, FormEvent } from "react";
+import { RgbaColor } from "react-colorful";
 
 export type Option = { value: string; label: string };
 
@@ -45,7 +46,7 @@ export type ExtractedColors = {
     image: string;
   };
   picker: {
-    colors: FinalColor[];
+    colors: Array<{ id: string; value: RGBA }>;
     image: string;
   };
 };

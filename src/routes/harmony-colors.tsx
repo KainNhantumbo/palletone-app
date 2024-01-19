@@ -25,6 +25,7 @@ export type HarmonyColors = {
   };
 };
 
+
 export default function HarmonyColors() {
   useDocumentTitle('Palletone - Harmony Colors');
   const [harmonyColors, setHarmonyColors] = useState<HarmonyColors>({
@@ -36,7 +37,7 @@ export default function HarmonyColors() {
     return complement;
   }, []);
 
-  console.info(tinycolor(harmonyColors.complement.phase_1).complement().toRgb()); 
+  console.info(tinycolor(harmonyColors.complement.phase_1).complement().toRgb());
 
   return (
     <main className='mx-auto w-full max-w-5xl pb-24 pt-20'>
