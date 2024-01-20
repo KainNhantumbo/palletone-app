@@ -1,7 +1,6 @@
 import type { FinalColor } from "extract-colors/lib/types/Color";
 import type { LucideIcon } from "lucide-react";
 import type { ChangeEvent, FormEvent } from "react";
-import { RgbaColor } from "react-colorful";
 
 export type Option = { value: string; label: string };
 

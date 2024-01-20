@@ -15,7 +15,6 @@ import type { RGBA } from '@/types';
 import { useDocumentTitle, useLocalStorage } from '@uidotdev/usehooks';
 import RadialColorPicker from '@radial-color-picker/react-color-picker';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {} from 'react-colorful';
 import { randomColor } from '@/lib/utils';
 
 export type HarmonyColors = {

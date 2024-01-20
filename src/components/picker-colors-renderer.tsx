@@ -42,9 +42,9 @@ export const PickerColorsRenderer = ({
                 <XIcon className="w-4 transition-colors group-hover:stroke-red-500 group-active:stroke-red-500" />
               </Button>
             </div>
-            {paletteColors(color).map((item) => (
+            {paletteColors(color).map((item, i) => (
               <div
-                key={item.id}
+                key={i}
                 className="mx-auto flex w-full items-center justify-between gap-2 px-2">
                 <div className="flex w-full items-center gap-1">
                   <p className="text-[.85rem] font-medium uppercase">

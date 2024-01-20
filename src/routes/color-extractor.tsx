@@ -10,10 +10,12 @@ import { useDocumentTitle, useIdle } from "@uidotdev/usehooks";
 import { extractColors } from "extract-colors";
 import { FinalColor } from "extract-colors/lib/types/Color";
 // import "eyedropper-polyfill";
+import { ImageColorPicker } from "react-image-color-picker";
 import { BirdIcon, SparklesIcon, XIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import tinycolor from "tinycolor2";
+import compareObjects from "lodash.isequal";
 
 export default function ColorExtractor() {
   useDocumentTitle("Palletone - Color Extractor");
@@ -37,45 +39,39 @@ export default function ColorExtractor() {
     }
   };
 
-  const handlePickColor = async (imageData: string) => {
+  const handlePickColorImage = async (imageData: string) => {
     setExtractedColors((current) => ({
       ...current,
       picker: { ...current.picker, image: imageData }
     }));
+  };
 
-    if ("EyeDropper" in window) {
-      // @ts-expect-error: eyeDropper might not exist in some browsers
-      const eyeDropper = new window.EyeDropper();
-      const abortController = new AbortController();
+  const onPickColor = (rawRGBColorString: string) => {
+    const pickedColor = tinycolor(rawRGBColorString).toRgb();
 
+    const isDuplicate = extractedColors.picker.colors
+      .map((color) => color.value)
+      .some((value: RGBA) => compareObjects(value, pickedColor));
 
-      eyeDropper
-        .open({ signal: abortController.signal })
-        .then((result: unknown) => {
-          const hexColorString: string = (result as { sRGBHex: string })
-            .sRGBHex;
-          const rgbaColor: RGBA = tinycolor(hexColorString).toRgb();
+    if (isDuplicate) return toast.error("Color already picked.");
 
-          setExtractedColors((current) => ({
-            ...current,
-            picker: {
-              ...current.picker,
-              colors: [
-                ...current.picker.colors,
-                { id: crypto.randomUUID(), value: rgbaColor }
-              ],
-              image: imageData
-            }
-          }));
-        })
-        .catch((error: unknown) => {
-          console.error("Error:", error);
-        });
-
-      isIdle && abortController.abort();
-    } else {
-      return toast.error("Picker feature not supported in your browser");
-    }
+    setExtractedColors((current) => ({
+      ...current,
+      picker: {
+        ...current.picker,
+        colors: [
+          ...current.picker.colors,
+          {
+            id: String.prototype.concat(
+              crypto.randomUUID(),
+              "-",
+              rawRGBColorString
+            ),
+            value: pickedColor
+          }
+        ]
+      }
+    }));
   };
 
   const handleClearPaletteColors = () => {
@@ -152,15 +148,14 @@ export default function ColorExtractor() {
             </span>
           </TabsTrigger>
 
-         {/*  TODO: solve problems about color picker  */}
-          {/* <TabsTrigger
+          <TabsTrigger
             value="picker"
             className="group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl">
             <BirdIcon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
             <span className="font-semibold capitalize transition-colors group-hover:text-blue-400">
               picker
             </span>
-          </TabsTrigger> */}
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="automatic-palette" className="flex w-full flex-col">
@@ -226,11 +221,14 @@ export default function ColorExtractor() {
         <TabsContent value="picker" className="flex w-full flex-col">
           <section className="base-border flex w-full flex-col gap-3 rounded-2xl bg-foreground-default p-4">
             {extractedColors.picker.image ? (
-              <section className="mx-auto flex w-full max-w-xl flex-col gap-3">
-                <ImageViewer imageData={extractedColors.picker.image} />
+              <section className="mx-auto flex w-full max-w-xl flex-col gap-3 rounded-3xl">
+                <ImageColorPicker
+                  imgSrc={extractedColors.picker.image}
+                  onColorPick={onPickColor}
+                />
               </section>
             ) : (
-              <DropzoneArea handler={handlePickColor} />
+              <DropzoneArea handler={handlePickColorImage} />
             )}
 
             <div className="flex w-full flex-wrap items-center justify-center gap-3">
