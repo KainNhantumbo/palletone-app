@@ -1,66 +1,64 @@
-import { Option } from '@/types';
-import Package from '../../package.json';
-import { GithubIcon, MailCheckIcon, SquareStackIcon } from 'lucide-react';
+import type { Option } from "@/types";
+import {
+  CoffeeIcon,
+  GithubIcon,
+  MailCheckIcon,
+  SquareStackIcon
+} from "lucide-react";
+import Package from "../../package.json";
 
 export const metadata = {
-  author: Package.author,
+  author: Package.author.name,
   appName: Package.metadata.name,
   version: Package.version,
   license: Package.license,
   repository: Package.repository,
   websiteName: Package.website_name,
-  tags: Package.keywords.join(' '),
+  tags: Package.keywords.join(" "),
   websiteUrl: Package.url,
-  description: '',
+  description: Package.description,
   copyright: `${new Date().getFullYear()} ${Package.metadata.name}`,
   contacts: [
     {
-      name: 'Github',
+      name: "Buy me a coffee",
+      icon: CoffeeIcon,
+      url: Package.author.donate
+    },
+    {
+      name: "Github",
       icon: GithubIcon,
       url: Package.author.github
     },
     {
-      name: 'Portfolio',
+      name: "Portfolio",
       icon: SquareStackIcon,
       url: Package.author.portfolio
     },
     {
-      name: 'E-mail',
+      name: "E-mail",
       icon: MailCheckIcon,
-      url: Package.author.email
+      url: `mailto:${Package.author.email}`
     }
   ]
 };
 
-export const nav_anchors = [
-  { name: 'Overview', url: '/', alias: 'overview' },
-  { name: 'Features', url: '#features', alias: 'features' }
-];
-
-export const anchors = [
-  { name: 'Donate', anchor: metadata.author.donate },
-  { name: 'Github', anchor: metadata.repository },
-  { name: 'Portfolio', anchor: metadata.author.portfolio }
-].sort((a, b) => (a.name > b.name ? 1 : -1));
-
 export const sortOptions: Option[] = [
-  { value: 'title', label: 'Title [A-Z]' },
-  { value: '-title', label: 'Title [Z-A]' },
-  { value: '-createdAt', label: 'Date Created' },
-  { value: 'createdAt', label: 'Date Created [Inverted]' },
-  { value: '-updatedAt', label: 'Date Updated' },
-  { value: 'updatedAt', label: 'Date Updated [Inverted]' }
+  { value: "title", label: "Title [A-Z]" },
+  { value: "-title", label: "Title [Z-A]" },
+  { value: "-createdAt", label: "Date Created" },
+  { value: "createdAt", label: "Date Created [Inverted]" },
+  { value: "-updatedAt", label: "Date Updated" },
+  { value: "updatedAt", label: "Date Updated [Inverted]" }
 ];
 
-export const SOLID_COLORS_STORAGE_KEY = 'solids-db';
+export const SOLID_COLORS_STORAGE_KEY = "solids-db";
 
-export const MIXED_GRADIENT_STORAGE_KEY = 'gradients-db';
+export const MIXED_GRADIENT_STORAGE_KEY = "gradients-db";
 
-export const HARMONY_COLOR_STORAGE_KEY = 'harmony-colors-db';
+export const HARMONY_COLOR_STORAGE_KEY = "harmony-colors-db";
 
 export const ALLOWED_MIMETYPES: string[] = [
-  'image/png',
-  'image/jpeg',
-  'image/jpg'
+  "image/png",
+  "image/jpeg",
+  "image/jpg"
 ];
-
