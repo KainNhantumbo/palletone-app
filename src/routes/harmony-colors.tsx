@@ -3,6 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
+  cn,
   copyToClipboard,
   normalizeColorOutput,
   randomColor,
@@ -141,7 +142,7 @@ export default function HarmonyColors() {
   // TODO: analogous functions
   useMemo(() => {
     const resultArray = tinycolor(harmonyColors.analogous.originalColor)
-      .analogous()
+      .analogous(3)
       .map((instance) => instance.toRgb());
 
     setHarmonyColors((current) => ({
@@ -466,7 +467,7 @@ export default function HarmonyColors() {
   // TODO: monochromatic functions
   useMemo(() => {
     const resultArray = tinycolor(harmonyColors.monochromatic.originalColor)
-      .monochromatic()
+      .monochromatic(3)
       .map((instance) => instance.toRgb());
 
     setHarmonyColors((current) => ({
@@ -862,6 +863,284 @@ export default function HarmonyColors() {
                   </div>
                 </div>
               </div>
+            </section>
+          </section>
+        </TabsContent>
+
+        <TabsContent value="analogous" className="flex w-full flex-col">
+          <section className="base-border flex w-full flex-col gap-3 rounded-2xl bg-foreground-default p-4 lg:flex-row ">
+            <div className="base-shadow base-border grid w-full  grid-cols-4 overflow-clip rounded-2xl lg:max-w-[380px]">
+              {[
+                ...harmonyColors.analogous.values,
+                harmonyColors.analogous.originalColor
+              ].map((value, i) => (
+                <Fragment key={i}>
+                  <div
+                    style={{
+                      background: tinycolor(value).toRgbString()
+                    }}
+                    className="relative min-h-60 w-full">
+                    <span
+                      className={cn(
+                        "base-border absolute left-2 top-2 h-[25px] w-[25px] rounded-full bg-background-default p-1 text-xs font-bold",
+                        { "h-fit w-fit px-2": i > 2 }
+                      )}>
+                      {i > 2 ? "Original" : `0${i + 1}`}
+                    </span>
+                  </div>
+                </Fragment>
+              ))}
+            </div>
+
+            <section className="flex w-full flex-col gap-3">
+              <div className="flex w-full flex-wrap items-center justify-center gap-2 md:flex-nowrap">
+                {analogousColorActions.map((action, i) => (
+                  <Button
+                    key={i}
+                    variant={"outline"}
+                    size={"lg"}
+                    onClick={action.handler}
+                    className="group flex w-full items-center gap-2 rounded-3xl mobile:w-fit">
+                    <action.icon className="w-4 transition-colors group-hover:stroke-blue-400 group-active:stroke-blue-400" />
+                    <span className="capitalize transition-colors group-hover:text-blue-400">
+                      {action.name}
+                    </span>
+                  </Button>
+                ))}
+              </div>
+
+              <Separator decorative />
+              <div className="flex flex-col gap-2">
+                <h3>Analogous</h3>
+
+                <p className="text-sm ">
+                  Three colors that are side by side on the color wheel. This
+                  color combination is versatile, but can be overwhelming.
+                </p>
+              </div>
+
+              <Separator decorative />
+
+              <section>
+                <h3 className="my-1 mb-2">Analogous Colors</h3>
+                <div className="flex w-full flex-col items-center justify-center gap-3 md:flex-nowrap">
+                  {rawAnalogousColors.values.map((array, arrIndex) => (
+                    <div
+                      key={arrIndex}
+                      className="flex w-full items-center justify-evenly">
+                      {array.map((item, i) => (
+                        <div
+                          key={i}
+                          className="flex w-fit flex-col items-center gap-1">
+                          <div className="flex w-fit items-center gap-3">
+                            <h3 className="text-sm font-semibold uppercase text-primary-default">
+                              0{arrIndex + 1} - {item.name}
+                            </h3>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <p className="text-sm font-medium uppercase">
+                              {item.value}
+                            </p>
+                            <Button
+                              variant={"ghost"}
+                              size={"icon"}
+                              className="group rounded-full"
+                              onClick={() =>
+                                copyToClipboard(
+                                  normalizeColorOutput(item.value, item.name)
+                                )
+                              }>
+                              <CopyIcon className="w-4 transition-colors group-hover:stroke-primary group-active:stroke-blue-400" />
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+
+                <Separator decorative />
+                <h3 className="my-1 mb-2">Original Color</h3>
+
+                <div className="flex w-full flex-wrap items-center justify-center gap-3 md:flex-nowrap">
+                  {rawComplementColors.color.map((item, i) => (
+                    <Fragment key={i}>
+                      <div className="flex w-fit flex-col items-center gap-1">
+                        <div className="flex w-fit items-center gap-3">
+                          <h3 className="text-sm font-semibold uppercase text-primary-default">
+                            {item.name}
+                          </h3>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <p className="text-sm font-medium uppercase">
+                            {item.value}
+                          </p>
+                          <Button
+                            variant={"ghost"}
+                            size={"icon"}
+                            className="group rounded-full"
+                            onClick={() =>
+                              copyToClipboard(
+                                normalizeColorOutput(item.value, item.name)
+                              )
+                            }>
+                            <CopyIcon className="w-4 transition-colors group-hover:stroke-primary group-active:stroke-blue-400" />
+                          </Button>
+                        </div>
+                      </div>
+                    </Fragment>
+                  ))}
+                </div>
+
+                <Separator decorative />
+
+                <div className="mx-auto mt-2 flex w-full max-w-lg flex-col gap-4">
+                  <div className="flex w-full items-center gap-3">
+                    <Label
+                      htmlFor="analogous-alpha-input"
+                      className="w-12 text-xs font-medium uppercase">
+                      alpha
+                    </Label>
+                    <div className="relative -top-1 w-full">
+                      <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
+                        0
+                      </span>
+                      <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
+                        255
+                      </span>
+                      <input
+                        type="range"
+                        id="analogous-alpha-input"
+                        step={0.1}
+                        min={0}
+                        max={1}
+                        value={harmonyColors.analogous.originalColor.a}
+                        onChange={(e) =>
+                          setHarmonyColors((current) => ({
+                            ...current,
+                            analogous: {
+                              ...current.analogous,
+                              originalColor: {
+                                ...current.analogous.originalColor,
+                                a: parseFloat(e.target.value)
+                              }
+                            }
+                          }))
+                        }
+                        className="base-range-input bg-slate-400 dark:bg-slate-600"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex w-full items-center gap-3">
+                    <Label
+                      htmlFor="analogous-red-input"
+                      className="w-12 text-xs font-medium uppercase">
+                      red
+                    </Label>
+                    <div className="relative -top-1 w-full">
+                      <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
+                        0
+                      </span>
+                      <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
+                        255
+                      </span>
+                      <input
+                        type="range"
+                        id="analogous-red-input"
+                        step={1}
+                        min={0}
+                        max={255}
+                        value={harmonyColors.analogous.originalColor.r}
+                        onChange={(e) =>
+                          setHarmonyColors((current) => ({
+                            ...current,
+                            analogous: {
+                              ...current.analogous,
+                              originalColor: {
+                                ...current.analogous.originalColor,
+                                r: parseInt(e.target.value)
+                              }
+                            }
+                          }))
+                        }
+                        className="base-range-input bg-red-600"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex w-full items-center gap-3">
+                    <Label
+                      htmlFor="analogous-green-input"
+                      className="w-12 text-xs font-medium uppercase">
+                      green
+                    </Label>
+                    <div className="relative -top-1 w-full">
+                      <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
+                        0
+                      </span>
+                      <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
+                        255
+                      </span>
+                      <input
+                        type="range"
+                        id="analogous-green-input"
+                        step={1}
+                        min={0}
+                        max={255}
+                        value={harmonyColors.analogous.originalColor.g}
+                        onChange={(e) =>
+                          setHarmonyColors((current) => ({
+                            ...current,
+                            analogous: {
+                              ...current.analogous,
+                              originalColor: {
+                                ...current.analogous.originalColor,
+                                g: parseInt(e.target.value)
+                              }
+                            }
+                          }))
+                        }
+                        className="base-range-input bg-green-600"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex w-full items-center gap-3">
+                    <Label
+                      htmlFor="analogous-blue-input"
+                      className="w-12 text-xs font-medium uppercase">
+                      blue
+                    </Label>
+                    <div className="relative -top-1 w-full">
+                      <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
+                        0
+                      </span>
+                      <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
+                        255
+                      </span>
+                      <input
+                        type="range"
+                        id="analogous-blue-input"
+                        step={1}
+                        min={0}
+                        max={255}
+                        value={harmonyColors.analogous.originalColor.b}
+                        onChange={(e) =>
+                          setHarmonyColors((current) => ({
+                            ...current,
+                            analogous: {
+                              ...current.analogous,
+                              originalColor: {
+                                ...current.analogous.originalColor,
+                                b: parseInt(e.target.value)
+                              }
+                            }
+                          }))
+                        }
+                        className="base-range-input bg-blue-400"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </section>
             </section>
           </section>
         </TabsContent>
