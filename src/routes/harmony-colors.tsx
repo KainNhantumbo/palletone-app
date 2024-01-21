@@ -111,36 +111,114 @@ export default function HarmonyColors() {
     {
       name: "save color",
       icon: DownloadIcon,
-      handler: () => handleSaveComplementColor()
+      handler: () => {
+        updateHarmonyColorsDB((db) => {
+          const isDuplicate = db.complementColors
+            .map(({ originalColor }) => originalColor)
+            .some((originalColor: RGBA) =>
+              compareObjects(
+                originalColor,
+                harmonyColors.complementColors.originalColor
+              )
+            );
+
+          if (isDuplicate) {
+            toast.error("Complement color already saved.");
+            return db;
+          }
+          return {
+            ...db,
+            complementColors: [
+              ...db.complementColors,
+              { ...harmonyColors.complementColors, id: crypto.randomUUID() }
+            ]
+          };
+        });
+      }
     }
   ];
 
-  const handleSaveComplementColor = () => {
-    updateHarmonyColorsDB((db) => {
-      const isDuplicate = db.complementColors
-        .map(({ originalColor }) => originalColor)
-        .some((originalColor: RGBA) =>
-          compareObjects(
-            originalColor,
-            harmonyColors.complementColors.originalColor
-          )
-        );
+  // TODO: analogous functions
+  useMemo(() => {
+    const resultArray = tinycolor(harmonyColors.analogous.originalColor)
+      .analogous()
+      .map((instance) => instance.toRgb());
 
-      if (isDuplicate) {
-        toast.error("Complement color already saved.");
-        return db;
-      }
-      return {
-        ...db,
-        complementColors: [
-          ...db.complementColors,
-          { ...harmonyColors.complementColors }
-        ]
-      };
-    });
+    setHarmonyColors((current) => ({
+      ...current,
+      analogous: { ...current.analogous, values: resultArray }
+    }));
+  }, [harmonyColors.analogous.originalColor]);
+
+  const analogousColorsString = useMemo(
+    () => ({
+      originalColor: transformColorsToString(
+        harmonyColors.analogous.originalColor
+      ),
+      values: harmonyColors.analogous.values.map((value) =>
+        transformColorsToString(value)
+      )
+    }),
+    [harmonyColors.analogous]
+  );
+
+  const rawAnalogousColors = {
+    originalColor: Object.entries(analogousColorsString.originalColor).map(
+      ([key, value]) => ({
+        name: key,
+        value
+      })
+    ),
+    values: analogousColorsString.values.map((item) =>
+      Object.entries(item).map(([key, value]) => ({
+        name: key,
+        value
+      }))
+    )
   };
 
-  // TODO: analogous functions
+  const analogousColorActions: ColorActions = [
+    {
+      name: "random color",
+      icon: ShuffleIcon,
+      handler: () =>
+        setHarmonyColors((current) => ({
+          ...current,
+          analogous: {
+            ...current.analogous,
+            originalColor: randomColor()
+          }
+        }))
+    },
+    {
+      name: "save color",
+      icon: DownloadIcon,
+      handler: () => {
+        updateHarmonyColorsDB((db) => {
+          const isDuplicate = db.analogous
+            .map(({ originalColor }) => originalColor)
+            .some((originalColor: RGBA) =>
+              compareObjects(
+                originalColor,
+                harmonyColors.analogous.originalColor
+              )
+            );
+
+          if (isDuplicate) {
+            toast.error("Analogous color already saved.");
+            return db;
+          }
+          return {
+            ...db,
+            analogous: [
+              ...db.analogous,
+              { ...harmonyColors.analogous, id: crypto.randomUUID() }
+            ]
+          };
+        });
+      }
+    }
+  ];
 
   // TODO: split complement functions
 
