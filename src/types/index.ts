@@ -56,3 +56,9 @@ export type RouteList = Array<{
   icon: LucideIcon;
   label: string;
 }>;
+
+
+export type ColorVariantsHeadings = Array<{
+  name: string;
+  color: string;
+}>;

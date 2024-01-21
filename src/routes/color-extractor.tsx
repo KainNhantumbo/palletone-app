@@ -19,7 +19,6 @@ import compareObjects from "lodash.isequal";
 
 export default function ColorExtractor() {
   useDocumentTitle("Palletone - Color Extractor");
-  const isIdle = useIdle(500);
 
   const [extractedColors, setExtractedColors] = useState<ExtractedColors>({
     palette: { colors: [], image: "" },
@@ -221,7 +220,7 @@ export default function ColorExtractor() {
         <TabsContent value="picker" className="flex w-full flex-col">
           <section className="base-border flex w-full flex-col gap-3 rounded-2xl bg-foreground-default p-4">
             {extractedColors.picker.image ? (
-              <section className="mx-auto flex w-full max-w-xl flex-col gap-3 rounded-3xl">
+              <section className="mx-auto flex w-full max-w-xl flex-col gap-3 rounded-3xl z-10">
                 <ImageColorPicker
                   imgSrc={extractedColors.picker.image}
                   onColorPick={onPickColor}

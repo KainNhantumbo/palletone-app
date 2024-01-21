@@ -12,7 +12,7 @@ import {
   MIXED_GRADIENT_STORAGE_KEY,
   SOLID_COLORS_STORAGE_KEY
 } from "@/shared/constants";
-import type { ColorActions, MixedGradient, RGBA, SolidColor } from "@/types";
+import type { ColorActions, ColorVariantsHeadings, MixedGradient, RGBA, SolidColor } from "@/types";
 import { useDocumentTitle, useLocalStorage } from "@uidotdev/usehooks";
 import {
   CopyIcon,
@@ -25,10 +25,7 @@ import { Fragment, useMemo, useState } from "react";
 import { toast } from "sonner";
 import tinycolor from "tinycolor2";
 
-type ColorVariantsHeadings = Array<{
-  name: string;
-  color: string;
-}>;
+
 
 export default function Palettes() {
   useDocumentTitle("Palletone - Palettes");
@@ -228,7 +225,7 @@ export default function Palettes() {
                       0
                     </span>
                     <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
-                      255
+                      1
                     </span>
                     <input
                       type="range"
