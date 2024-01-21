@@ -56,15 +56,7 @@ export const SOLID_COLORS_STORAGE_KEY = 'solids-db';
 
 export const MIXED_GRADIENT_STORAGE_KEY = 'gradients-db';
 
-export const COMPLEMENT_COLOR_STORAGE_KEY = 'complement-colors-db';
-
-export const TRIADIC_COLOR_STORAGE_KEY = 'triadic-colors-db';
-
-export const TETRADIC_COLOR_STORAGE_KEY = 'tetradic-colors-db';
-
-export const ANALOGOUS_COLOR_STORAGE_KEY = 'analogous-colors-db';
-
-export const SPLIT_COMPLEMENT_COLOR_STORAGE_KEY = 'split-complement-colors-db';
+export const HARMONY_COLOR_STORAGE_KEY = 'harmony-colors-db';
 
 export const ALLOWED_MIMETYPES: string[] = [
   'image/png',

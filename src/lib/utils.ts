@@ -1,9 +1,9 @@
-import { RGBA } from '@/types';
-import { type ClassValue, clsx } from 'clsx';
-import { CSSProperties } from 'react';
-import { toast } from 'sonner';
-import { twMerge } from 'tailwind-merge';
-import tinycolor from 'tinycolor2';
+import { RGBA } from "@/types";
+import { type ClassValue, clsx } from "clsx";
+import { CSSProperties } from "react";
+import { toast } from "sonner";
+import { twMerge } from "tailwind-merge";
+import tinycolor from "tinycolor2";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -15,14 +15,14 @@ export const transformColorsToString = (color: RGBA) => {
   const hex = tinycolor(color).toHex8String();
   const hsv = tinycolor(color)
     .toHsvString()
-    .trim()
-    .substring(5)
-    .replace(')', '');
+
+    .substring(4)
+    .replace(")", "");
   const hsl = tinycolor(color)
     .toHslString()
-    .trim()
-    .substring(5)
-    .replace(')', '');
+
+    .substring(4)
+    .replace(")", "");
   const rgba = `${color.r}, ${color.g}, ${color.b}, ${color.a}`;
 
   return { hex, hsl, hsv, rgba };
@@ -48,9 +48,14 @@ export const buildGradient = (color1: RGBA, color2: RGBA) => {
 export const copyToClipboard = async (content: string) => {
   try {
     await navigator.clipboard.writeText(content);
-    toast.success('Copied to clipboard!');
+    toast.success("Copied to clipboard!");
   } catch (error) {
     console.warn(error);
-    toast.error('Error while trying to copy to clipboard.');
+    toast.error("Error while trying to copy to clipboard.");
   }
+};
+
+export const normalizeColorOutput = (color: string, name: string) => {
+  if (color.includes("#")) return color.toUpperCase();
+  return `${name}(${color})`;
 };

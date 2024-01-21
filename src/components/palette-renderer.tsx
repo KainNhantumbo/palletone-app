@@ -1,4 +1,4 @@
-import { copyToClipboard } from "@/lib/utils";
+import { copyToClipboard, normalizeColorOutput } from "@/lib/utils";
 import { RGBA } from "@/types";
 import { Separator } from "@radix-ui/react-separator";
 import { FinalColor } from "extract-colors/lib/types/Color";
@@ -60,7 +60,9 @@ export const PaletteRenderer = ({
                   variant={"ghost"}
                   size={"icon"}
                   className="group rounded-full"
-                  onClick={() => copyToClipboard(item.value)}>
+                  onClick={() =>
+                    copyToClipboard(normalizeColorOutput(item.value, item.name))
+                  }>
                   <CopyIcon className="w-4 transition-colors group-hover:stroke-primary group-active:stroke-blue-400" />
                 </Button>
               </div>

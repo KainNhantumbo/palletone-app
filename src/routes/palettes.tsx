@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   buildGradient,
   copyToClipboard,
+  normalizeColorOutput,
   randomColor,
   transformColorsToString
 } from "@/lib/utils";
@@ -198,7 +199,11 @@ export default function Palettes() {
                           variant={"ghost"}
                           size={"icon"}
                           className="group rounded-full"
-                          onClick={() => copyToClipboard(item.color)}>
+                          onClick={() =>
+                            copyToClipboard(
+                              normalizeColorOutput(item.color, item.name)
+                            )
+                          }>
                           <CopyIcon className="w-4 transition-colors group-hover:stroke-primary group-active:stroke-blue-400" />
                         </Button>
                       </div>

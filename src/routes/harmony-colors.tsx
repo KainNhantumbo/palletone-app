@@ -1,16 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import compareObjects from "lodash.isequal";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   copyToClipboard,
+  normalizeColorOutput,
   randomColor,
   transformColorsToString
 } from "@/lib/utils";
-import { COMPLEMENT_COLOR_STORAGE_KEY } from "@/shared/constants";
-import type { ColorActions, ColorVariantsHeadings, RGBA } from "@/types";
+import { HARMONY_COLOR_STORAGE_KEY } from "@/shared/constants";
+import type {
+  ColorActions,
+  HarmonyColors,
+  HarmonyColorsDB,
+  RGBA
+} from "@/types";
 import { useDocumentTitle, useLocalStorage } from "@uidotdev/usehooks";
+import compareObjects from "lodash.isequal";
 import {
   BoxSelectIcon,
   CopyIcon,
@@ -21,27 +27,40 @@ import {
   DownloadIcon,
   ShuffleIcon
 } from "lucide-react";
-import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { toast } from "sonner";
 import tinycolor from "tinycolor2";
-
-export type HarmonyColors = {
-  complementColors: { color: RGBA; complement: RGBA };
-};
 
 export default function HarmonyColors() {
   useDocumentTitle("Palletone - Harmony Colors");
 
-  const [, updateComplementColorsDB] = useLocalStorage<
-    { color: RGBA; complement: RGBA }[]
-  >(COMPLEMENT_COLOR_STORAGE_KEY, []);
-
   const [harmonyColors, setHarmonyColors] = useState<HarmonyColors>({
-    complementColors: { color: randomColor(), complement: randomColor() }
+    complementColors: {
+      originalColor: randomColor(),
+      complement: randomColor()
+    },
+    splitComplement: { originalColor: randomColor(), values: [] },
+    analogous: { originalColor: randomColor(), values: [] },
+    triadic: { originalColor: randomColor(), values: [] },
+    tetradic: { originalColor: randomColor(), values: [] },
+    monochromatic: { originalColor: randomColor(), chroma: [] }
   });
 
+  const [, updateHarmonyColorsDB] = useLocalStorage<HarmonyColorsDB>(
+    HARMONY_COLOR_STORAGE_KEY,
+    {
+      complementColors: [],
+      splitComplement: [],
+      analogous: [],
+      triadic: [],
+      tetradic: [],
+      monochromatic: []
+    }
+  );
+
+  // complement functions
   useMemo(() => {
-    const complement = tinycolor(harmonyColors.complementColors.color)
+    const complement = tinycolor(harmonyColors.complementColors.originalColor)
       .complement()
       .toRgb();
 
@@ -49,11 +68,13 @@ export default function HarmonyColors() {
       ...current,
       complementColors: { ...current.complementColors, complement }
     }));
-  }, [harmonyColors.complementColors.color]);
+  }, [harmonyColors.complementColors.originalColor]);
 
   const complementColorsString = useMemo(
     () => ({
-      color: transformColorsToString(harmonyColors.complementColors.color),
+      color: transformColorsToString(
+        harmonyColors.complementColors.originalColor
+      ),
       complement: transformColorsToString(
         harmonyColors.complementColors.complement
       )
@@ -83,7 +104,7 @@ export default function HarmonyColors() {
           ...current,
           complementColors: {
             ...current.complementColors,
-            color: randomColor()
+            originalColor: randomColor()
           }
         }))
     },
@@ -95,20 +116,42 @@ export default function HarmonyColors() {
   ];
 
   const handleSaveComplementColor = () => {
-    updateComplementColorsDB((db) => {
-      const isDuplicate = db
-        .map(({ color }) => color)
-        .some((color: RGBA) =>
-          compareObjects(color, harmonyColors.complementColors.color)
+    updateHarmonyColorsDB((db) => {
+      const isDuplicate = db.complementColors
+        .map(({ originalColor }) => originalColor)
+        .some((originalColor: RGBA) =>
+          compareObjects(
+            originalColor,
+            harmonyColors.complementColors.originalColor
+          )
         );
 
       if (isDuplicate) {
         toast.error("Complement color already saved.");
         return db;
       }
-      return [...db, harmonyColors.complementColors];
+      return {
+        ...db,
+        complementColors: [
+          ...db.complementColors,
+          { ...harmonyColors.complementColors }
+        ]
+      };
     });
   };
+
+  // TODO: analogous functions
+
+  // TODO: split complement functions
+
+  // TODO: split triadic functions
+
+  // TODO: split tetradic functions
+
+  // TODO: split monochromatic functions
+  // console.info(
+  //   tinycolor().monochromatic()
+  // )
 
   return (
     <main className="mx-auto w-full max-w-5xl pb-24 pt-20">
@@ -123,27 +166,19 @@ export default function HarmonyColors() {
             </span>
           </TabsTrigger>
           <TabsTrigger
-            value="split-complement"
-            className="group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl">
-            <Dice2Icon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
-            <span className="hidden font-semibold capitalize transition-colors group-hover:text-blue-400 md:block">
-              complement/2
-            </span>
-          </TabsTrigger>
-          <TabsTrigger
-            value="monochromatic"
-            className="group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl">
-            <BoxSelectIcon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
-            <span className="hidden font-semibold capitalize transition-colors group-hover:text-blue-400 md:block">
-              monochromatic
-            </span>
-          </TabsTrigger>
-          <TabsTrigger
             value="analogous"
             className="group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl">
             <Dice2Icon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
             <span className="hidden font-semibold capitalize transition-colors group-hover:text-blue-400 md:block">
               analogous
+            </span>
+          </TabsTrigger>
+          <TabsTrigger
+            value="split-complement"
+            className="group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl">
+            <Dice2Icon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
+            <span className="hidden font-semibold capitalize transition-colors group-hover:text-blue-400 md:block">
+              complement/2
             </span>
           </TabsTrigger>
           <TabsTrigger
@@ -162,6 +197,14 @@ export default function HarmonyColors() {
               tetradic
             </span>
           </TabsTrigger>
+          <TabsTrigger
+            value="monochromatic"
+            className="group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl">
+            <BoxSelectIcon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
+            <span className="hidden font-semibold capitalize transition-colors group-hover:text-blue-400 md:block">
+              monochromatic
+            </span>
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="complement" className="flex w-full flex-col">
@@ -170,7 +213,7 @@ export default function HarmonyColors() {
               <div
                 style={{
                   background: tinycolor(
-                    harmonyColors.complementColors.color
+                    harmonyColors.complementColors.originalColor
                   ).toRgbString()
                 }}
                 className="min-h-60 w-full rounded-l-2xl"
@@ -232,7 +275,11 @@ export default function HarmonyColors() {
                             variant={"ghost"}
                             size={"icon"}
                             className="group rounded-full"
-                            onClick={() => copyToClipboard(item.value)}>
+                            onClick={() =>
+                              copyToClipboard(
+                                normalizeColorOutput(item.value, item.name)
+                              )
+                            }>
                             <CopyIcon className="w-4 transition-colors group-hover:stroke-primary group-active:stroke-blue-400" />
                           </Button>
                         </div>
@@ -261,7 +308,11 @@ export default function HarmonyColors() {
                             variant={"ghost"}
                             size={"icon"}
                             className="group rounded-full"
-                            onClick={() => copyToClipboard(item.value)}>
+                            onClick={() =>
+                              copyToClipboard(
+                                normalizeColorOutput(item.value, item.name)
+                              )
+                            }>
                             <CopyIcon className="w-4 transition-colors group-hover:stroke-primary group-active:stroke-blue-400" />
                           </Button>
                         </div>
@@ -293,14 +344,14 @@ export default function HarmonyColors() {
                       step={0.1}
                       min={0}
                       max={1}
-                      value={harmonyColors.complementColors.color.a}
+                      value={harmonyColors.complementColors.originalColor.a}
                       onChange={(e) =>
                         setHarmonyColors((current) => ({
                           ...current,
                           complementColors: {
                             ...current.complementColors,
-                            color: {
-                              ...current.complementColors.color,
+                            originalColor: {
+                              ...current.complementColors.originalColor,
                               a: parseFloat(e.target.value)
                             }
                           }
@@ -329,14 +380,14 @@ export default function HarmonyColors() {
                       step={1}
                       min={0}
                       max={255}
-                      value={harmonyColors.complementColors.color.r}
+                      value={harmonyColors.complementColors.originalColor.r}
                       onChange={(e) =>
                         setHarmonyColors((current) => ({
                           ...current,
                           complementColors: {
                             ...current.complementColors,
-                            color: {
-                              ...current.complementColors.color,
+                            originalColor: {
+                              ...current.complementColors.originalColor,
                               r: parseInt(e.target.value)
                             }
                           }
@@ -365,14 +416,14 @@ export default function HarmonyColors() {
                       step={1}
                       min={0}
                       max={255}
-                      value={harmonyColors.complementColors.color.g}
+                      value={harmonyColors.complementColors.originalColor.g}
                       onChange={(e) =>
                         setHarmonyColors((current) => ({
                           ...current,
                           complementColors: {
                             ...current.complementColors,
-                            color: {
-                              ...current.complementColors.color,
+                            originalColor: {
+                              ...current.complementColors.originalColor,
                               g: parseInt(e.target.value)
                             }
                           }
@@ -401,14 +452,14 @@ export default function HarmonyColors() {
                       step={1}
                       min={0}
                       max={255}
-                      value={harmonyColors.complementColors.color.b}
+                      value={harmonyColors.complementColors.originalColor.b}
                       onChange={(e) =>
                         setHarmonyColors((current) => ({
                           ...current,
                           complementColors: {
                             ...current.complementColors,
-                            color: {
-                              ...current.complementColors.color,
+                            originalColor: {
+                              ...current.complementColors.originalColor,
                               b: parseInt(e.target.value)
                             }
                           }

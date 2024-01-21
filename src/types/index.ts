@@ -57,8 +57,26 @@ export type RouteList = Array<{
   label: string;
 }>;
 
-
 export type ColorVariantsHeadings = Array<{
   name: string;
   color: string;
 }>;
+
+export type HarmonyColors = {
+  complementColors: { originalColor: RGBA; complement: RGBA };
+  splitComplement: { originalColor: RGBA; values: Array<RGBA> };
+  analogous: { originalColor: RGBA; values: Array<RGBA> };
+  triadic: { originalColor: RGBA; values: Array<RGBA> };
+  tetradic: { originalColor: RGBA; values: Array<RGBA> };
+  monochromatic: { originalColor: RGBA; chroma: Array<RGBA> };
+};
+
+// TODO: improve this type
+export type HarmonyColorsDB = {
+  complementColors: { originalColor: RGBA; complement: RGBA }[];
+  splitComplement: { originalColor: RGBA; values: Array<RGBA> }[];
+  analogous: { originalColor: RGBA; values: Array<RGBA> }[];
+  triadic: { originalColor: RGBA; values: Array<RGBA> }[];
+  tetradic: { originalColor: RGBA; values: Array<RGBA> }[];
+  monochromatic: { originalColor: RGBA; chroma: Array<RGBA> }[];
+};

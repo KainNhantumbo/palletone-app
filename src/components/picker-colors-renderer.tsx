@@ -1,4 +1,4 @@
-import { copyToClipboard } from "@/lib/utils";
+import { copyToClipboard, normalizeColorOutput } from "@/lib/utils";
 import { RGBA } from "@/types";
 import { Separator } from "@radix-ui/react-separator";
 import { CopyIcon, XIcon } from "lucide-react";
@@ -58,7 +58,9 @@ export const PickerColorsRenderer = ({
                   variant={"ghost"}
                   size={"icon"}
                   className="group rounded-full"
-                  onClick={() => copyToClipboard(item.value)}>
+                  onClick={() =>
+                    copyToClipboard(normalizeColorOutput(item.value, item.name))
+                  }>
                   <CopyIcon className="w-4 transition-colors group-hover:stroke-primary group-active:stroke-blue-400" />
                 </Button>
               </div>
