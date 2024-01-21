@@ -221,6 +221,86 @@ export default function HarmonyColors() {
   ];
 
   // TODO: split complement functions
+  useMemo(() => {
+    const resultArray = tinycolor(harmonyColors.splitComplement.originalColor)
+      .splitcomplement()
+      .map((instance) => instance.toRgb());
+
+    setHarmonyColors((current) => ({
+      ...current,
+      splitComplement: { ...current.splitComplement, values: resultArray }
+    }));
+  }, [harmonyColors.splitComplement.originalColor]);
+
+  const splitComplementColorsString = useMemo(
+    () => ({
+      originalColor: transformColorsToString(
+        harmonyColors.splitComplement.originalColor
+      ),
+      values: harmonyColors.splitComplement.values.map((value) =>
+        transformColorsToString(value)
+      )
+    }),
+    [harmonyColors.splitComplement]
+  );
+
+  const rawSplitComplementColors = {
+    originalColor: Object.entries(
+      splitComplementColorsString.originalColor
+    ).map(([key, value]) => ({
+      name: key,
+      value
+    })),
+    values: splitComplementColorsString.values.map((item) =>
+      Object.entries(item).map(([key, value]) => ({
+        name: key,
+        value
+      }))
+    )
+  };
+
+  const splitComplementColorActions: ColorActions = [
+    {
+      name: "random color",
+      icon: ShuffleIcon,
+      handler: () =>
+        setHarmonyColors((current) => ({
+          ...current,
+          splitComplement: {
+            ...current.splitComplement,
+            originalColor: randomColor()
+          }
+        }))
+    },
+    {
+      name: "save color",
+      icon: DownloadIcon,
+      handler: () => {
+        updateHarmonyColorsDB((db) => {
+          const isDuplicate = db.splitComplement
+            .map(({ originalColor }) => originalColor)
+            .some((originalColor: RGBA) =>
+              compareObjects(
+                originalColor,
+                harmonyColors.splitComplement.originalColor
+              )
+            );
+
+          if (isDuplicate) {
+            toast.error("Split complement colors already saved.");
+            return db;
+          }
+          return {
+            ...db,
+            splitComplement: [
+              ...db.splitComplement,
+              { ...harmonyColors.splitComplement, id: crypto.randomUUID() }
+            ]
+          };
+        });
+      }
+    }
+  ];
 
   // TODO: split triadic functions
 
