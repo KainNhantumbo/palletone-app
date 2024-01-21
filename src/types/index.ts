@@ -63,7 +63,7 @@ export type ColorVariantsHeadings = Array<{
 }>;
 
 export type HarmonyColors = {
-  complementColors: { originalColor: RGBA; complement: RGBA };
+  complement: { originalColor: RGBA; value: RGBA };
   splitComplement: { originalColor: RGBA; values: Array<RGBA> };
   analogous: { originalColor: RGBA; values: Array<RGBA> };
   triadic: { originalColor: RGBA; values: Array<RGBA> };
@@ -73,7 +73,7 @@ export type HarmonyColors = {
 
 // TODO: improve this type
 export type HarmonyColorsDB = {
-  complementColors: { originalColor: RGBA; complement: RGBA }[];
+  complement: { originalColor: RGBA; value: RGBA }[];
   splitComplement: { originalColor: RGBA; values: Array<RGBA> }[];
   analogous: { originalColor: RGBA; values: Array<RGBA> }[];
   triadic: { originalColor: RGBA; values: Array<RGBA> }[];

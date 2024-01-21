@@ -1,34 +1,39 @@
-import { useMemo } from "react";
-import tinyColors from "tinycolor2";
 import { copyToClipboard, normalizeColorOutput } from "@/lib/utils";
+import { InputEvent } from "@/types";
+import { useDebounce } from "@uidotdev/usehooks";
 import { CopyIcon } from "lucide-react";
+import { useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
+import tinyColors from "tinycolor2";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { InputEvent } from "@/types";
-import { useSearchParams } from "react-router-dom";
 import { Label } from "./ui/label";
 import { Separator } from "./ui/separator";
-import { useDebounce } from "@uidotdev/usehooks";
 
 export const InitialColors = () => {
   const [params, setParams] = useSearchParams();
   const debouncedParams = useDebounce(params, 300);
 
-  const colors = useMemo((): Array<{ value: string; name: string }> => {
-    return Object.entries(tinyColors.names)
-      .map(([key, value]) => ({
-        name: key,
-        value: `#${value}`
-      }))
-      .filter((element) =>
-        element.name.includes(String(params.get("q") || ""))
-      );
-  }, [debouncedParams]);
+  const colors = useMemo(
+    (): Array<{ value: string; name: string }> =>
+      Object.entries(tinyColors.names)
+        .map(([key, value]) => ({
+          name: key,
+          value: `#${value}`
+        }))
+        .filter((element) =>
+          element.name.includes(String(params.get("q") || ""))
+        ),
+    [debouncedParams]
+  );
 
   const onChange = (e: InputEvent) =>
-    setParams((current) => ({ ...current, q: e.target.value }), {
-      replace: false
-    });
+    setParams(
+      (params) => ({ ...params, r: params.get("r"), q: e.target.value }),
+      {
+        replace: false
+      }
+    );
 
   return (
     <section className="mx-auto flex w-full max-w-5xl flex-col gap-3 p-2">
@@ -39,6 +44,7 @@ export const InitialColors = () => {
           <Label className="pl-3">Search</Label>
           <Input
             type="search"
+            value={params.get("q") || ""}
             placeholder="Start by typing a color name..."
             className="w-full rounded-3xl border-font/15"
             onChange={onChange}
@@ -54,13 +60,13 @@ export const InitialColors = () => {
 
       <Separator decorative className="mx-auto w-full max-w-4xl" />
 
-      <section className="mx-auto grid w-full max-w-5xl grid-cols-2 gap-2 p-2 mobile-x:grid-cols-3 md:flex md:flex-wrap md:items-center md:justify-center md:gap-3">
+      <section className="mx-auto grid w-full max-w-5xl grid-cols-2 gap-2 p-2 mobile-x:grid-cols-3 md:grid-cols-4   md:gap-3">
         {colors.map((color, i) => (
           <div
             key={i}
             className="base-shadow flex flex-col gap-3 rounded-2xl bg-foreground-default p-2">
             <div
-              className="h-[90px] w-full rounded-2xl shadow-lg md:h-[120px] md:w-[200px]"
+              className="h-[90px] w-full rounded-xl shadow-xl md:h-[120px]"
               style={{
                 background: color.value
               }}
@@ -78,7 +84,7 @@ export const InitialColors = () => {
               <Button
                 variant={"ghost"}
                 size={"icon"}
-                className="group rounded-xl"
+                className="group rounded-xl "
                 onClick={() =>
                   copyToClipboard(normalizeColorOutput(color.value, color.name))
                 }>

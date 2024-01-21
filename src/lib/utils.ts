@@ -13,17 +13,21 @@ export const randomColor = (): RGBA => tinycolor.random().toRgb();
 
 export const transformColorsToString = (color: RGBA) => {
   const hex = tinycolor(color).toHex8String();
-  const hsv = tinycolor(color)
-    .toHsvString()
-
-    .substring(4)
-    .replace(")", "");
-  const hsl = tinycolor(color)
-    .toHslString()
-
-    .substring(4)
-    .replace(")", "");
   const rgba = `${color.r}, ${color.g}, ${color.b}, ${color.a}`;
+  let hsv = tinycolor(color).toHsvString();
+  let hsl = tinycolor(color).toHslString();
+
+  if (hsl.charAt(4) === "(") {
+    hsl = hsl.substring(5).replace(")", "");
+  } else {
+    hsl = hsl.substring(4).replace(")", "");
+  }
+
+  if (hsv.charAt(4) === "(") {
+    hsv = hsv.substring(5).replace(")", "");
+  } else {
+    hsv = hsv.substring(4).replace(")", "");
+  }
 
   return { hex, hsl, hsv, rgba };
 };

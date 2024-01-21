@@ -36,10 +36,7 @@ export default function HarmonyColors() {
   useDocumentTitle("Palletone - Harmony Colors");
 
   const [harmonyColors, setHarmonyColors] = useState<HarmonyColors>({
-    complementColors: {
-      originalColor: randomColor(),
-      complement: randomColor()
-    },
+    complement: { originalColor: randomColor(), value: randomColor() },
     splitComplement: { originalColor: randomColor(), values: [] },
     analogous: { originalColor: randomColor(), values: [] },
     triadic: { originalColor: randomColor(), values: [] },
@@ -50,7 +47,7 @@ export default function HarmonyColors() {
   const [, updateHarmonyColorsDB] = useLocalStorage<HarmonyColorsDB>(
     HARMONY_COLOR_STORAGE_KEY,
     {
-      complementColors: [],
+      complement: [],
       splitComplement: [],
       analogous: [],
       triadic: [],
@@ -61,26 +58,22 @@ export default function HarmonyColors() {
 
   // complement functions
   useMemo(() => {
-    const complement = tinycolor(harmonyColors.complementColors.originalColor)
+    const complement = tinycolor(harmonyColors.complement.originalColor)
       .complement()
       .toRgb();
 
     setHarmonyColors((current) => ({
       ...current,
-      complementColors: { ...current.complementColors, complement }
+      complement: { ...current.complement, value: complement }
     }));
-  }, [harmonyColors.complementColors.originalColor]);
+  }, [harmonyColors.complement.originalColor]);
 
   const complementColorsString = useMemo(
     () => ({
-      color: transformColorsToString(
-        harmonyColors.complementColors.originalColor
-      ),
-      complement: transformColorsToString(
-        harmonyColors.complementColors.complement
-      )
+      color: transformColorsToString(harmonyColors.complement.originalColor),
+      complement: transformColorsToString(harmonyColors.complement.value)
     }),
-    [harmonyColors.complementColors]
+    [harmonyColors.complement]
   );
 
   const rawComplementColors = {
@@ -103,8 +96,8 @@ export default function HarmonyColors() {
       handler: () =>
         setHarmonyColors((current) => ({
           ...current,
-          complementColors: {
-            ...current.complementColors,
+          complement: {
+            ...current.complement,
             originalColor: randomColor()
           }
         }))
@@ -114,12 +107,12 @@ export default function HarmonyColors() {
       icon: DownloadIcon,
       handler: () => {
         updateHarmonyColorsDB((db) => {
-          const isDuplicate = db.complementColors
+          const isDuplicate = db.complement
             .map(({ originalColor }) => originalColor)
             .some((originalColor: RGBA) =>
               compareObjects(
                 originalColor,
-                harmonyColors.complementColors.originalColor
+                harmonyColors.complement.originalColor
               )
             );
 
@@ -129,9 +122,9 @@ export default function HarmonyColors() {
           }
           return {
             ...db,
-            complementColors: [
-              ...db.complementColors,
-              { ...harmonyColors.complementColors, id: crypto.randomUUID() }
+            complement: [
+              ...db.complement,
+              { ...harmonyColors.complement, id: crypto.randomUUID() }
             ]
           };
         });
@@ -139,7 +132,7 @@ export default function HarmonyColors() {
     }
   ];
 
-  // TODO: analogous functions
+  // analogous functions
   useMemo(() => {
     const resultArray = tinycolor(harmonyColors.analogous.originalColor)
       .analogous(3)
@@ -602,23 +595,26 @@ export default function HarmonyColors() {
 
         <TabsContent value="complement" className="flex w-full flex-col">
           <section className="base-border flex w-full flex-col gap-3 rounded-2xl bg-foreground-default p-4 lg:flex-row">
-            <div className="base-shadow base-border grid w-full grid-cols-2 rounded-2xl lg:max-w-[380px]">
-              <div
-                style={{
-                  background: tinycolor(
-                    harmonyColors.complementColors.originalColor
-                  ).toRgbString()
-                }}
-                className="min-h-60 w-full rounded-l-2xl"
-              />
-              <div
-                style={{
-                  background: tinycolor(
-                    harmonyColors.complementColors.complement
-                  ).toRgbString()
-                }}
-                className="min-h-60 w-full rounded-r-2xl"
-              />
+            <div className="base-shadow base-border grid w-full grid-cols-2 overflow-clip rounded-2xl lg:max-w-[380px]">
+              {[
+                harmonyColors.complement.value,
+                harmonyColors.complement.originalColor
+              ].map((value, i) => (
+                <Fragment key={i}>
+                  <div
+                    style={{
+                      background: tinycolor(value).toRgbString()
+                    }}
+                    className="relative min-h-60 w-full">
+                    <span
+                      className={cn(
+                        "base-border absolute left-2 top-2 h-fit w-fit rounded-full bg-background-default p-1 px-2 text-xs font-bold"
+                      )}>
+                      {i > 0 ? "Original" : `Complement`}
+                    </span>
+                  </div>
+                </Fragment>
+              ))}
             </div>
             <section className="flex w-full flex-col gap-3">
               <div className="flex w-full flex-wrap items-center justify-center gap-2 md:flex-nowrap">
@@ -720,7 +716,7 @@ export default function HarmonyColors() {
               <div className="mx-auto flex w-full max-w-lg flex-col gap-4">
                 <div className="flex w-full items-center gap-3">
                   <Label
-                    htmlFor="alpha-input"
+                    htmlFor="complement-alpha-input"
                     className="w-12 text-xs font-medium uppercase">
                     alpha
                   </Label>
@@ -729,22 +725,22 @@ export default function HarmonyColors() {
                       0
                     </span>
                     <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
-                      255
+                      1
                     </span>
                     <input
                       type="range"
-                      id="alpha-input"
+                      id="complement-alpha-input"
                       step={0.1}
                       min={0}
                       max={1}
-                      value={harmonyColors.complementColors.originalColor.a}
+                      value={harmonyColors.complement.originalColor.a}
                       onChange={(e) =>
                         setHarmonyColors((current) => ({
                           ...current,
-                          complementColors: {
-                            ...current.complementColors,
+                          complement: {
+                            ...current.complement,
                             originalColor: {
-                              ...current.complementColors.originalColor,
+                              ...current.complement.originalColor,
                               a: parseFloat(e.target.value)
                             }
                           }
@@ -756,7 +752,7 @@ export default function HarmonyColors() {
                 </div>
                 <div className="flex w-full items-center gap-3">
                   <Label
-                    htmlFor="red-input"
+                    htmlFor="complement-red-input"
                     className="w-12 text-xs font-medium uppercase">
                     red
                   </Label>
@@ -769,18 +765,18 @@ export default function HarmonyColors() {
                     </span>
                     <input
                       type="range"
-                      id="red-input"
+                      id="complement-red-input"
                       step={1}
                       min={0}
                       max={255}
-                      value={harmonyColors.complementColors.originalColor.r}
+                      value={harmonyColors.complement.originalColor.r}
                       onChange={(e) =>
                         setHarmonyColors((current) => ({
                           ...current,
-                          complementColors: {
-                            ...current.complementColors,
+                          complement: {
+                            ...current.complement,
                             originalColor: {
-                              ...current.complementColors.originalColor,
+                              ...current.complement.originalColor,
                               r: parseInt(e.target.value)
                             }
                           }
@@ -792,7 +788,7 @@ export default function HarmonyColors() {
                 </div>
                 <div className="flex w-full items-center gap-3">
                   <Label
-                    htmlFor="green-input"
+                    htmlFor="complement-green-input"
                     className="w-12 text-xs font-medium uppercase">
                     green
                   </Label>
@@ -805,18 +801,18 @@ export default function HarmonyColors() {
                     </span>
                     <input
                       type="range"
-                      id="green-input"
+                      id="complement-green-input"
                       step={1}
                       min={0}
                       max={255}
-                      value={harmonyColors.complementColors.originalColor.g}
+                      value={harmonyColors.complement.originalColor.g}
                       onChange={(e) =>
                         setHarmonyColors((current) => ({
                           ...current,
-                          complementColors: {
-                            ...current.complementColors,
+                          complement: {
+                            ...current.complement,
                             originalColor: {
-                              ...current.complementColors.originalColor,
+                              ...current.complement.originalColor,
                               g: parseInt(e.target.value)
                             }
                           }
@@ -828,7 +824,7 @@ export default function HarmonyColors() {
                 </div>
                 <div className="flex w-full items-center gap-3">
                   <Label
-                    htmlFor="blue-input"
+                    htmlFor="complement-blue-input"
                     className="w-12 text-xs font-medium uppercase">
                     blue
                   </Label>
@@ -841,18 +837,18 @@ export default function HarmonyColors() {
                     </span>
                     <input
                       type="range"
-                      id="blue-input"
+                      id="complement-blue-input"
                       step={1}
                       min={0}
                       max={255}
-                      value={harmonyColors.complementColors.originalColor.b}
+                      value={harmonyColors.complement.originalColor.b}
                       onChange={(e) =>
                         setHarmonyColors((current) => ({
                           ...current,
-                          complementColors: {
-                            ...current.complementColors,
+                          complement: {
+                            ...current.complement,
                             originalColor: {
-                              ...current.complementColors.originalColor,
+                              ...current.complement.originalColor,
                               b: parseInt(e.target.value)
                             }
                           }
@@ -869,7 +865,7 @@ export default function HarmonyColors() {
 
         <TabsContent value="analogous" className="flex w-full flex-col">
           <section className="base-border flex w-full flex-col gap-3 rounded-2xl bg-foreground-default p-4 lg:flex-row ">
-            <div className="base-shadow base-border grid w-full  grid-cols-4 overflow-clip rounded-2xl lg:max-w-[380px]">
+            <div className="base-shadow base-border grid w-full  grid-cols-4 max-h-[540px] overflow-clip rounded-2xl lg:max-w-[380px]">
               {[
                 ...harmonyColors.analogous.values,
                 harmonyColors.analogous.originalColor
@@ -1006,7 +1002,7 @@ export default function HarmonyColors() {
                         0
                       </span>
                       <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
-                        255
+                        1
                       </span>
                       <input
                         type="range"
