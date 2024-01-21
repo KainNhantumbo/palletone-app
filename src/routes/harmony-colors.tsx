@@ -303,10 +303,91 @@ export default function HarmonyColors() {
   ];
 
   // TODO: split triadic functions
+  useMemo(() => {
+    const resultArray = tinycolor(harmonyColors.triadic.originalColor)
+      .triad()
+      .map((instance) => instance.toRgb());
 
-  // TODO: split tetradic functions
+    setHarmonyColors((current) => ({
+      ...current,
+      triadic: { ...current.triadic, values: resultArray }
+    }));
+  }, [harmonyColors.triadic.originalColor]);
 
-  // TODO: split monochromatic functions
+  const triadicColorsString = useMemo(
+    () => ({
+      originalColor: transformColorsToString(
+        harmonyColors.triadic.originalColor
+      ),
+      values: harmonyColors.triadic.values.map((value) =>
+        transformColorsToString(value)
+      )
+    }),
+    [harmonyColors.triadic]
+  );
+
+  const rawTriadicColors = {
+    originalColor: Object.entries(triadicColorsString.originalColor).map(
+      ([key, value]) => ({
+        name: key,
+        value
+      })
+    ),
+    values: triadicColorsString.values.map((item) =>
+      Object.entries(item).map(([key, value]) => ({
+        name: key,
+        value
+      }))
+    )
+  };
+
+  const triadicColorActions: ColorActions = [
+    {
+      name: "random color",
+      icon: ShuffleIcon,
+      handler: () =>
+        setHarmonyColors((current) => ({
+          ...current,
+          triadic: {
+            ...current.triadic,
+            originalColor: randomColor()
+          }
+        }))
+    },
+    {
+      name: "save color",
+      icon: DownloadIcon,
+      handler: () => {
+        updateHarmonyColorsDB((db) => {
+          const isDuplicate = db.triadic
+            .map(({ originalColor }) => originalColor)
+            .some((originalColor: RGBA) =>
+              compareObjects(
+                originalColor,
+                harmonyColors.triadic.originalColor
+              )
+            );
+
+          if (isDuplicate) {
+            toast.error("Triadic colors already saved.");
+            return db;
+          }
+          return {
+            ...db,
+            triadic: [
+              ...db.triadic,
+              { ...harmonyColors.triadic, id: crypto.randomUUID() }
+            ]
+          };
+        });
+      }
+    }
+  ];
+
+
+  // TODO: tetradic functions
+
+  // TODO: monochromatic functions
   // console.info(
   //   tinycolor().monochromatic()
   // )
