@@ -464,6 +464,86 @@ export default function HarmonyColors() {
   ];
 
   // TODO: monochromatic functions
+  useMemo(() => {
+    const resultArray = tinycolor(harmonyColors.monochromatic.originalColor)
+      .monochromatic()
+      .map((instance) => instance.toRgb());
+
+    setHarmonyColors((current) => ({
+      ...current,
+      monochromatic: { ...current.monochromatic, values: resultArray }
+    }));
+  }, [harmonyColors.monochromatic.originalColor]);
+
+  const monochromaticColorsString = useMemo(
+    () => ({
+      originalColor: transformColorsToString(
+        harmonyColors.monochromatic.originalColor
+      ),
+      values: harmonyColors.monochromatic.chroma.map((value) =>
+        transformColorsToString(value)
+      )
+    }),
+    [harmonyColors.monochromatic]
+  );
+
+  const rawMonochromaticColors = {
+    originalColor: Object.entries(monochromaticColorsString.originalColor).map(
+      ([key, value]) => ({
+        name: key,
+        value
+      })
+    ),
+    values: monochromaticColorsString.values.map((item) =>
+      Object.entries(item).map(([key, value]) => ({
+        name: key,
+        value
+      }))
+    )
+  };
+
+  const monochromaticColorActions: ColorActions = [
+    {
+      name: "random color",
+      icon: ShuffleIcon,
+      handler: () =>
+        setHarmonyColors((current) => ({
+          ...current,
+          monochromatic: {
+            ...current.monochromatic,
+            originalColor: randomColor()
+          }
+        }))
+    },
+    {
+      name: "save color",
+      icon: DownloadIcon,
+      handler: () => {
+        updateHarmonyColorsDB((db) => {
+          const isDuplicate = db.monochromatic
+            .map(({ originalColor }) => originalColor)
+            .some((originalColor: RGBA) =>
+              compareObjects(
+                originalColor,
+                harmonyColors.monochromatic.originalColor
+              )
+            );
+
+          if (isDuplicate) {
+            toast.error("Monochromatic colors already saved.");
+            return db;
+          }
+          return {
+            ...db,
+            monochromatic: [
+              ...db.monochromatic,
+              { ...harmonyColors.monochromatic, id: crypto.randomUUID() }
+            ]
+          };
+        });
+      }
+    }
+  ];
 
   return (
     <main className="mx-auto w-full max-w-5xl pb-24 pt-20">
