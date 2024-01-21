@@ -362,10 +362,7 @@ export default function HarmonyColors() {
           const isDuplicate = db.triadic
             .map(({ originalColor }) => originalColor)
             .some((originalColor: RGBA) =>
-              compareObjects(
-                originalColor,
-                harmonyColors.triadic.originalColor
-              )
+              compareObjects(originalColor, harmonyColors.triadic.originalColor)
             );
 
           if (isDuplicate) {
@@ -384,13 +381,89 @@ export default function HarmonyColors() {
     }
   ];
 
-
   // TODO: tetradic functions
+  useMemo(() => {
+    const resultArray = tinycolor(harmonyColors.tetradic.originalColor)
+      .tetrad()
+      .map((instance) => instance.toRgb());
+
+    setHarmonyColors((current) => ({
+      ...current,
+      tetradic: { ...current.tetradic, values: resultArray }
+    }));
+  }, [harmonyColors.tetradic.originalColor]);
+
+  const tetradicColorsString = useMemo(
+    () => ({
+      originalColor: transformColorsToString(
+        harmonyColors.tetradic.originalColor
+      ),
+      values: harmonyColors.tetradic.values.map((value) =>
+        transformColorsToString(value)
+      )
+    }),
+    [harmonyColors.tetradic]
+  );
+
+  const rawTetradicColors = {
+    originalColor: Object.entries(tetradicColorsString.originalColor).map(
+      ([key, value]) => ({
+        name: key,
+        value
+      })
+    ),
+    values: tetradicColorsString.values.map((item) =>
+      Object.entries(item).map(([key, value]) => ({
+        name: key,
+        value
+      }))
+    )
+  };
+
+  const tetradicColorActions: ColorActions = [
+    {
+      name: "random color",
+      icon: ShuffleIcon,
+      handler: () =>
+        setHarmonyColors((current) => ({
+          ...current,
+          tetradic: {
+            ...current.tetradic,
+            originalColor: randomColor()
+          }
+        }))
+    },
+    {
+      name: "save color",
+      icon: DownloadIcon,
+      handler: () => {
+        updateHarmonyColorsDB((db) => {
+          const isDuplicate = db.tetradic
+            .map(({ originalColor }) => originalColor)
+            .some((originalColor: RGBA) =>
+              compareObjects(
+                originalColor,
+                harmonyColors.tetradic.originalColor
+              )
+            );
+
+          if (isDuplicate) {
+            toast.error("Tetradic colors already saved.");
+            return db;
+          }
+          return {
+            ...db,
+            tetradic: [
+              ...db.tetradic,
+              { ...harmonyColors.tetradic, id: crypto.randomUUID() }
+            ]
+          };
+        });
+      }
+    }
+  ];
 
   // TODO: monochromatic functions
-  // console.info(
-  //   tinycolor().monochromatic()
-  // )
 
   return (
     <main className="mx-auto w-full max-w-5xl pb-24 pt-20">
