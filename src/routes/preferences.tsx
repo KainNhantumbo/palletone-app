@@ -79,7 +79,7 @@ export default function Preferences() {
                 src={logoImage}
                 loading="lazy"
                 decoding="async"
-                className="h-auto w-[28px] rounded-full "
+                className="h-auto w-[24px] "
               />
 
               <h3>

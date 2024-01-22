@@ -59,6 +59,7 @@
     "@radix-ui/react-switch": "^1.0.3",
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-toast": "^1.1.5",
+    "@radix-ui/react-tooltip": "^1.0.7",
     "@tanstack/react-table": "^8.11.4",
     "@uidotdev/usehooks": "^2.4.1",
     "@uiw/react-color-wheel": "^2.0.6",

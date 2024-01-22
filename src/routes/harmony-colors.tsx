@@ -470,7 +470,7 @@ export default function HarmonyColors() {
 
     setHarmonyColors((current) => ({
       ...current,
-      monochromatic: { ...current.monochromatic, values: resultArray }
+      monochromatic: { ...current.monochromatic, chroma: resultArray }
     }));
   }, [harmonyColors.monochromatic.originalColor]);
 
@@ -1820,8 +1820,8 @@ export default function HarmonyColors() {
           <section className="base-border flex w-full flex-col gap-3 rounded-2xl bg-foreground-default p-4 lg:flex-row ">
             <div className="base-shadow base-border grid max-h-[680px]  w-full grid-cols-5 overflow-clip rounded-2xl lg:max-w-[350px]">
               {[
-                ...harmonyColors.tetradic.values,
-                harmonyColors.tetradic.originalColor
+                ...harmonyColors.monochromatic.chroma,
+                harmonyColors.monochromatic.originalColor
               ].map((value, i) => (
                 <Fragment key={i}>
                   <div
@@ -1845,7 +1845,7 @@ export default function HarmonyColors() {
               <section className="flex flex-col gap-2">
                 <div className="flex flex-col-reverse gap-2 lg:flex-col ">
                   <div className="flex w-full flex-col items-center justify-center gap-2 md:flex-nowrap">
-                    {rawTetradicColors.values.map((array, arrIndex) => (
+                    {rawMonochromaticColors.values.map((array, arrIndex) => (
                       <div
                         key={arrIndex}
                         className="flex w-full flex-wrap items-center justify-evenly gap-1">
@@ -1883,7 +1883,7 @@ export default function HarmonyColors() {
                   <div className="mx-auto my-2 mb-5 flex w-full max-w-lg flex-col gap-4">
                     <div className="flex w-full items-center gap-3">
                       <Label
-                        htmlFor="tetradic-alpha-input"
+                        htmlFor="monochromatic-alpha-input"
                         className="w-12 text-xs font-medium uppercase">
                         alpha
                       </Label>
@@ -1896,18 +1896,18 @@ export default function HarmonyColors() {
                         </span>
                         <input
                           type="range"
-                          id="tetradic-alpha-input"
+                          id="monochromatic-alpha-input"
                           step={0.1}
                           min={0}
                           max={1}
-                          value={harmonyColors.tetradic.originalColor.a}
+                          value={harmonyColors.monochromatic.originalColor.a}
                           onChange={(e) =>
                             setHarmonyColors((current) => ({
                               ...current,
-                              tetradic: {
-                                ...current.tetradic,
+                              monochromatic: {
+                                ...current.monochromatic,
                                 originalColor: {
-                                  ...current.tetradic.originalColor,
+                                  ...current.monochromatic.originalColor,
                                   a: parseFloat(e.target.value)
                                 }
                               }
@@ -1919,7 +1919,7 @@ export default function HarmonyColors() {
                     </div>
                     <div className="flex w-full items-center gap-3">
                       <Label
-                        htmlFor="tetradic-red-input"
+                        htmlFor="monochromatic-red-input"
                         className="w-12 text-xs font-medium uppercase">
                         red
                       </Label>
@@ -1932,18 +1932,18 @@ export default function HarmonyColors() {
                         </span>
                         <input
                           type="range"
-                          id="tetradic-red-input"
+                          id="monochromatic-red-input"
                           step={1}
                           min={0}
                           max={255}
-                          value={harmonyColors.tetradic.originalColor.r}
+                          value={harmonyColors.monochromatic.originalColor.r}
                           onChange={(e) =>
                             setHarmonyColors((current) => ({
                               ...current,
-                              tetradic: {
-                                ...current.tetradic,
+                              monochromatic: {
+                                ...current.monochromatic,
                                 originalColor: {
-                                  ...current.tetradic.originalColor,
+                                  ...current.monochromatic.originalColor,
                                   r: parseInt(e.target.value)
                                 }
                               }
@@ -1955,7 +1955,7 @@ export default function HarmonyColors() {
                     </div>
                     <div className="flex w-full items-center gap-3">
                       <Label
-                        htmlFor="tetradic-green-input"
+                        htmlFor="monochromatic-green-input"
                         className="w-12 text-xs font-medium uppercase">
                         green
                       </Label>
@@ -1968,18 +1968,18 @@ export default function HarmonyColors() {
                         </span>
                         <input
                           type="range"
-                          id="tetradic-green-input"
+                          id="monochromatic-green-input"
                           step={1}
                           min={0}
                           max={255}
-                          value={harmonyColors.tetradic.originalColor.g}
+                          value={harmonyColors.monochromatic.originalColor.g}
                           onChange={(e) =>
                             setHarmonyColors((current) => ({
                               ...current,
-                              tetradic: {
-                                ...current.tetradic,
+                              monochromatic: {
+                                ...current.monochromatic,
                                 originalColor: {
-                                  ...current.tetradic.originalColor,
+                                  ...current.monochromatic.originalColor,
                                   g: parseInt(e.target.value)
                                 }
                               }
@@ -1991,7 +1991,7 @@ export default function HarmonyColors() {
                     </div>
                     <div className="flex w-full items-center gap-3">
                       <Label
-                        htmlFor="tetradic-blue-input"
+                        htmlFor="monochromatic-blue-input"
                         className="w-12 text-xs font-medium uppercase">
                         blue
                       </Label>
@@ -2004,18 +2004,18 @@ export default function HarmonyColors() {
                         </span>
                         <input
                           type="range"
-                          id="tetradic-blue-input"
+                          id="monochromatic-blue-input"
                           step={1}
                           min={0}
                           max={255}
-                          value={harmonyColors.tetradic.originalColor.b}
+                          value={harmonyColors.monochromatic.originalColor.b}
                           onChange={(e) =>
                             setHarmonyColors((current) => ({
                               ...current,
-                              tetradic: {
-                                ...current.tetradic,
+                              monochromatic: {
+                                ...current.monochromatic,
                                 originalColor: {
-                                  ...current.tetradic.originalColor,
+                                  ...current.monochromatic.originalColor,
                                   b: parseInt(e.target.value)
                                 }
                               }
@@ -2031,7 +2031,7 @@ export default function HarmonyColors() {
                 <Separator decorative />
 
                 <div className="my-3 flex w-full flex-wrap items-center justify-center gap-2 md:flex-nowrap">
-                  {tetradicColorActions.map((action, i) => (
+                  {monochromaticColorActions.map((action, i) => (
                     <Button
                       key={i}
                       variant={"outline"}
@@ -2048,12 +2048,10 @@ export default function HarmonyColors() {
 
                 <Separator decorative />
                 <div className="mx-auto flex w-full max-w-lg flex-col gap-2">
-                  <h3>Tetradic</h3>
+                  <h3>Monochromatic</h3>
 
                   <p className="text-sm ">
-                    Four colors that are evenly spaced on the color wheel. For
-                    this combination, works best if you let one color be
-                    dominant and others as accents.
+                    Monochromatic variations (shades) of a single hue, made by altering the saturation and brightness of the base color. This combination creates bright color palette.
                   </p>
                 </div>
               </section>

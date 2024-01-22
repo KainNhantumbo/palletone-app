@@ -22,7 +22,7 @@ export const Header = () => {
             src={logoImage}
             loading='lazy'
             decoding='async'
-            className='w-[34px] rounded-full h-auto '
+            className='w-[28px] h-auto '
           />
           <h1 className='font-semibold font-sans-display text-xl text-primary-default'>
             Palletone

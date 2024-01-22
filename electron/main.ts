@@ -24,7 +24,7 @@ function createWindow() {
     icon: path.join(process.env.VITE_PUBLIC, "favicon.png"),
     minHeight: 410,
     minWidth: 420,
-    show: !true,
+    show: true,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       sandbox: true,
