@@ -1,12 +1,11 @@
+import logoImage from "@/assets/favicon.png";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { metadata } from "@/shared/constants";
 import { useDocumentTitle } from "@uidotdev/usehooks";
 import { ArrowLeftIcon, Settings2Icon } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import logoImage from "@/assets/favicon.png";
-import { Switch } from "@/components/ui/switch";
-import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function Preferences() {
   useDocumentTitle("Palletone - Preferences");

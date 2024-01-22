@@ -164,24 +164,6 @@ export default function Palettes() {
             />
 
             <section className="flex w-full flex-col gap-3">
-              <div className="flex w-full flex-wrap items-center justify-center gap-2 md:flex-nowrap">
-                {solidColorActions.map((action, i) => (
-                  <Button
-                    key={i}
-                    variant={"outline"}
-                    size={"lg"}
-                    onClick={action.handler}
-                    className="group flex w-full items-center gap-2 rounded-3xl mobile:w-fit">
-                    <action.icon className="w-4 transition-colors group-hover:stroke-blue-400 group-active:stroke-blue-400" />
-                    <span className="capitalize transition-colors group-hover:text-blue-400">
-                      {action.name}
-                    </span>
-                  </Button>
-                ))}
-              </div>
-
-              <Separator decorative />
-
               <div className="flex w-full flex-wrap items-center justify-center gap-3 md:flex-nowrap">
                 {colorHeadings.map((item, i) => (
                   <Fragment key={i}>
@@ -218,7 +200,7 @@ export default function Palettes() {
 
               <Separator decorative />
 
-              <div className="mx-auto flex w-full max-w-lg flex-col gap-4">
+              <div className="mx-auto mb-3 flex w-full max-w-lg flex-col gap-4">
                 <div className="flex w-full items-center gap-3">
                   <Label
                     htmlFor="alpha-input"
@@ -340,20 +322,11 @@ export default function Palettes() {
                   </div>
                 </div>
               </div>
-            </section>
-          </section>
-        </TabsContent>
 
-        <TabsContent value="gradient" className="flex w-full flex-col">
-          <section className="base-border flex w-full flex-col gap-3 rounded-2xl bg-foreground-default p-4 md:flex-row">
-            <div
-              style={{ ...gradients.css }}
-              className="base-shadow base-border min-h-[200px] w-full rounded-2xl md:w-[480px]"
-            />
+              <Separator decorative />
 
-            <section className="flex w-full flex-col gap-3">
               <div className="flex w-full flex-wrap items-center justify-center gap-2 md:flex-nowrap">
-                {gradientColorActions.map((action, i) => (
+                {solidColorActions.map((action, i) => (
                   <Button
                     key={i}
                     variant={"outline"}
@@ -367,8 +340,18 @@ export default function Palettes() {
                   </Button>
                 ))}
               </div>
+            </section>
+          </section>
+        </TabsContent>
 
-              <Separator decorative />
+        <TabsContent value="gradient" className="flex w-full flex-col">
+          <section className="base-border flex w-full flex-col gap-3 rounded-2xl bg-foreground-default p-4 md:flex-row">
+            <div
+              style={{ ...gradients.css }}
+              className="base-shadow base-border min-h-[200px] w-full rounded-2xl md:w-[480px]"
+            />
+
+            <section className="flex w-full flex-col gap-3">
               <h3 className="mx-auto w-full max-w-lg">Gradient Color 1</h3>
 
               <section className="flex w-full flex-col gap-3">
@@ -511,7 +494,7 @@ export default function Palettes() {
               <Separator decorative />
               <h3 className="mx-auto w-full max-w-lg">Gradient Color 2</h3>
 
-              <section className="flex w-full flex-col gap-3">
+              <section className="flex w-full flex-col gap-3 mb-3">
                 <div className="mx-auto flex w-full max-w-lg flex-col gap-4">
                   <div className="flex w-full items-center gap-3">
                     <Label
@@ -649,6 +632,25 @@ export default function Palettes() {
                   </div>
                 </div>
               </section>
+
+              <Separator decorative />
+
+              <div className="flex w-full flex-wrap items-center justify-center gap-2 md:flex-nowrap">
+                {gradientColorActions.map((action, i) => (
+                  <Button
+                    key={i}
+                    variant={"outline"}
+                    size={"lg"}
+                    onClick={action.handler}
+                    className="group flex w-full items-center gap-2 rounded-3xl mobile:w-fit">
+                    <action.icon className="w-4 transition-colors group-hover:stroke-blue-400 group-active:stroke-blue-400" />
+                    <span className="capitalize transition-colors group-hover:text-blue-400">
+                      {action.name}
+                    </span>
+                  </Button>
+                ))}
+              </div>
+
             </section>
           </section>
         </TabsContent>
