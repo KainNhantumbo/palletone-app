@@ -1,6 +1,6 @@
 import type { JSX } from 'react';
 import Home from './routes';
-import Saved from './routes/saved';
+import SavedColors from './routes/saved-colors';
 import ColorExtractor from './routes/color-extractor';
 import Palettes from './routes/palettes';
 import Preferences from './routes/preferences';
@@ -17,7 +17,7 @@ const routes: RouteType[] = [
   { path: '/preferences', element: Preferences },
   { path: '/harmony-colors', element: HarmonyColors },
   { path: '/palettes', element: Palettes },
-  { path: '/saved', element: Saved },
+  { path: '/saved', element: SavedColors },
   { path: '*', element: NotFoundPage }
 ];
 

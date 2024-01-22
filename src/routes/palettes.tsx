@@ -1,3 +1,4 @@
+import { TooltipWrapper } from "@/components/tooltip-wrapper";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -13,7 +14,13 @@ import {
   MIXED_GRADIENT_STORAGE_KEY,
   SOLID_COLORS_STORAGE_KEY
 } from "@/shared/constants";
-import type { ColorActions, ColorVariantsHeadings, MixedGradient, RGBA, SolidColor } from "@/types";
+import type {
+  ColorActions,
+  ColorVariantsHeadings,
+  MixedGradient,
+  RGBA,
+  SolidColor
+} from "@/types";
 import { useDocumentTitle, useLocalStorage } from "@uidotdev/usehooks";
 import {
   CopyIcon,
@@ -25,8 +32,6 @@ import {
 import { Fragment, useMemo, useState } from "react";
 import { toast } from "sonner";
 import tinycolor from "tinycolor2";
-
-
 
 export default function Palettes() {
   useDocumentTitle("Palletone - Palettes");
@@ -177,17 +182,19 @@ export default function Palettes() {
                         <p className="text-sm font-medium uppercase">
                           {item.color}
                         </p>
-                        <Button
-                          variant={"ghost"}
-                          size={"icon"}
-                          className="group rounded-full"
-                          onClick={() =>
-                            copyToClipboard(
-                              normalizeColorOutput(item.color, item.name)
-                            )
-                          }>
-                          <CopyIcon className="w-4 transition-colors group-hover:stroke-primary group-active:stroke-blue-400" />
-                        </Button>
+                        <TooltipWrapper content="Copy to clipboard">
+                          <Button
+                            variant={"ghost"}
+                            size={"icon"}
+                            className="group rounded-full"
+                            onClick={() =>
+                              copyToClipboard(
+                                normalizeColorOutput(item.color, item.name)
+                              )
+                            }>
+                            <CopyIcon className="w-4 transition-colors group-hover:stroke-primary group-active:stroke-blue-400" />
+                          </Button>
+                        </TooltipWrapper>
                       </div>
                     </div>
 
@@ -494,7 +501,7 @@ export default function Palettes() {
               <Separator decorative />
               <h3 className="mx-auto w-full max-w-lg">Gradient Color 2</h3>
 
-              <section className="flex w-full flex-col gap-3 mb-3">
+              <section className="mb-3 flex w-full flex-col gap-3">
                 <div className="mx-auto flex w-full max-w-lg flex-col gap-4">
                   <div className="flex w-full items-center gap-3">
                     <Label
@@ -609,7 +616,6 @@ export default function Palettes() {
                       <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
                         255
                       </span>
-
                       <input
                         id="gradient-2-blue-input"
                         type="range"
@@ -650,7 +656,6 @@ export default function Palettes() {
                   </Button>
                 ))}
               </div>
-
             </section>
           </section>
         </TabsContent>

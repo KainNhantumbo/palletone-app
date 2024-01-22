@@ -216,7 +216,7 @@ export default function HarmonyColors() {
     }
   ];
 
-  // TODO: split complement functions
+  // split complement functions
   useMemo(() => {
     const resultArray = tinycolor(harmonyColors.splitComplement.originalColor)
       .splitcomplement()
@@ -299,7 +299,7 @@ export default function HarmonyColors() {
     }
   ];
 
-  // TODO: triadic functions
+  // triadic functions
   useMemo(() => {
     const resultArray = tinycolor(harmonyColors.triadic.originalColor)
       .triad()
@@ -379,7 +379,7 @@ export default function HarmonyColors() {
     }
   ];
 
-  // TODO: tetradic functions
+  // tetradic functions
   useMemo(() => {
     const resultArray = tinycolor(harmonyColors.tetradic.originalColor)
       .tetrad()
@@ -462,7 +462,7 @@ export default function HarmonyColors() {
     }
   ];
 
-  // TODO: monochromatic functions
+  // monochromatic functions
   useMemo(() => {
     const resultArray = tinycolor(harmonyColors.monochromatic.originalColor)
       .monochromatic(4)

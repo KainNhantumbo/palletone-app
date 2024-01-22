@@ -1,27 +1,29 @@
 import logoImage from "@/assets/favicon.png";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { TooltipWrapper } from "@/components/tooltip-wrapper";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { metadata } from "@/shared/constants";
 import { useDocumentTitle } from "@uidotdev/usehooks";
 import { ArrowLeftIcon, Settings2Icon } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Preferences() {
   useDocumentTitle("Palletone - Preferences");
-  const navigate = useNavigate();
 
   return (
     <main className="w-full pb-24 pt-20">
       <section className="mx-auto flex w-full max-w-3xl flex-col gap-3 p-2">
         <div className=" flex items-center gap-4 ">
-          <Button
-            variant={"ghost"}
-            size={"icon"}
-            onClick={() => navigate("/")}
-            className="rounded-full">
-            <ArrowLeftIcon />
-          </Button>
+          <TooltipWrapper content="Get back">
+            <Button
+              variant={"ghost"}
+              size={"icon"}
+              onClick={() => history.back()}
+              className="rounded-full">
+              <ArrowLeftIcon />
+            </Button>
+          </TooltipWrapper>
           <h1 className="flex items-center gap-2">
             <Settings2Icon className="h-auto w-6" />
             <span className="text-lg">Preferences</span>
@@ -69,6 +71,7 @@ export default function Preferences() {
                 Improves visibility for users with low vision condition and
                 those who are sensitive to bright light.
               </p>
+
               <ThemeToggle />
             </div>
           </div>

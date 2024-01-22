@@ -9,6 +9,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Separator } from "./ui/separator";
+import { TooltipWrapper } from "./tooltip-wrapper";
 
 export const InitialColors = () => {
   const [params, setParams] = useSearchParams();
@@ -81,15 +82,19 @@ export const InitialColors = () => {
                   {color.name}
                 </span>
               </div>
-              <Button
-                variant={"ghost"}
-                size={"icon"}
-                className="group rounded-xl "
-                onClick={() =>
-                  copyToClipboard(normalizeColorOutput(color.value, color.name))
-                }>
-                <CopyIcon className="transition-colors group-hover:stroke-primary-default group-active:stroke-blue-400" />
-              </Button>
+              <TooltipWrapper content="Copy to clipboard">
+                <Button
+                  variant={"ghost"}
+                  size={"icon"}
+                  className="group rounded-xl "
+                  onClick={() =>
+                    copyToClipboard(
+                      normalizeColorOutput(color.value, color.name)
+                    )
+                  }>
+                  <CopyIcon className="transition-colors group-hover:stroke-primary-default group-active:stroke-blue-400" />
+                </Button>
+              </TooltipWrapper>
             </div>
           </div>
         ))}
