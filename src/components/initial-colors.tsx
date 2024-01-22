@@ -23,14 +23,20 @@ export const InitialColors = () => {
           value: `#${value}`
         }))
         .filter((element) =>
-          element.name.includes(String(params.get("q") || ""))
+          element.name
+            .toLowerCase()
+            .includes(String(params.get("q") || "").toLowerCase())
         ),
     [debouncedParams]
   );
 
   const onChange = (e: InputEvent) =>
     setParams(
-      (params) => ({ ...params, r: params.get("r"), q: e.target.value }),
+      (params) => ({
+        ...params,
+        r: params.get("r"),
+        q: e.target.value
+      }),
       {
         replace: false
       }

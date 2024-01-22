@@ -32,7 +32,14 @@ export default function SavedColors() {
     });
 
 
-    // const handleRemove 
+    const handleRemoveSolidColor = (id: string) => {}
+    const handleRemoveGradientColor = (id: string) => {}
+    const handleRemoveComplementColor = (id: string) => {}
+    const handleRemoveSplitComplementColor = (id: string) => {}
+    const handleRemoveMonochromaticColor = (id: string) => {}
+    const handleRemoveTetradicColor = (id: string) => {}
+    const handleRemoveTriadicColor = (id: string) => {}
+    const handleRemoveAnalogousColor = (id: string) => {}
 
 
 
