@@ -7,6 +7,6 @@ export const ImageViewer = ({ imageData }: ImageViewerProps) => (
     src={imageData}
     loading='lazy'
     alt='user selected image'
-    className='base-border h-full max-h-[600px] w-full rounded-md object-cover shadow-2xl'
+    className='base-border h-full max-h-[280px] w-full rounded-md object-cover shadow-2xl'
   />
 );

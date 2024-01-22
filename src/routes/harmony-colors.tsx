@@ -125,7 +125,11 @@ export default function HarmonyColors() {
             ...db,
             complement: [
               ...db.complement,
-              { ...harmonyColors.complement, id: crypto.randomUUID() }
+              {
+                ...harmonyColors.complement,
+                id: crypto.randomUUID(),
+                createdAt: new Date().toISOString()
+              }
             ]
           };
         });
@@ -208,7 +212,11 @@ export default function HarmonyColors() {
             ...db,
             analogous: [
               ...db.analogous,
-              { ...harmonyColors.analogous, id: crypto.randomUUID() }
+              {
+                ...harmonyColors.analogous,
+                id: crypto.randomUUID(),
+                createdAt: new Date().toISOString()
+              }
             ]
           };
         });
@@ -291,7 +299,11 @@ export default function HarmonyColors() {
             ...db,
             splitComplement: [
               ...db.splitComplement,
-              { ...harmonyColors.splitComplement, id: crypto.randomUUID() }
+              {
+                ...harmonyColors.splitComplement,
+                id: crypto.randomUUID(),
+                createdAt: new Date().toISOString()
+              }
             ]
           };
         });
@@ -371,7 +383,11 @@ export default function HarmonyColors() {
             ...db,
             triadic: [
               ...db.triadic,
-              { ...harmonyColors.triadic, id: crypto.randomUUID() }
+              {
+                ...harmonyColors.triadic,
+                id: crypto.randomUUID(),
+                createdAt: new Date().toISOString()
+              }
             ]
           };
         });
@@ -454,7 +470,11 @@ export default function HarmonyColors() {
             ...db,
             tetradic: [
               ...db.tetradic,
-              { ...harmonyColors.tetradic, id: crypto.randomUUID() }
+              {
+                ...harmonyColors.tetradic,
+                id: crypto.randomUUID(),
+                createdAt: new Date().toISOString()
+              }
             ]
           };
         });
@@ -537,7 +557,11 @@ export default function HarmonyColors() {
             ...db,
             monochromatic: [
               ...db.monochromatic,
-              { ...harmonyColors.monochromatic, id: crypto.randomUUID() }
+              {
+                ...harmonyColors.monochromatic,
+                id: crypto.randomUUID(),
+                createdAt: new Date().toISOString()
+              }
             ]
           };
         });
@@ -2051,7 +2075,9 @@ export default function HarmonyColors() {
                   <h3>Monochromatic</h3>
 
                   <p className="text-sm ">
-                    Monochromatic variations (shades) of a single hue, made by altering the saturation and brightness of the base color. This combination creates bright color palette.
+                    Monochromatic variations (shades) of a single hue, made by
+                    altering the saturation and brightness of the base color.
+                    This combination creates bright color palette.
                   </p>
                 </div>
               </section>

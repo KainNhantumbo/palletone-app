@@ -73,10 +73,40 @@ export type HarmonyColors = {
 };
 
 export type HarmonyColorsDB = {
-  complement: { id: string; originalColor: RGBA; value: RGBA }[];
-  splitComplement: { id: string; originalColor: RGBA; values: Array<RGBA> }[];
-  analogous: { id: string; originalColor: RGBA; values: Array<RGBA> }[];
-  triadic: { id: string; originalColor: RGBA; values: Array<RGBA> }[];
-  tetradic: { id: string; originalColor: RGBA; values: Array<RGBA> }[];
-  monochromatic: { id: string; originalColor: RGBA; chroma: Array<RGBA> }[];
+  complement: Array<{
+    id: string;
+    createdAt: string;
+    originalColor: RGBA;
+    value: RGBA;
+  }>;
+  splitComplement: Array<{
+    id: string;
+    createdAt: string;
+    originalColor: RGBA;
+    values: Array<RGBA>;
+  }>;
+  analogous: Array<{
+    id: string;
+    createdAt: string;
+    originalColor: RGBA;
+    values: Array<RGBA>;
+  }>;
+  triadic: Array<{
+    id: string;
+    createdAt: string;
+    originalColor: RGBA;
+    values: Array<RGBA>;
+  }>;
+  tetradic: Array<{
+    id: string;
+    createdAt: string;
+    originalColor: RGBA;
+    values: Array<RGBA>;
+  }>;
+  monochromatic: Array<{
+    id: string;
+    createdAt: string;
+    originalColor: RGBA;
+    chroma: Array<RGBA>;
+  }>;
 };

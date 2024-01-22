@@ -1,3 +1,8 @@
+import {
+  copyToClipboard,
+  normalizeColorOutput,
+  buildGradient
+} from "@/lib/utils";
 import { TooltipWrapper } from "@/components/tooltip-wrapper";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -12,6 +17,7 @@ import { ArrowLeftIcon, PocketIcon } from "lucide-react";
 
 export default function SavedColors() {
   useDocumentTitle("Palletone - Saved colors");
+
   const [solidColorsDB, updateSolidColorDB] = useLocalStorage<SolidColor[]>(
     SOLID_COLORS_STORAGE_KEY,
     []
@@ -31,18 +37,47 @@ export default function SavedColors() {
       monochromatic: []
     });
 
+  const handleRemoveComplementColor = (id: string) =>
+    updateHarmonyColorsDB((db) => ({
+      ...db,
+      complement: [...db.complement.filter((item) => item.id !== id)]
+    }));
 
-    const handleRemoveSolidColor = (id: string) => {}
-    const handleRemoveGradientColor = (id: string) => {}
-    const handleRemoveComplementColor = (id: string) => {}
-    const handleRemoveSplitComplementColor = (id: string) => {}
-    const handleRemoveMonochromaticColor = (id: string) => {}
-    const handleRemoveTetradicColor = (id: string) => {}
-    const handleRemoveTriadicColor = (id: string) => {}
-    const handleRemoveAnalogousColor = (id: string) => {}
+  const handleRemoveSplitComplementColor = (id: string) =>
+    updateHarmonyColorsDB((db) => ({
+      ...db,
+      splitComplement: [...db.splitComplement.filter((item) => item.id !== id)]
+    }));
 
+  const handleRemoveMonochromaticColor = (id: string) =>
+    updateHarmonyColorsDB((db) => ({
+      ...db,
+      monochromatic: [...db.monochromatic.filter((item) => item.id !== id)]
+    }));
 
+  const handleRemoveTetradicColor = (id: string) =>
+    updateHarmonyColorsDB((db) => ({
+      ...db,
+      tetradic: [...db.tetradic.filter((item) => item.id !== id)]
+    }));
 
+  const handleRemoveTriadicColor = (id: string) =>
+    updateHarmonyColorsDB((db) => ({
+      ...db,
+      triadic: [...db.triadic.filter((item) => item.id !== id)]
+    }));
+
+  const handleRemoveAnalogousColor = (id: string) =>
+    updateHarmonyColorsDB((db) => ({
+      ...db,
+      analogous: [...db.analogous.filter((item) => item.id !== id)]
+    }));
+
+  const handleRemoveSolidColor = (id: string) =>
+    updateSolidColorDB((db) => [...db.filter((color) => color.id !== id)]);
+
+  const handleRemoveGradientColor = (id: string) =>
+    updateGradientColorsDB((db) => [...db.filter((color) => color.id !== id)]);
 
   return (
     <main className="w-full pb-24 pt-20">
