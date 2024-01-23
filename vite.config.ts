@@ -58,7 +58,7 @@ export default defineConfig({
         ],
         theme_color: "#FFFFFF",
         background_color: "#FFFFFF",
-        start_url: "/",
+        start_url: "/?r=default-colors",
         scope: "/",
         display: "standalone",
         orientation: "portrait"
