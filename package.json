@@ -70,6 +70,7 @@
     "lodash.isequal": "^4.5.0",
     "lucide-react": "^0.306.0",
     "moment": "^2.29.4",
+    "nanoid": "^5.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
@@ -99,10 +100,13 @@
     "prettier": "^3.2.2",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "tailwindcss": "^3.4.1",
+    "tree-kill": "^1.2.2",
     "typescript": "^5.3.3",
     "vite": "^4.5.1",
     "vite-plugin-electron": "^0.15.6",
     "vite-plugin-electron-renderer": "^0.14.5",
-    "vite-tsconfig-paths": "^4.2.1"
+    "vite-plugin-pwa": "^0.17.4",
+    "vite-tsconfig-paths": "^4.2.1",
+    "workbox-window": "^7.0.0"
   }
 }
