@@ -1,10 +1,11 @@
 {
   "name": "Palletone",
+  "productName": "Palletone",
   "description": "Color palette creator and picker app",
   "private": true,
-  "version": "1.0.0",
-  "url": "",
-  "website_name": "",
+  "version": "0.1.0",
+  "url": "palletone-demo.vercel.app",
+  "website_name": "palletone-app",
   "browserslist": [
     "defaults",
     "not IE 11"
@@ -40,6 +41,9 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "electron:dev": "vite",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
     "electron:build": "tsc && vite build && electron-builder",
     "typecheck": "tsc --noEmit -p ./tsconfig.json",
     "format": "npx prettier --write \"**/*.{js,mjs,cjs,ts,mts,cts,jsx, tsx,json}\"",
@@ -104,5 +108,41 @@
     "vite-plugin-pwa": "^0.17.4",
     "vite-tsconfig-paths": "^4.2.1",
     "workbox-window": "^7.0.0"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "electron_publish_example"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "linux",
+            "windows"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        }
+      ],
+      "publishers": [
+        {
+          "name": "@electron-forge/publisher-github",
+          "config": {
+            "repository": {
+              "owner": "KainNhantumbo",
+              "name": "Palletone"
+            },
+            "draft": true
+          }
+        }
+      ]
+    }
   }
 }
