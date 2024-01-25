@@ -30,7 +30,7 @@ export const RemoveColorAlert = ({ onConfirm }: Props) => {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel className="group flex items-center gap-2 rounded-3xl">
+          <AlertDialogCancel className="group flex items-center gap-2 rounded-2xl shadow-none bg-transparent">
             <XIcon className="w-4 transition-colors group-hover:stroke-blue-400 group-active:stroke-blue-400" />
             <span className="capitalize transition-colors group-hover:text-blue-400">
               Cancel
@@ -38,7 +38,7 @@ export const RemoveColorAlert = ({ onConfirm }: Props) => {
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={onConfirm}
-            className="group flex items-center gap-2 rounded-3xl">
+            className="group flex items-center gap-2 rounded-2xl shadow-none bg-background-default base-border">
             <Trash2Icon className="w-4 transition-colors group-hover:stroke-red-500 group-active:stroke-red-500" />
             <span className="font-medium capitalize transition-colors group-hover:text-red-500">
               Delete

@@ -13,7 +13,14 @@ import {
 } from "@/shared/constants";
 import { HarmonyColorsDB, MixedGradient, SolidColor } from "@/types";
 import { useDocumentTitle, useLocalStorage } from "@uidotdev/usehooks";
-import { ArrowLeftIcon, PocketIcon } from "lucide-react";
+import {
+  ArrowLeftIcon,
+  DropletIcon,
+  PaintbrushIcon,
+  PocketIcon
+} from "lucide-react";
+import { RemoveColorAlert } from "@/components/remove-color-alert";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function SavedColors() {
   useDocumentTitle("Palletone - Saved colors");
@@ -99,7 +106,33 @@ export default function SavedColors() {
         </div>
 
         <Separator decorative />
+
+        <Tabs defaultValue="solid" className="w-full px-2">
+          <TabsList className="mx-auto mb-3 grid w-fit grid-cols-2 place-content-center place-items-center gap-8 bg-background-default">
+            <TabsTrigger
+              value="solid"
+              className="group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl">
+              <DropletIcon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
+              <span className="font-semibold transition-colors group-hover:text-blue-400">
+                Solids
+              </span>
+            </TabsTrigger>
+            <TabsTrigger
+              value="gradient"
+              className="group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl">
+              <PaintbrushIcon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
+              <span className="font-semibold transition-colors group-hover:text-blue-400">
+                Gradients
+              </span>
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="solid" className="flex w-full flex-col">
+            <section className="base-border flex w-full flex-col gap-3 rounded-2xl bg-foreground-default p-4 md:flex-row"></section>
+          </TabsContent>
+        </Tabs>
       </section>
+      <RemoveColorAlert onConfirm={() => {}} />
     </main>
   );
 }
