@@ -18,19 +18,23 @@ $ROOT
 
 ## Contact
 
-E-mail: [nhantumbok@gmail.com](nhantumbok@gmail.com "Send an e-mail")\
-Github: [https://github.com/KainNhantumbo](https://github.com/KainNhantumbo "See my github profile")
-Portfolio: [https://portifolio-dev-mu.vercel.app](https://portifolio-dev-mu.vercel.app "See my portfolio website")\
-My Blog: [https://publish-it-programming.vercel.app](https://publish-it-programming.vercel.app "Visit my blog site")
+E-mail: [nhantumbok@gmail.com](nhantumbok@gmail.com 'Send an e-mail')\
+Github: [https://github.com/KainNhantumbo](https://github.com/KainNhantumbo 'See my github profile')
+Portfolio: [https://portifolio-dev-mu.vercel.app](https://portifolio-dev-mu.vercel.app 'See my portfolio website')\
+My Blog: [https://publish-it-programming.vercel.app](https://publish-it-programming.vercel.app 'Visit my blog site')
 
-#### If you like this project, let me know by leaving a star on this repository so I can keep improving this app.😊😘
+#### If you like this project, let me know by leaving a star on this repository so I can keep improving this app or [send support](https://www.buymeacoffee.com/nhantumbokU/)!\*\* .😊😘
 
 Best regards, Kain Nhantumbo.\
-**Made with ❤ React + Vite and Typescript**
+**Made with ❤ Electron.JS + React + Vite and Typescript**
+
+## Contributing
+
+See [Contributing Guide](CONTRIBUTING.md).
 
 ## License
 
-Licensed under MIT License. All rights reserved.\
+Licensed under Apache License Version 2.0. All rights reserved.\
 Copyright &copy; 2023 Kain Nhantumbo.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0

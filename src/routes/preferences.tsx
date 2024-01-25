@@ -93,7 +93,7 @@ export default function Preferences() {
             </div>
             <p className="text-center">
               &copy; {new Date().getFullYear()} {metadata.appName} - Distributed
-              under {metadata.license} License.
+              under {metadata.license}.
             </p>
           </div>
         </section>
