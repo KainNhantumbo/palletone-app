@@ -34,16 +34,18 @@
     "npm": ">=9.6.7"
   },
   "license": "MIT",
-  "repository": "https://github.com/KainNhantumbo/palletone",
+  "repository": "https://github.com/KainNhantumbo/palletone-app.git",
+  "main": "dist-electron/main.js",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "electron:dev": "vite",
     "electron:build": "tsc && vite build && electron-builder",
+    "typecheck": "tsc --noEmit -p ./tsconfig.json",
+    "format": "npx prettier --write \"**/*.{js,mjs,cjs,ts,mts,cts,jsx, tsx,json}\"",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
-  "main": "dist-electron/main.js",
   "dependencies": {
     "@radial-color-picker/react-color-picker": "^4.0.1",
     "@radix-ui/react-alert-dialog": "^1.0.5",
