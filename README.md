@@ -21,7 +21,7 @@ Feel free to try it on any device of yours and bake your own color flavor for yo
 | ------------------------ | ------------------------ |
 | ![](./docs/assets/3.png) | ![](./docs/assets/4.png) |
 | ------------------------ | ------------------------ |
-| ![](./docs/assets/5.png) |![](./docs/assets/6.png)  |
+| ![](./docs/assets/5.png) | ![](./docs/assets/6.png) |
 
 ## 🌠 Project status
 
@@ -48,7 +48,7 @@ $ROOT
 ## 🐾 Project Stack (and main packages)
 
 - **React.JS** - library used to build big, fast Web apps with JavaScript.
-- **Typescript** - a superset language of Javascript that provides typechecking.
+- **Types cript** - a superset language of Javascript that provides typechecking.
 - **Electron.JS** - a framework for building desktop applications using javascript, html and css.
 - **Tailwind CSS** - for component styling.
 - **Vite** - a next generation frontend tooling.
@@ -86,7 +86,7 @@ npm run start
 electron:build
 ```
 
-- Builds the electron app for production. **Note that only** windows and linux application packages a pre-configured to be built.
+- Builds the electron app for production. **Note that only** windows and linux application packages a pre-configured to be built. Please refer to other scripts in the [package.jon](package.json)
 
 ## ☘️ Find me!
 

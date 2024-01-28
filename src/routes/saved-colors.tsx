@@ -1,29 +1,33 @@
 import {
   copyToClipboard,
   normalizeColorOutput,
-  buildGradient
-} from "@/lib/utils";
-import { TooltipWrapper } from "@/components/tooltip-wrapper";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+  buildGradient,
+  getDate,
+  transformColorsToString
+} from '@/lib/utils';
+import { TooltipWrapper } from '@/components/tooltip-wrapper';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import {
   HARMONY_COLOR_STORAGE_KEY,
   MIXED_GRADIENT_STORAGE_KEY,
   SOLID_COLORS_STORAGE_KEY
-} from "@/shared/constants";
-import { HarmonyColorsDB, MixedGradient, SolidColor } from "@/types";
-import { useDocumentTitle, useLocalStorage } from "@uidotdev/usehooks";
+} from '@/shared/constants';
+import { HarmonyColorsDB, MixedGradient, SolidColor } from '@/types';
+import { useDocumentTitle, useLocalStorage } from '@uidotdev/usehooks';
 import {
   ArrowLeftIcon,
   DropletIcon,
   PaintbrushIcon,
   PocketIcon
-} from "lucide-react";
-import { RemoveColorAlert } from "@/components/remove-color-alert";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+} from 'lucide-react';
+import { RemoveColorAlert } from '@/components/remove-color-alert';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import tinycolor from 'tinycolor2';
+import { m as motion } from 'framer-motion';
 
 export default function SavedColors() {
-  useDocumentTitle("Palletone - Saved colors");
+  useDocumentTitle('Palletone - Saved colors');
 
   const [solidColorsDB, updateSolidColorDB] = useLocalStorage<SolidColor[]>(
     SOLID_COLORS_STORAGE_KEY,
@@ -34,15 +38,17 @@ export default function SavedColors() {
     MixedGradient[]
   >(MIXED_GRADIENT_STORAGE_KEY, []);
 
-  const [harmonyColorsDB, updateHarmonyColorsDB] =
-    useLocalStorage<HarmonyColorsDB>(HARMONY_COLOR_STORAGE_KEY, {
+  const [harmonyColorsDB, updateHarmonyColorsDB] = useLocalStorage<HarmonyColorsDB>(
+    HARMONY_COLOR_STORAGE_KEY,
+    {
       complement: [],
       splitComplement: [],
       analogous: [],
       triadic: [],
       tetradic: [],
       monochromatic: []
-    });
+    }
+  );
 
   const handleRemoveComplementColor = (id: string) =>
     updateHarmonyColorsDB((db) => ({
@@ -92,8 +98,8 @@ export default function SavedColors() {
         <div className=" flex items-center gap-4 ">
           <TooltipWrapper content="Get back">
             <Button
-              variant={"ghost"}
-              size={"icon"}
+              variant={'ghost'}
+              size={'icon'}
               onClick={() => history.back()}
               className="rounded-full">
               <ArrowLeftIcon />
@@ -128,11 +134,38 @@ export default function SavedColors() {
           </TabsList>
 
           <TabsContent value="solid" className="flex w-full flex-col">
-            <section className="base-border flex w-full flex-col gap-3 rounded-2xl bg-foreground-default p-4 md:flex-row"></section>
+            <section className="base-border grid w-full grid-cols-1 gap-2 rounded-2xl bg-foreground-default p-4 mobile:grid-cols-2 md:grid-cols-3 md:flex-row md:gap-3">
+              {solidColorsDB
+                .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1))
+                .map(({ id, value, createdAt }, i) => (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1, transition: { delay: i * 0.2 } }}
+                    whileHover={{ y: -10, transition: { delay: 0 } }}
+                    className="base-border base-shadow flex w-full flex-col gap-3 rounded-2xl p-1 pb-2"
+                    key={id}>
+                    <div
+                      style={{ background: tinycolor(value).toRgbString() }}
+                      className="base-shadow base-border relative min-h-[200px] rounded-2xl md:w-full md:max-w-[220px]">
+                      <span className="base-border absolute left-2 top-2 h-fit w-fit rounded-full bg-background-default p-1 px-2 text-xs font-semibold">
+                        {normalizeColorOutput(transformColorsToString(value).hex, 'hex')}
+                      </span>
+                    </div>
+
+                    <div className="flex w-full items-center justify-between gap-1 px-2">
+                      <p className="text-xs font-medium">{getDate(createdAt)}</p>
+                      <div className="flex items-center gap-1">
+                        <RemoveColorAlert
+                          onConfirm={() => handleRemoveSolidColor(id)}
+                        />
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+            </section>
           </TabsContent>
         </Tabs>
       </section>
-      <RemoveColorAlert onConfirm={() => {}} />
     </main>
   );
 }
