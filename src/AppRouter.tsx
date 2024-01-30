@@ -8,8 +8,7 @@ import NotFoundPage from './routes/404';
 import HarmonyColors from './routes/harmony-colors';
 import { Route, Routes } from 'react-router-dom';
 import { Layout } from './components/layout';
-
-type RouteType = { path: string; element: JSX.ElementType };
+import type { RouteType } from './types';
 
 const routes: RouteType[] = [
   { path: '/', element: Home },

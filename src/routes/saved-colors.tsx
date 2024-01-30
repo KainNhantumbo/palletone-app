@@ -17,6 +17,7 @@ import { HarmonyColorsDB, MixedGradient, SolidColor } from '@/types';
 import { useDocumentTitle, useLocalStorage } from '@uidotdev/usehooks';
 import {
   ArrowLeftIcon,
+  CopyIcon,
   DropletIcon,
   PaintbrushIcon,
   PocketIcon
@@ -25,6 +26,7 @@ import { RemoveColorAlert } from '@/components/remove-color-alert';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import tinycolor from 'tinycolor2';
 import { m as motion } from 'framer-motion';
+import { SolidOptionsMenu } from '@/components/solid-colors-menu';
 
 export default function SavedColors() {
   useDocumentTitle('Palletone - Saved colors');
@@ -148,7 +150,10 @@ export default function SavedColors() {
                       style={{ background: tinycolor(value).toRgbString() }}
                       className="base-shadow base-border relative min-h-[200px] rounded-2xl md:w-full md:max-w-[220px]">
                       <span className="base-border absolute left-2 top-2 h-fit w-fit rounded-full bg-background-default p-1 px-2 text-xs font-semibold">
-                        {normalizeColorOutput(transformColorsToString(value).hex, 'hex')}
+                        {normalizeColorOutput(
+                          transformColorsToString(value).hex,
+                          'hex'
+                        )}
                       </span>
                     </div>
 
@@ -158,6 +163,7 @@ export default function SavedColors() {
                         <RemoveColorAlert
                           onConfirm={() => handleRemoveSolidColor(id)}
                         />
+                        <SolidOptionsMenu color={value} />
                       </div>
                     </div>
                   </motion.div>

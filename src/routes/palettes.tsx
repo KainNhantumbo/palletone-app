@@ -1,45 +1,45 @@
-import { TooltipWrapper } from "@/components/tooltip-wrapper";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TooltipWrapper } from '@/components/tooltip-wrapper';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   buildGradient,
   copyToClipboard,
   normalizeColorOutput,
   randomColor,
   transformColorsToString
-} from "@/lib/utils";
+} from '@/lib/utils';
 import {
   MIXED_GRADIENT_STORAGE_KEY,
   SOLID_COLORS_STORAGE_KEY
-} from "@/shared/constants";
+} from '@/shared/constants';
 import type {
   ColorActions,
   ColorVariantsHeadings,
   MixedGradient,
   RGBA,
   SolidColor
-} from "@/types";
-import { useDocumentTitle, useLocalStorage } from "@uidotdev/usehooks";
+} from '@/types';
+import { useDocumentTitle, useLocalStorage } from '@uidotdev/usehooks';
 import {
   CopyIcon,
   DownloadIcon,
   DropletIcon,
   PaintbrushIcon,
   ShuffleIcon
-} from "lucide-react";
-import { Fragment, useMemo, useState } from "react";
-import { toast } from "sonner";
-import tinycolor from "tinycolor2";
+} from 'lucide-react';
+import { Fragment, useMemo, useState } from 'react';
+import { toast } from 'sonner';
+import tinycolor from 'tinycolor2';
 
 export default function Palettes() {
-  useDocumentTitle("Palletone - Palettes");
+  useDocumentTitle('Palletone - Palettes');
 
   const [rgbaColor, setRgbaColor] = useState<RGBA>(() => randomColor());
 
   const [gradientRGBA, setGradientRGBA] = useState<
-    Omit<MixedGradient, "id" | "createdAt">
+    Omit<MixedGradient, 'id' | 'createdAt'>
   >(() => {
     return {
       color_1: randomColor(),
@@ -68,20 +68,20 @@ export default function Palettes() {
   );
 
   const colorHeadings: ColorVariantsHeadings = [
-    { name: "rgba", color: colorVariants.rgba },
-    { name: "hex", color: colorVariants.hex },
-    { name: "hsl", color: colorVariants.hsl },
-    { name: "hsv", color: colorVariants.hsv }
+    { name: 'rgba', color: colorVariants.rgba },
+    { name: 'hex', color: colorVariants.hex },
+    { name: 'hsl', color: colorVariants.hsl },
+    { name: 'hsv', color: colorVariants.hsv }
   ];
 
   const solidColorActions: ColorActions = [
     {
-      name: "random color",
+      name: 'random color',
       icon: ShuffleIcon,
       handler: () => setRgbaColor(randomColor())
     },
     {
-      name: "save color",
+      name: 'save color',
       icon: DownloadIcon,
       handler: () => handleSaveSolidColor()
     }
@@ -89,7 +89,7 @@ export default function Palettes() {
 
   const gradientColorActions: ColorActions = [
     {
-      name: "randomize",
+      name: 'randomize',
       icon: ShuffleIcon,
       handler: () =>
         setGradientRGBA((current) => ({
@@ -99,32 +99,27 @@ export default function Palettes() {
         }))
     },
     {
-      name: "copy as CSS",
+      name: 'copy as CSS',
       icon: CopyIcon,
       handler: () => copyToClipboard(String(gradients.cssString))
     },
     {
-      name: "save",
+      name: 'save',
       icon: DownloadIcon,
       handler: () => handleSaveGradient()
     }
   ];
 
   const handleSaveSolidColor = () => {
-    updateSolidColorDB((current) => {
-      // current.find(color=>  )
-      // isEqual
-
-      return [
-        ...current,
-        {
-          id: crypto.randomUUID(),
-          value: rgbaColor,
-          createdAt: new Date().toISOString()
-        }
-      ];
-    });
-    toast.success("Color saved successfully.");
+    updateSolidColorDB((current) => [
+      ...current,
+      {
+        id: crypto.randomUUID(),
+        value: rgbaColor,
+        createdAt: new Date().toISOString()
+      }
+    ]);
+    toast.success('Color saved successfully.');
   };
 
   const handleSaveGradient = () => {
@@ -136,7 +131,7 @@ export default function Palettes() {
         createdAt: new Date().toISOString()
       }
     ]);
-    toast.success("Gradient saved successfully.");
+    toast.success('Gradient saved successfully.');
   };
 
   return (
@@ -179,13 +174,11 @@ export default function Palettes() {
                         </h3>
                       </div>
                       <div className="flex items-center gap-1">
-                        <p className="text-sm font-medium uppercase">
-                          {item.color}
-                        </p>
+                        <p className="text-sm font-medium uppercase">{item.color}</p>
                         <TooltipWrapper content="Copy to clipboard">
                           <Button
-                            variant={"ghost"}
-                            size={"icon"}
+                            variant={'ghost'}
+                            size={'icon'}
                             className="group rounded-full"
                             onClick={() =>
                               copyToClipboard(
@@ -336,8 +329,8 @@ export default function Palettes() {
                 {solidColorActions.map((action, i) => (
                   <Button
                     key={i}
-                    variant={"outline"}
-                    size={"lg"}
+                    variant={'outline'}
+                    size={'lg'}
                     onClick={action.handler}
                     className="group flex w-full items-center gap-2 rounded-3xl mobile:w-fit">
                     <action.icon className="w-4 transition-colors group-hover:stroke-blue-400 group-active:stroke-blue-400" />
@@ -645,8 +638,8 @@ export default function Palettes() {
                 {gradientColorActions.map((action, i) => (
                   <Button
                     key={i}
-                    variant={"outline"}
-                    size={"lg"}
+                    variant={'outline'}
+                    size={'lg'}
                     onClick={action.handler}
                     className="group flex w-full items-center gap-2 rounded-3xl mobile:w-fit">
                     <action.icon className="w-4 transition-colors group-hover:stroke-blue-400 group-active:stroke-blue-400" />

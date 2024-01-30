@@ -48,7 +48,7 @@ $ROOT
 ## 🐾 Project Stack (and main packages)
 
 - **React.JS** - library used to build big, fast Web apps with JavaScript.
-- **Types cript** - a superset language of Javascript that provides typechecking.
+- **Typescript** - a superset language of Javascript that provides typechecking.
 - **Electron.JS** - a framework for building desktop applications using javascript, html and css.
 - **Tailwind CSS** - for component styling.
 - **Vite** - a next generation frontend tooling.

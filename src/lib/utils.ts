@@ -50,10 +50,10 @@ export const buildGradient = (color1: RGBA, color2: RGBA) => {
   };
 };
 
-export const copyToClipboard = async (content: string) => {
+export const copyToClipboard = async (content: string, renderToast = true) => {
   try {
     await navigator.clipboard.writeText(content);
-    toast.success('Copied to clipboard!');
+    renderToast && toast.success('Copied to clipboard!');
   } catch (error) {
     console.warn(error);
     toast.error('Error while trying to copy to clipboard.');

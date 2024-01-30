@@ -1,44 +1,39 @@
-import {
-  BlocksIcon,
-  PyramidIcon,
-  PaintBucketIcon,
-  SunDimIcon
-} from "lucide-react";
-import { Button } from "./ui/button";
-import { Link, useNavigate } from "react-router-dom";
-import { cn } from "@/lib/utils";
-import { m as motion } from "framer-motion";
-import type { RouteList } from "@/types";
-import { TooltipWrapper } from "./tooltip-wrapper";
+import { BlocksIcon, PyramidIcon, PaintBucketIcon, SunDimIcon } from 'lucide-react';
+import { Button } from './ui/button';
+import { Link, useNavigate } from 'react-router-dom';
+import { cn } from '@/lib/utils';
+import { m as motion } from 'framer-motion';
+import type { RouteList } from '@/types';
+import { TooltipWrapper } from './tooltip-wrapper';
 
 const routes: RouteList = [
   {
-    path: "/?r=default-colors",
-    alias: "default-colors",
+    path: '/?r=default-colors',
+    alias: 'default-colors',
     icon: PyramidIcon,
-    label: "Colors",
-    description: "Default colors"
+    label: 'Colors',
+    description: 'Default colors'
   },
   {
-    path: "/palettes",
-    alias: "palettes",
+    path: '/palettes',
+    alias: 'palettes',
     icon: PaintBucketIcon,
-    label: "Palettes",
-    description: "Solid colors and gradients"
+    label: 'Palettes',
+    description: 'Solid colors and gradients'
   },
   {
-    path: "/color-extractor",
-    alias: "color-extractor",
+    path: '/color-extractor',
+    alias: 'color-extractor',
     icon: BlocksIcon,
-    label: "Extractor",
-    description: "Color extrator"
+    label: 'Extractor',
+    description: 'Color extrator'
   },
   {
-    path: "/harmony-colors",
-    alias: "harmony-colors",
+    path: '/harmony-colors',
+    alias: 'harmony-colors',
     icon: SunDimIcon,
-    label: "Harmony",
-    description: "Color harmony"
+    label: 'Harmony',
+    description: 'Color harmony'
   }
 ];
 
@@ -57,17 +52,17 @@ export const Drawer = () => {
             <Link
               to={route.path}
               key={i}
-              className={cn("relative", {
-                "before:absolute before:-bottom-2 before:left-[calc(50%_-_4px)] before:h-1 before:w-2 before:rounded-full before:bg-blue-400 min-[540px]:before:left-[calc(50%_-_16px)] min-[540px]:before:w-8":
+              className={cn('relative', {
+                'before:absolute before:-bottom-2 before:left-[calc(50%_-_4px)] before:h-1 before:w-2 before:rounded-full before:bg-blue-400 min-[540px]:before:left-[calc(50%_-_16px)] min-[540px]:before:w-8':
                   window.location.href.includes(route.alias)
               })}>
               <TooltipWrapper content={route.description}>
                 <Button
                   className="group gap-2 rounded-3xl border-font/15 bg-transparent"
-                  variant={"outline"}>
+                  variant={'outline'}>
                   <route.icon
                     className={cn(
-                      "relative h-auto w-5 transition-colors group-hover:stroke-primary-default group-active:stroke-blue-400"
+                      'relative h-auto w-5 transition-colors group-hover:stroke-primary-default group-active:stroke-blue-400'
                     )}
                   />
                   <span className="hidden font-semibold group-active:text-blue-400 min-[540px]:block">

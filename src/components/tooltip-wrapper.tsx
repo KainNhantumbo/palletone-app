@@ -3,8 +3,8 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger
-} from "@/components/ui/tooltip";
-import type { FC, ReactNode } from "react";
+} from '@/components/ui/tooltip';
+import type { FC, ReactNode } from 'react';
 
 export type TooltipProps = {
   children: ReactNode;
@@ -19,7 +19,7 @@ export const TooltipWrapper: FC<TooltipProps> = ({
 }) => (
   <TooltipProvider>
     <Tooltip>
-      <TooltipTrigger>{children}</TooltipTrigger>
+      <TooltipTrigger asChild>{children}</TooltipTrigger>
       <TooltipContent sideOffset={offsetDistance}>
         <p>{content}</p>
       </TooltipContent>
