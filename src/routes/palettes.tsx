@@ -156,499 +156,505 @@ export default function Palettes() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="solid" className="flex w-full flex-col">
-          <section className="base-border flex w-full flex-col gap-3 rounded-2xl bg-foreground-default p-4 md:flex-row">
-            <div
-              style={{ background: tinycolor(rgbaColor).toRgbString() }}
-              className="base-shadow base-border min-h-[200px] rounded-2xl md:w-full md:max-w-[220px]"
-            />
+        <TabsContent value="solid">
+          <section className="flex w-full flex-col">
+            <section className="base-border flex w-full flex-col gap-3 rounded-2xl bg-foreground-default p-4 md:flex-row">
+              <div
+                style={{ background: tinycolor(rgbaColor).toRgbString() }}
+                className="base-shadow base-border min-h-[200px] rounded-2xl md:w-full md:max-w-[220px]"
+              />
 
-            <section className="flex w-full flex-col gap-3">
-              <div className="flex w-full flex-wrap items-center justify-center gap-3 md:flex-nowrap">
-                {colorHeadings.map((item, i) => (
-                  <Fragment key={i}>
-                    <div className="flex w-fit flex-col items-center gap-1">
-                      <div className="flex w-fit items-center gap-3">
-                        <h3 className="text-sm font-semibold uppercase text-primary-default">
-                          {item.name}
-                        </h3>
+              <section className="flex w-full flex-col gap-3">
+                <div className="flex w-full flex-wrap items-center justify-center gap-3 md:flex-nowrap">
+                  {colorHeadings.map((item, i) => (
+                    <Fragment key={i}>
+                      <div className="flex w-fit flex-col items-center gap-1">
+                        <div className="flex w-fit items-center gap-3">
+                          <h3 className="text-sm font-semibold uppercase text-primary-default">
+                            {item.name}
+                          </h3>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <p className="text-sm font-medium uppercase">
+                            {item.color}
+                          </p>
+                          <TooltipWrapper content="Copy to clipboard">
+                            <Button
+                              variant={'ghost'}
+                              size={'icon'}
+                              className="group rounded-full"
+                              onClick={() =>
+                                copyToClipboard(
+                                  normalizeColorOutput(item.color, item.name)
+                                )
+                              }>
+                              <CopyIcon className="w-4 transition-colors group-hover:stroke-primary group-active:stroke-blue-400" />
+                            </Button>
+                          </TooltipWrapper>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <p className="text-sm font-medium uppercase">{item.color}</p>
-                        <TooltipWrapper content="Copy to clipboard">
-                          <Button
-                            variant={'ghost'}
-                            size={'icon'}
-                            className="group rounded-full"
-                            onClick={() =>
-                              copyToClipboard(
-                                normalizeColorOutput(item.color, item.name)
-                              )
-                            }>
-                            <CopyIcon className="w-4 transition-colors group-hover:stroke-primary group-active:stroke-blue-400" />
-                          </Button>
-                        </TooltipWrapper>
-                      </div>
+
+                      {colorHeadings[i + 1] ? (
+                        <Separator decorative orientation="vertical" />
+                      ) : null}
+                    </Fragment>
+                  ))}
+                </div>
+
+                <Separator decorative />
+
+                <div className="mx-auto mb-3 flex w-full max-w-lg flex-col gap-4">
+                  <div className="flex w-full items-center gap-3">
+                    <Label
+                      htmlFor="alpha-input"
+                      className="w-12 text-xs font-medium uppercase">
+                      alpha
+                    </Label>
+                    <div className="relative -top-1 w-full">
+                      <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
+                        0
+                      </span>
+                      <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
+                        1
+                      </span>
+                      <input
+                        type="range"
+                        id="alpha-input"
+                        step={0.1}
+                        min={0}
+                        max={1}
+                        value={rgbaColor.a}
+                        onChange={(e) => {
+                          setRgbaColor((current) => ({
+                            ...current,
+                            a: parseFloat(e.target.value)
+                          }));
+                        }}
+                        className="base-range-input bg-slate-400 dark:bg-slate-600"
+                      />
                     </div>
-
-                    {colorHeadings[i + 1] ? (
-                      <Separator decorative orientation="vertical" />
-                    ) : null}
-                  </Fragment>
-                ))}
-              </div>
-
-              <Separator decorative />
-
-              <div className="mx-auto mb-3 flex w-full max-w-lg flex-col gap-4">
-                <div className="flex w-full items-center gap-3">
-                  <Label
-                    htmlFor="alpha-input"
-                    className="w-12 text-xs font-medium uppercase">
-                    alpha
-                  </Label>
-                  <div className="relative -top-1 w-full">
-                    <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
-                      0
-                    </span>
-                    <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
-                      1
-                    </span>
-                    <input
-                      type="range"
-                      id="alpha-input"
-                      step={0.1}
-                      min={0}
-                      max={1}
-                      value={rgbaColor.a}
-                      onChange={(e) => {
-                        setRgbaColor((current) => ({
-                          ...current,
-                          a: parseFloat(e.target.value)
-                        }));
-                      }}
-                      className="base-range-input bg-slate-400 dark:bg-slate-600"
-                    />
+                  </div>
+                  <div className="flex w-full items-center gap-3">
+                    <Label
+                      htmlFor="red-input"
+                      className="w-12 text-xs font-medium uppercase">
+                      red
+                    </Label>
+                    <div className="relative -top-1 w-full">
+                      <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
+                        0
+                      </span>
+                      <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
+                        255
+                      </span>
+                      <input
+                        type="range"
+                        id="red-input"
+                        step={1}
+                        min={0}
+                        max={255}
+                        value={rgbaColor.r}
+                        onChange={(e) => {
+                          setRgbaColor((current) => ({
+                            ...current,
+                            r: parseInt(e.target.value)
+                          }));
+                        }}
+                        className="base-range-input bg-red-600"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex w-full items-center gap-3">
+                    <Label
+                      htmlFor="green-input"
+                      className="w-12 text-xs font-medium uppercase">
+                      green
+                    </Label>
+                    <div className="relative -top-1 w-full">
+                      <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
+                        0
+                      </span>
+                      <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
+                        255
+                      </span>
+                      <input
+                        type="range"
+                        id="green-input"
+                        step={1}
+                        min={0}
+                        max={255}
+                        value={rgbaColor.g}
+                        onChange={(e) => {
+                          setRgbaColor((current) => ({
+                            ...current,
+                            g: parseInt(e.target.value)
+                          }));
+                        }}
+                        className="base-range-input bg-green-600"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex w-full items-center gap-3">
+                    <Label
+                      htmlFor="blue-input"
+                      className="w-12 text-xs font-medium uppercase">
+                      blue
+                    </Label>
+                    <div className="relative -top-1 w-full">
+                      <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
+                        0
+                      </span>
+                      <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
+                        255
+                      </span>
+                      <input
+                        type="range"
+                        id="blue-input"
+                        step={1}
+                        min={0}
+                        max={255}
+                        value={rgbaColor.b}
+                        onChange={(e) => {
+                          setRgbaColor((current) => ({
+                            ...current,
+                            b: parseInt(e.target.value)
+                          }));
+                        }}
+                        className="base-range-input bg-blue-400"
+                      />
+                    </div>
                   </div>
                 </div>
-                <div className="flex w-full items-center gap-3">
-                  <Label
-                    htmlFor="red-input"
-                    className="w-12 text-xs font-medium uppercase">
-                    red
-                  </Label>
-                  <div className="relative -top-1 w-full">
-                    <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
-                      0
-                    </span>
-                    <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
-                      255
-                    </span>
-                    <input
-                      type="range"
-                      id="red-input"
-                      step={1}
-                      min={0}
-                      max={255}
-                      value={rgbaColor.r}
-                      onChange={(e) => {
-                        setRgbaColor((current) => ({
-                          ...current,
-                          r: parseInt(e.target.value)
-                        }));
-                      }}
-                      className="base-range-input bg-red-600"
-                    />
-                  </div>
-                </div>
-                <div className="flex w-full items-center gap-3">
-                  <Label
-                    htmlFor="green-input"
-                    className="w-12 text-xs font-medium uppercase">
-                    green
-                  </Label>
-                  <div className="relative -top-1 w-full">
-                    <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
-                      0
-                    </span>
-                    <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
-                      255
-                    </span>
-                    <input
-                      type="range"
-                      id="green-input"
-                      step={1}
-                      min={0}
-                      max={255}
-                      value={rgbaColor.g}
-                      onChange={(e) => {
-                        setRgbaColor((current) => ({
-                          ...current,
-                          g: parseInt(e.target.value)
-                        }));
-                      }}
-                      className="base-range-input bg-green-600"
-                    />
-                  </div>
-                </div>
-                <div className="flex w-full items-center gap-3">
-                  <Label
-                    htmlFor="blue-input"
-                    className="w-12 text-xs font-medium uppercase">
-                    blue
-                  </Label>
-                  <div className="relative -top-1 w-full">
-                    <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
-                      0
-                    </span>
-                    <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
-                      255
-                    </span>
-                    <input
-                      type="range"
-                      id="blue-input"
-                      step={1}
-                      min={0}
-                      max={255}
-                      value={rgbaColor.b}
-                      onChange={(e) => {
-                        setRgbaColor((current) => ({
-                          ...current,
-                          b: parseInt(e.target.value)
-                        }));
-                      }}
-                      className="base-range-input bg-blue-400"
-                    />
-                  </div>
-                </div>
-              </div>
 
-              <Separator decorative />
+                <Separator decorative />
 
-              <div className="flex w-full flex-wrap items-center justify-center gap-2 md:flex-nowrap">
-                {solidColorActions.map((action, i) => (
-                  <Button
-                    key={i}
-                    variant={'outline'}
-                    size={'lg'}
-                    onClick={action.handler}
-                    className="group flex w-full items-center gap-2 rounded-3xl mobile:w-fit">
-                    <action.icon className="w-4 transition-colors group-hover:stroke-blue-400 group-active:stroke-blue-400" />
-                    <span className="capitalize transition-colors group-hover:text-blue-400">
-                      {action.name}
-                    </span>
-                  </Button>
-                ))}
-              </div>
+                <div className="flex w-full flex-wrap items-center justify-center gap-2 md:flex-nowrap">
+                  {solidColorActions.map((action, i) => (
+                    <Button
+                      key={i}
+                      variant={'outline'}
+                      size={'lg'}
+                      onClick={action.handler}
+                      className="group flex w-full items-center gap-2 rounded-3xl mobile:w-fit">
+                      <action.icon className="w-4 transition-colors group-hover:stroke-blue-400 group-active:stroke-blue-400" />
+                      <span className="capitalize transition-colors group-hover:text-blue-400">
+                        {action.name}
+                      </span>
+                    </Button>
+                  ))}
+                </div>
+              </section>
             </section>
           </section>
         </TabsContent>
 
-        <TabsContent value="gradient" className="flex w-full flex-col">
-          <section className="base-border flex w-full flex-col gap-3 rounded-2xl bg-foreground-default p-4 md:flex-row">
-            <div
-              style={{ ...gradients.css }}
-              className="base-shadow base-border min-h-[200px] w-full rounded-2xl md:w-[480px]"
-            />
-
-            <section className="flex w-full flex-col gap-3">
-              <h3 className="mx-auto w-full max-w-lg">Gradient Color 1</h3>
+        <TabsContent value="gradient">
+          <section className="flex w-full flex-col">
+            <section className="base-border flex w-full flex-col gap-3 rounded-2xl bg-foreground-default p-4 md:flex-row">
+              <div
+                style={{ ...gradients.css }}
+                className="base-shadow base-border min-h-[200px] w-full rounded-2xl md:w-[480px]"
+              />
 
               <section className="flex w-full flex-col gap-3">
-                <div className="mx-auto mb-3 flex w-full max-w-lg flex-col gap-4">
-                  <div className="flex w-full items-center gap-3">
-                    <Label
-                      htmlFor="gradient-1-alpha-input"
-                      className="w-12 text-xs font-medium uppercase">
-                      alpha
-                    </Label>
-                    <div className="relative -top-1 w-full">
-                      <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
-                        0
-                      </span>
-                      <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
-                        1
-                      </span>
-                      <input
-                        id="gradient-1-alpha-input"
-                        type="range"
-                        step={0.1}
-                        min={0}
-                        max={1}
-                        value={gradientRGBA.color_1.a}
-                        onChange={(e) =>
-                          setGradientRGBA((current) => ({
-                            ...current,
-                            color_1: {
-                              ...current.color_1,
-                              a: parseFloat(e.target.value)
-                            }
-                          }))
-                        }
-                        className="base-range-input bg-slate-400 dark:bg-slate-600"
-                      />
+                <h3 className="mx-auto w-full max-w-lg">Gradient Color 1</h3>
+
+                <section className="flex w-full flex-col gap-3">
+                  <div className="mx-auto mb-3 flex w-full max-w-lg flex-col gap-4">
+                    <div className="flex w-full items-center gap-3">
+                      <Label
+                        htmlFor="gradient-1-alpha-input"
+                        className="w-12 text-xs font-medium uppercase">
+                        alpha
+                      </Label>
+                      <div className="relative -top-1 w-full">
+                        <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
+                          0
+                        </span>
+                        <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
+                          1
+                        </span>
+                        <input
+                          id="gradient-1-alpha-input"
+                          type="range"
+                          step={0.1}
+                          min={0}
+                          max={1}
+                          value={gradientRGBA.color_1.a}
+                          onChange={(e) =>
+                            setGradientRGBA((current) => ({
+                              ...current,
+                              color_1: {
+                                ...current.color_1,
+                                a: parseFloat(e.target.value)
+                              }
+                            }))
+                          }
+                          className="base-range-input bg-slate-400 dark:bg-slate-600"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex w-full items-center gap-3">
+                      <Label
+                        htmlFor="gradient-1-red-input"
+                        className="w-12 text-xs font-medium uppercase">
+                        red
+                      </Label>
+                      <div className="relative -top-1 w-full">
+                        <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
+                          0
+                        </span>
+                        <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
+                          255
+                        </span>
+                        <input
+                          id="gradient-1-red-input"
+                          type="range"
+                          step={1}
+                          min={0}
+                          max={255}
+                          value={gradientRGBA.color_1.r}
+                          className="base-range-input bg-red-600"
+                          onChange={(e) =>
+                            setGradientRGBA((current) => ({
+                              ...current,
+                              color_1: {
+                                ...current.color_1,
+                                r: parseFloat(e.target.value)
+                              }
+                            }))
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="flex w-full items-center gap-3">
+                      <Label
+                        htmlFor="gradient-1-green-input"
+                        className="w-12 text-xs font-medium uppercase">
+                        green
+                      </Label>
+                      <div className="relative -top-1 w-full">
+                        <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
+                          0
+                        </span>
+                        <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
+                          255
+                        </span>
+                        <input
+                          id="gradient-1-green-input"
+                          type="range"
+                          step={1}
+                          min={0}
+                          max={255}
+                          value={gradientRGBA.color_1.g}
+                          className="base-range-input bg-green-600"
+                          onChange={(e) =>
+                            setGradientRGBA((current) => ({
+                              ...current,
+                              color_1: {
+                                ...current.color_1,
+                                g: parseFloat(e.target.value)
+                              }
+                            }))
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="flex w-full items-center gap-3">
+                      <Label
+                        htmlFor="gradient-1-blue-input"
+                        className="w-12 text-xs font-medium uppercase">
+                        blue
+                      </Label>
+                      <div className="relative -top-1 w-full">
+                        <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
+                          0
+                        </span>
+                        <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
+                          255
+                        </span>
+                        <input
+                          id="gradient-1-blue-input"
+                          type="range"
+                          step={1}
+                          min={0}
+                          max={255}
+                          value={gradientRGBA.color_1.b}
+                          className="base-range-input bg-blue-400"
+                          onChange={(e) =>
+                            setGradientRGBA((current) => ({
+                              ...current,
+                              color_1: {
+                                ...current.color_1,
+                                b: parseFloat(e.target.value)
+                              }
+                            }))
+                          }
+                        />
+                      </div>
                     </div>
                   </div>
-                  <div className="flex w-full items-center gap-3">
-                    <Label
-                      htmlFor="gradient-1-red-input"
-                      className="w-12 text-xs font-medium uppercase">
-                      red
-                    </Label>
-                    <div className="relative -top-1 w-full">
-                      <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
-                        0
-                      </span>
-                      <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
-                        255
-                      </span>
-                      <input
-                        id="gradient-1-red-input"
-                        type="range"
-                        step={1}
-                        min={0}
-                        max={255}
-                        value={gradientRGBA.color_1.r}
-                        className="base-range-input bg-red-600"
-                        onChange={(e) =>
-                          setGradientRGBA((current) => ({
-                            ...current,
-                            color_1: {
-                              ...current.color_1,
-                              r: parseFloat(e.target.value)
-                            }
-                          }))
-                        }
-                      />
+                </section>
+
+                <Separator decorative />
+                <h3 className="mx-auto w-full max-w-lg">Gradient Color 2</h3>
+
+                <section className="mb-3 flex w-full flex-col gap-3">
+                  <div className="mx-auto flex w-full max-w-lg flex-col gap-4">
+                    <div className="flex w-full items-center gap-3">
+                      <Label
+                        htmlFor="gradient-2-alpha-input"
+                        className="w-12 text-xs font-medium uppercase">
+                        alpha
+                      </Label>
+                      <div className="relative -top-1 w-full">
+                        <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
+                          0
+                        </span>
+                        <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
+                          1
+                        </span>
+                        <input
+                          id="gradient-2-alpha-input"
+                          type="range"
+                          step={0.1}
+                          min={0}
+                          max={1}
+                          value={gradientRGBA.color_2.a}
+                          onChange={(e) =>
+                            setGradientRGBA((current) => ({
+                              ...current,
+                              color_2: {
+                                ...current.color_2,
+                                a: parseFloat(e.target.value)
+                              }
+                            }))
+                          }
+                          className="base-range-input bg-slate-400 dark:bg-slate-600"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex w-full items-center gap-3">
+                      <Label
+                        htmlFor="gradient-2-red-input"
+                        className="w-12 text-xs font-medium uppercase">
+                        red
+                      </Label>
+                      <div className="relative -top-1 w-full">
+                        <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
+                          0
+                        </span>
+                        <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
+                          255
+                        </span>
+
+                        <input
+                          id="gradient-2-red-input"
+                          type="range"
+                          step={1}
+                          min={0}
+                          max={255}
+                          value={gradientRGBA.color_2.r}
+                          className="base-range-input bg-red-600"
+                          onChange={(e) =>
+                            setGradientRGBA((current) => ({
+                              ...current,
+                              color_2: {
+                                ...current.color_2,
+                                r: parseFloat(e.target.value)
+                              }
+                            }))
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="flex w-full items-center gap-3">
+                      <Label
+                        htmlFor="gradient-2-green-input"
+                        className="w-12 text-xs font-medium uppercase">
+                        green
+                      </Label>
+                      <div className="relative -top-1 w-full ">
+                        <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
+                          0
+                        </span>
+                        <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
+                          255
+                        </span>
+                        <input
+                          id="gradient-2-green-input"
+                          type="range"
+                          step={1}
+                          min={0}
+                          max={255}
+                          value={gradientRGBA.color_2.g}
+                          className="base-range-input bg-green-600"
+                          onChange={(e) =>
+                            setGradientRGBA((current) => ({
+                              ...current,
+                              color_2: {
+                                ...current.color_2,
+                                g: parseFloat(e.target.value)
+                              }
+                            }))
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="flex w-full items-center gap-3">
+                      <Label
+                        htmlFor="gradient-2-blue-input"
+                        className="w-12 text-xs font-medium uppercase">
+                        blue
+                      </Label>
+                      <div className="relative -top-1 w-full">
+                        <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
+                          0
+                        </span>
+                        <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
+                          255
+                        </span>
+                        <input
+                          id="gradient-2-blue-input"
+                          type="range"
+                          step={1}
+                          min={0}
+                          max={255}
+                          value={gradientRGBA.color_2.b}
+                          className="base-range-input bg-blue-400"
+                          onChange={(e) =>
+                            setGradientRGBA((current) => ({
+                              ...current,
+                              color_2: {
+                                ...current.color_2,
+                                b: parseFloat(e.target.value)
+                              }
+                            }))
+                          }
+                        />
+                      </div>
                     </div>
                   </div>
-                  <div className="flex w-full items-center gap-3">
-                    <Label
-                      htmlFor="gradient-1-green-input"
-                      className="w-12 text-xs font-medium uppercase">
-                      green
-                    </Label>
-                    <div className="relative -top-1 w-full">
-                      <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
-                        0
+                </section>
+
+                <Separator decorative />
+
+                <div className="flex w-full flex-wrap items-center justify-center gap-2 md:flex-nowrap">
+                  {gradientColorActions.map((action, i) => (
+                    <Button
+                      key={i}
+                      variant={'outline'}
+                      size={'lg'}
+                      onClick={action.handler}
+                      className="group flex w-full items-center gap-2 rounded-3xl mobile:w-fit">
+                      <action.icon className="w-4 transition-colors group-hover:stroke-blue-400 group-active:stroke-blue-400" />
+                      <span className="capitalize transition-colors group-hover:text-blue-400">
+                        {action.name}
                       </span>
-                      <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
-                        255
-                      </span>
-                      <input
-                        id="gradient-1-green-input"
-                        type="range"
-                        step={1}
-                        min={0}
-                        max={255}
-                        value={gradientRGBA.color_1.g}
-                        className="base-range-input bg-green-600"
-                        onChange={(e) =>
-                          setGradientRGBA((current) => ({
-                            ...current,
-                            color_1: {
-                              ...current.color_1,
-                              g: parseFloat(e.target.value)
-                            }
-                          }))
-                        }
-                      />
-                    </div>
-                  </div>
-                  <div className="flex w-full items-center gap-3">
-                    <Label
-                      htmlFor="gradient-1-blue-input"
-                      className="w-12 text-xs font-medium uppercase">
-                      blue
-                    </Label>
-                    <div className="relative -top-1 w-full">
-                      <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
-                        0
-                      </span>
-                      <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
-                        255
-                      </span>
-                      <input
-                        id="gradient-1-blue-input"
-                        type="range"
-                        step={1}
-                        min={0}
-                        max={255}
-                        value={gradientRGBA.color_1.b}
-                        className="base-range-input bg-blue-400"
-                        onChange={(e) =>
-                          setGradientRGBA((current) => ({
-                            ...current,
-                            color_1: {
-                              ...current.color_1,
-                              b: parseFloat(e.target.value)
-                            }
-                          }))
-                        }
-                      />
-                    </div>
-                  </div>
+                    </Button>
+                  ))}
                 </div>
               </section>
-
-              <Separator decorative />
-              <h3 className="mx-auto w-full max-w-lg">Gradient Color 2</h3>
-
-              <section className="mb-3 flex w-full flex-col gap-3">
-                <div className="mx-auto flex w-full max-w-lg flex-col gap-4">
-                  <div className="flex w-full items-center gap-3">
-                    <Label
-                      htmlFor="gradient-2-alpha-input"
-                      className="w-12 text-xs font-medium uppercase">
-                      alpha
-                    </Label>
-                    <div className="relative -top-1 w-full">
-                      <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
-                        0
-                      </span>
-                      <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
-                        1
-                      </span>
-                      <input
-                        id="gradient-2-alpha-input"
-                        type="range"
-                        step={0.1}
-                        min={0}
-                        max={1}
-                        value={gradientRGBA.color_2.a}
-                        onChange={(e) =>
-                          setGradientRGBA((current) => ({
-                            ...current,
-                            color_2: {
-                              ...current.color_2,
-                              a: parseFloat(e.target.value)
-                            }
-                          }))
-                        }
-                        className="base-range-input bg-slate-400 dark:bg-slate-600"
-                      />
-                    </div>
-                  </div>
-                  <div className="flex w-full items-center gap-3">
-                    <Label
-                      htmlFor="gradient-2-red-input"
-                      className="w-12 text-xs font-medium uppercase">
-                      red
-                    </Label>
-                    <div className="relative -top-1 w-full">
-                      <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
-                        0
-                      </span>
-                      <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
-                        255
-                      </span>
-
-                      <input
-                        id="gradient-2-red-input"
-                        type="range"
-                        step={1}
-                        min={0}
-                        max={255}
-                        value={gradientRGBA.color_2.r}
-                        className="base-range-input bg-red-600"
-                        onChange={(e) =>
-                          setGradientRGBA((current) => ({
-                            ...current,
-                            color_2: {
-                              ...current.color_2,
-                              r: parseFloat(e.target.value)
-                            }
-                          }))
-                        }
-                      />
-                    </div>
-                  </div>
-                  <div className="flex w-full items-center gap-3">
-                    <Label
-                      htmlFor="gradient-2-green-input"
-                      className="w-12 text-xs font-medium uppercase">
-                      green
-                    </Label>
-                    <div className="relative -top-1 w-full ">
-                      <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
-                        0
-                      </span>
-                      <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
-                        255
-                      </span>
-                      <input
-                        id="gradient-2-green-input"
-                        type="range"
-                        step={1}
-                        min={0}
-                        max={255}
-                        value={gradientRGBA.color_2.g}
-                        className="base-range-input bg-green-600"
-                        onChange={(e) =>
-                          setGradientRGBA((current) => ({
-                            ...current,
-                            color_2: {
-                              ...current.color_2,
-                              g: parseFloat(e.target.value)
-                            }
-                          }))
-                        }
-                      />
-                    </div>
-                  </div>
-                  <div className="flex w-full items-center gap-3">
-                    <Label
-                      htmlFor="gradient-2-blue-input"
-                      className="w-12 text-xs font-medium uppercase">
-                      blue
-                    </Label>
-                    <div className="relative -top-1 w-full">
-                      <span className="first-letter: absolute -bottom-4 left-0 text-xs font-semibold ">
-                        0
-                      </span>
-                      <span className="first-letter: absolute -bottom-4 right-0 text-xs font-semibold">
-                        255
-                      </span>
-                      <input
-                        id="gradient-2-blue-input"
-                        type="range"
-                        step={1}
-                        min={0}
-                        max={255}
-                        value={gradientRGBA.color_2.b}
-                        className="base-range-input bg-blue-400"
-                        onChange={(e) =>
-                          setGradientRGBA((current) => ({
-                            ...current,
-                            color_2: {
-                              ...current.color_2,
-                              b: parseFloat(e.target.value)
-                            }
-                          }))
-                        }
-                      />
-                    </div>
-                  </div>
-                </div>
-              </section>
-
-              <Separator decorative />
-
-              <div className="flex w-full flex-wrap items-center justify-center gap-2 md:flex-nowrap">
-                {gradientColorActions.map((action, i) => (
-                  <Button
-                    key={i}
-                    variant={'outline'}
-                    size={'lg'}
-                    onClick={action.handler}
-                    className="group flex w-full items-center gap-2 rounded-3xl mobile:w-fit">
-                    <action.icon className="w-4 transition-colors group-hover:stroke-blue-400 group-active:stroke-blue-400" />
-                    <span className="capitalize transition-colors group-hover:text-blue-400">
-                      {action.name}
-                    </span>
-                  </Button>
-                ))}
-              </div>
             </section>
           </section>
         </TabsContent>
