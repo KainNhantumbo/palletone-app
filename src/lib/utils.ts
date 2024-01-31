@@ -42,10 +42,9 @@ export const buildGradient = (color1: RGBA, color2: RGBA) => {
   const cssGradient: CSSProperties = {
     background: `linear-gradient(45deg, rgba(${gradient.color_1}), rgba(${gradient.color_2}))`
   };
-
   return {
     css: cssGradient,
-    cssString: cssGradient.background?.toString(),
+    cssString: String(cssGradient.background),
     gradient
   };
 };

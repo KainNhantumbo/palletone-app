@@ -11,27 +11,28 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { copyToClipboard, transformColorsToString } from '@/lib/utils';
+import {
+  buildGradient,
+  copyToClipboard,
+  transformColorsToString
+} from '@/lib/utils';
 import type { ColorVariantsHeadings, RGBA } from '@/types';
+import { MixedGradient } from '@/types';
+import { type FC, useMemo } from 'react';
 import { ClipboardCopyIcon, DropletsIcon, MoreVerticalIcon } from 'lucide-react';
-import { useMemo, type FC } from 'react';
 import { Button } from './ui/button';
 
-export type SolidOptionsMenuProps = {
-  color: RGBA;
+export type GradientColorsMenuProps = {
+  color_1: { raw: RGBA; stringColors: ColorVariantsHeadings };
+  color_2: { raw: RGBA; stringColors: ColorVariantsHeadings };
+  linearCSSGradient: string;
 };
 
-export const SolidOptionsMenu: FC<SolidOptionsMenuProps> = ({ color }) => {
-  const colors: ColorVariantsHeadings = useMemo(
-    () =>
-      Object.entries(transformColorsToString(color)).map(([key, value]) => ({
-        name: key,
-        color: value
-      })),
-
-    [color]
-  );
-
+export const GradientsColorsMenu: FC<GradientColorsMenuProps> = ({
+  color_1,
+  color_2,
+  linearCSSGradient
+}) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -48,11 +49,29 @@ export const SolidOptionsMenu: FC<SolidOptionsMenuProps> = ({ color }) => {
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
               <ClipboardCopyIcon className="mr-2 h-4 w-4" />
-              <span>Copy as</span>
+              <span>Copy color 1 as</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
-                {colors.map(({ name, color }, i) => (
+                {color_1.stringColors.map(({ name, color }, i) => (
+                  <DropdownMenuItem
+                    key={i}
+                    onClick={() => copyToClipboard(color, false)}>
+                    <DropletsIcon className="mr-2 h-4 w-4" />
+                    <span className="font-semibold uppercase">{name} </span>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <ClipboardCopyIcon className="mr-2 h-4 w-4" />
+              <span>Copy color 2 as</span>
+            </DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                {color_2.stringColors.map(({ name, color }, i) => (
                   <DropdownMenuItem
                     key={i}
                     onClick={() => copyToClipboard(color, false)}>

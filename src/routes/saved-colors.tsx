@@ -17,16 +17,21 @@ import { HarmonyColorsDB, MixedGradient, SolidColor } from '@/types';
 import { useDocumentTitle, useLocalStorage } from '@uidotdev/usehooks';
 import {
   ArrowLeftIcon,
+  BirdIcon,
+  CandyCaneIcon,
   CopyIcon,
   DropletIcon,
   PaintbrushIcon,
   PocketIcon
 } from 'lucide-react';
-import { RemoveColorAlert } from '@/components/remove-color-alert';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import tinycolor from 'tinycolor2';
 import { m as motion } from 'framer-motion';
 import { SolidOptionsMenu } from '@/components/solid-colors-menu';
+import { RemoveColorAlert } from '@/components/remove-color-alert';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { EmptyMessage } from '@/components/empty-message';
+import { useMemo } from 'react';
+import { GradientsColorsMenu } from '@/components/gradient-colors-menu';
 
 export default function SavedColors() {
   useDocumentTitle('Palletone - Saved colors');
@@ -51,6 +56,31 @@ export default function SavedColors() {
       monochromatic: []
     }
   );
+
+  const gradients = useMemo(() => {
+    return gradientColorsDB.map((item) => ({
+      ...item,
+      color_1: {
+        raw: item.color_1,
+        stringColors: Object.entries(transformColorsToString(item.color_1)).map(
+          ([key, value]) => ({
+            name: key,
+            color: value
+          })
+        )
+      },
+      color_2: {
+        raw: item.color_2,
+        stringColors: Object.entries(transformColorsToString(item.color_2)).map(
+          ([key, value]) => ({
+            name: key,
+            color: value
+          })
+        )
+      },
+      linearCSSGradient: buildGradient(item.color_1, item.color_2)
+    }));
+  }, [gradientColorsDB]);
 
   const handleRemoveComplementColor = (id: string) =>
     updateHarmonyColorsDB((db) => ({
@@ -135,39 +165,120 @@ export default function SavedColors() {
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="solid" className="flex w-full flex-col">
-            <section className="base-border grid w-full grid-cols-1 gap-2 rounded-2xl bg-foreground-default p-4 mobile:grid-cols-2 md:grid-cols-3 md:flex-row md:gap-3">
-              {solidColorsDB
-                .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1))
-                .map(({ id, value, createdAt }, i) => (
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1, transition: { delay: i * 0.2 } }}
-                    whileHover={{ y: -10, transition: { delay: 0 } }}
-                    className="base-border base-shadow flex w-full flex-col gap-3 rounded-2xl p-1 pb-2"
-                    key={id}>
-                    <div
-                      style={{ background: tinycolor(value).toRgbString() }}
-                      className="base-shadow base-border relative min-h-[200px] rounded-2xl md:w-full md:max-w-[220px]">
-                      <span className="base-border absolute left-2 top-2 h-fit w-fit rounded-full bg-background-default p-1 px-2 text-xs font-semibold">
-                        {normalizeColorOutput(
-                          transformColorsToString(value).hex,
-                          'hex'
-                        )}
-                      </span>
-                    </div>
+          <TabsContent value="solid">
+            <section className="base-border flex w-full flex-col gap-3  rounded-2xl bg-foreground-default p-4">
+              <h3>About {solidColorsDB.length} colors saved.</h3>
+              <Separator decorative className="mb-2" />
 
-                    <div className="flex w-full items-center justify-between gap-1 px-2">
-                      <p className="text-xs font-medium">{getDate(createdAt)}</p>
-                      <div className="flex items-center gap-1">
-                        <RemoveColorAlert
-                          onConfirm={() => handleRemoveSolidColor(id)}
-                        />
-                        <SolidOptionsMenu color={value} />
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
+              {solidColorsDB.length > 0 ? (
+                <section className="grid w-full grid-cols-1 gap-2 mobile:grid-cols-2 md:grid-cols-3 md:flex-row md:gap-3">
+                  {solidColorsDB
+                    .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1))
+                    .map(({ id, value, createdAt }, i) => (
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1, transition: { delay: i * 0.2 } }}
+                        whileHover={{ y: -10, transition: { delay: 0 } }}
+                        className="base-border base-shadow flex w-full flex-col gap-3 rounded-2xl p-1 pb-2"
+                        key={id}>
+                        <div
+                          style={{ background: tinycolor(value).toRgbString() }}
+                          className="base-shadow base-border relative min-h-[200px] rounded-2xl md:w-full md:max-w-[220px]">
+                          <span className="base-border absolute left-2 top-2 h-fit w-fit rounded-full bg-background-default p-1 px-2 text-xs font-semibold">
+                            {normalizeColorOutput(
+                              transformColorsToString(value).hex,
+                              'hex'
+                            )}
+                          </span>
+                        </div>
+
+                        <div className="flex w-full items-center justify-between gap-1 px-2">
+                          <p className="text-xs font-medium">{getDate(createdAt)}</p>
+                          <div className="flex items-center gap-1">
+                            <RemoveColorAlert
+                              onConfirm={() => handleRemoveSolidColor(id)}
+                            />
+                            <SolidOptionsMenu color={value} />
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                </section>
+              ) : null}
+
+              {solidColorsDB.length < 1 ? (
+                <EmptyMessage
+                  icon={BirdIcon}
+                  message="Your saved colors will appear here. Collect and save some colors to start."
+                />
+              ) : null}
+            </section>
+          </TabsContent>
+
+          <TabsContent value="gradient">
+            <section className="base-border flex w-full flex-col gap-3  rounded-2xl bg-foreground-default p-4">
+              <h3>About {gradientColorsDB.length} gradients saved.</h3>
+              <Separator decorative className="mb-2" />
+
+              {gradientColorsDB.length > 0 ? (
+                <section className="grid w-full grid-cols-1 gap-2 mobile:grid-cols-2 md:grid-cols-3 md:flex-row md:gap-3">
+                  {gradients
+                    .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1))
+                    .map(
+                      (
+                        { id, color_1, color_2, linearCSSGradient, createdAt },
+                        i
+                      ) => (
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1, transition: { delay: i * 0.2 } }}
+                          whileHover={{ y: -10, transition: { delay: 0 } }}
+                          className="base-border base-shadow flex w-full flex-col gap-3 rounded-2xl p-1 pb-2"
+                          key={id}>
+                          <div
+                            style={{ ...linearCSSGradient.css }}
+                            className="base-shadow base-border relative min-h-[200px] rounded-2xl md:w-full md:max-w-[220px]">
+                            <span className="base-border absolute left-2 top-2 h-fit w-fit rounded-full bg-background-default p-1 px-2 text-xs font-semibold">
+                              {normalizeColorOutput(
+                                transformColorsToString(color_1.raw).hex,
+                                'hex'
+                              )}
+                            </span>
+                            <span className="base-border absolute left-2 top-10 h-fit w-fit rounded-full bg-background-default p-1 px-2 text-xs font-semibold">
+                              {normalizeColorOutput(
+                                transformColorsToString(color_2.raw).hex,
+                                'hex'
+                              )}
+                            </span>
+                          </div>
+
+                          <div className="flex w-full items-center justify-between gap-1 px-2">
+                            <p className="text-xs font-medium">
+                              {getDate(createdAt)}
+                            </p>
+                            <div className="flex items-center gap-1">
+                              <RemoveColorAlert
+                                onConfirm={() => handleRemoveGradientColor(id)}
+                              />
+                              <GradientsColorsMenu
+                                color_1={color_1}
+                                color_2={color_2}
+                                linearCSSGradient={linearCSSGradient.cssString}
+                              />
+                            </div>
+                          </div>
+                        </motion.div>
+                      )
+                    )}
+                </section>
+              ) : null}
+
+              {gradientColorsDB.length < 1 ? (
+                <EmptyMessage
+                  icon={CandyCaneIcon}
+                  message="Your saved gradients will appear here. Collect and save some gradient colors to start."
+                />
+              ) : null}
             </section>
           </TabsContent>
         </Tabs>
