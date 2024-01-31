@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import compareObjects from 'lodash.isequal';
 import {
   buildGradient,
   copyToClipboard,
@@ -47,15 +48,14 @@ export default function Palettes() {
     };
   });
 
-  const [, updateSolidColorDB] = useLocalStorage<SolidColor[]>(
+  const [solidColorsDB, updateSolidColorDB] = useLocalStorage<SolidColor[]>(
     SOLID_COLORS_STORAGE_KEY,
     []
   );
 
-  const [, updateGradientColorsDB] = useLocalStorage<MixedGradient[]>(
-    MIXED_GRADIENT_STORAGE_KEY,
-    []
-  );
+  const [gradientColorsDB, updateGradientColorsDB] = useLocalStorage<
+    MixedGradient[]
+  >(MIXED_GRADIENT_STORAGE_KEY, []);
 
   const colorVariants = useMemo(
     () => transformColorsToString(rgbaColor),
@@ -111,18 +111,34 @@ export default function Palettes() {
   ];
 
   const handleSaveSolidColor = () => {
-    updateSolidColorDB((current) => [
-      ...current,
-      {
-        id: crypto.randomUUID(),
-        value: rgbaColor,
-        createdAt: new Date().toISOString()
-      }
-    ]);
+    const isDuplicate = solidColorsDB
+      .map((color) => color.value)
+      .some((value: RGBA) => compareObjects(value, rgbaColor));
+
+    if (isDuplicate) return toast.error('Color already saved.');
+
+    updateSolidColorDB((current) => {
+      return [
+        ...current,
+        {
+          id: crypto.randomUUID(),
+          value: rgbaColor,
+          createdAt: new Date().toISOString()
+        }
+      ];
+    });
     toast.success('Color saved successfully.');
   };
 
   const handleSaveGradient = () => {
+    const isDuplicate = gradientColorsDB.some(
+      (values) =>
+        compareObjects(values.color_1, gradientRGBA.color_1) &&
+        compareObjects(values.color_2, gradientRGBA.color_2)
+    );
+
+    if (isDuplicate) return toast.error('Gradient already saved.');
+
     updateGradientColorsDB((current) => [
       ...current,
       {
