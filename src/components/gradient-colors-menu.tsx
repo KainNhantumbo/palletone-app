@@ -11,27 +11,30 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import {
-  buildGradient,
-  copyToClipboard,
-  transformColorsToString
-} from '@/lib/utils';
+import { copyToClipboard } from '@/lib/utils';
 import type { ColorVariantsHeadings, RGBA } from '@/types';
-import { MixedGradient } from '@/types';
-import { type FC, useMemo } from 'react';
-import { ClipboardCopyIcon, DropletsIcon, MoreVerticalIcon } from 'lucide-react';
+import {
+  ApertureIcon,
+  BrushIcon,
+  ClipboardCopyIcon,
+  DropletsIcon,
+  MoreVerticalIcon
+} from 'lucide-react';
+import { type FC } from 'react';
 import { Button } from './ui/button';
 
 export type GradientColorsMenuProps = {
   color_1: { raw: RGBA; stringColors: ColorVariantsHeadings };
   color_2: { raw: RGBA; stringColors: ColorVariantsHeadings };
   linearCSSGradient: string;
+  radialCSSGradient: string;
 };
 
 export const GradientsColorsMenu: FC<GradientColorsMenuProps> = ({
   color_1,
   color_2,
-  linearCSSGradient
+  linearCSSGradient,
+  radialCSSGradient
 }) => {
   return (
     <DropdownMenu>
@@ -43,13 +46,23 @@ export const GradientsColorsMenu: FC<GradientColorsMenuProps> = ({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="base-border w-56 bg-background-default">
-        <DropdownMenuLabel>Solid Colors</DropdownMenuLabel>
+        <DropdownMenuLabel>Gradient Colors</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
+          <DropdownMenuItem
+            onClick={() => copyToClipboard(linearCSSGradient, false)}>
+            <BrushIcon className="mr-2 h-4 w-4" />
+            <span>Copy linear css gradient</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => copyToClipboard(radialCSSGradient, false)}>
+            <ApertureIcon className="mr-2 h-4 w-4" />
+            <span>Copy radial css gradient</span>
+          </DropdownMenuItem>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
               <ClipboardCopyIcon className="mr-2 h-4 w-4" />
-              <span>Copy color 1 as</span>
+              <span>Copy primary color as</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
@@ -67,7 +80,7 @@ export const GradientsColorsMenu: FC<GradientColorsMenuProps> = ({
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
               <ClipboardCopyIcon className="mr-2 h-4 w-4" />
-              <span>Copy color 2 as</span>
+              <span>Copy secondary color as</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>

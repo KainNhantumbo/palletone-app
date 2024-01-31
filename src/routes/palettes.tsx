@@ -101,7 +101,7 @@ export default function Palettes() {
     {
       name: 'copy as CSS',
       icon: CopyIcon,
-      handler: () => copyToClipboard(String(gradients.cssString))
+      handler: () => copyToClipboard(String(gradients.linearGradient.value))
     },
     {
       name: 'save',
@@ -368,7 +368,7 @@ export default function Palettes() {
           <section className="flex w-full flex-col">
             <section className="base-border flex w-full flex-col gap-3 rounded-2xl bg-foreground-default p-4 md:flex-row">
               <div
-                style={{ ...gradients.css }}
+                style={{ ...gradients.linearGradient.value }}
                 className="base-shadow base-border min-h-[200px] w-full rounded-2xl md:w-[480px]"
               />
 

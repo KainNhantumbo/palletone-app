@@ -42,10 +42,19 @@ export const buildGradient = (color1: RGBA, color2: RGBA) => {
   const cssGradient: CSSProperties = {
     background: `linear-gradient(45deg, rgba(${gradient.color_1}), rgba(${gradient.color_2}))`
   };
+
+  const cssRadialGradient: CSSProperties = {
+    background: `radial-gradient(circle, rgba(${gradient.color_1}), rgba(${gradient.color_2}))`
+  };
   return {
-    css: cssGradient,
-    cssString: String(cssGradient.background),
-    gradient
+    radialGradient: {
+      value: cssRadialGradient,
+      cssString: String(cssRadialGradient.background)
+    },
+    linearGradient: {
+      value: cssGradient,
+      cssString: String(cssGradient.background)
+    }
   };
 };
 
