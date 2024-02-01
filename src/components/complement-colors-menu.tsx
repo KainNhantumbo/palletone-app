@@ -11,31 +11,40 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { copyToClipboard, normalizeColorOutput } from '@/lib/utils';
-import type { ColorVariantsHeadings, RGBA } from '@/types';
 import {
-  ApertureIcon,
-  BrushIcon,
-  ClipboardCopyIcon,
-  DropletsIcon,
-  MoreVerticalIcon
-} from 'lucide-react';
-import { type FC } from 'react';
+  copyToClipboard,
+  normalizeColorOutput,
+  transformColorsToString
+} from '@/lib/utils';
+import type { RGBA } from '@/types';
+import { ClipboardCopyIcon, DropletsIcon, MoreVerticalIcon } from 'lucide-react';
+import { useMemo, type FC } from 'react';
 import { Button } from './ui/button';
 
-export type GradientColorsMenuProps = {
-  color_1: { raw: RGBA; stringColors: ColorVariantsHeadings };
-  color_2: { raw: RGBA; stringColors: ColorVariantsHeadings };
-  linearCSSGradient: string;
-  radialCSSGradient: string;
+export type ComplementColorsMenuProps = {
+  originalColor: RGBA;
+  complementColor: RGBA;
 };
 
-export const GradientsColorsMenu: FC<GradientColorsMenuProps> = ({
-  color_1,
-  color_2,
-  linearCSSGradient,
-  radialCSSGradient
-}) => {
+export const ComplementColorsMenu: FC<ComplementColorsMenuProps> = (props) => {
+  const { originalColor, complementColor } = useMemo(
+    () => ({
+      originalColor: Object.entries(
+        transformColorsToString(props.originalColor)
+      ).map(([key, value]) => ({
+        name: key,
+        color: value
+      })),
+      complementColor: Object.entries(
+        transformColorsToString(props.complementColor)
+      ).map(([key, value]) => ({
+        name: key,
+        color: value
+      }))
+    }),
+    [props]
+  );
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -46,27 +55,17 @@ export const GradientsColorsMenu: FC<GradientColorsMenuProps> = ({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="base-border w-56 bg-background-default">
-        <DropdownMenuLabel>Gradient Colors</DropdownMenuLabel>
+        <DropdownMenuLabel>Complement Colors</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem
-            onClick={() => copyToClipboard(linearCSSGradient, false)}>
-            <BrushIcon className="mr-2 h-4 w-4" />
-            <span>Copy linear css gradient</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => copyToClipboard(radialCSSGradient, false)}>
-            <ApertureIcon className="mr-2 h-4 w-4" />
-            <span>Copy radial css gradient</span>
-          </DropdownMenuItem>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
               <ClipboardCopyIcon className="mr-2 h-4 w-4" />
-              <span>Copy primary color as</span>
+              <span>Copy original color as</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
-                {color_1.stringColors.map(({ name, color }, i) => (
+                {originalColor.map(({ name, color }, i) => (
                   <DropdownMenuItem
                     key={i}
                     onClick={() =>
@@ -82,11 +81,11 @@ export const GradientsColorsMenu: FC<GradientColorsMenuProps> = ({
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
               <ClipboardCopyIcon className="mr-2 h-4 w-4" />
-              <span>Copy secondary color as</span>
+              <span>Copy complement color as</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
-                {color_2.stringColors.map(({ name, color }, i) => (
+                {complementColor.map(({ name, color }, i) => (
                   <DropdownMenuItem
                     key={i}
                     onClick={() =>

@@ -11,7 +11,11 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { copyToClipboard, transformColorsToString } from '@/lib/utils';
+import {
+  copyToClipboard,
+  normalizeColorOutput,
+  transformColorsToString
+} from '@/lib/utils';
 import type { ColorVariantsHeadings, RGBA } from '@/types';
 import { ClipboardCopyIcon, DropletsIcon, MoreVerticalIcon } from 'lucide-react';
 import { useMemo, type FC } from 'react';
@@ -55,7 +59,9 @@ export const SolidOptionsMenu: FC<SolidOptionsMenuProps> = ({ color }) => {
                 {colors.map(({ name, color }, i) => (
                   <DropdownMenuItem
                     key={i}
-                    onClick={() => copyToClipboard(color, false)}>
+                    onClick={() =>
+                      copyToClipboard(normalizeColorOutput(color, name), false)
+                    }>
                     <DropletsIcon className="mr-2 h-4 w-4" />
                     <span className="font-semibold uppercase">{name} </span>
                   </DropdownMenuItem>

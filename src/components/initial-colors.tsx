@@ -71,7 +71,7 @@ export const InitialColors = () => {
             key={i}
             className="base-shadow flex flex-col gap-3 rounded-2xl bg-foreground-default p-2">
             <div
-              className="h-[90px] w-full rounded-xl shadow-xl md:h-[120px]"
+              className="h-[120px] w-full rounded-xl shadow-xl md:h-[160px]"
               style={{
                 background: color.value
               }}
