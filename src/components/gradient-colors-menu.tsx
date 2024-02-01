@@ -47,7 +47,7 @@ export const GradientsColorsMenu: FC<GradientColorsMenuProps> = ({
       </DropdownMenuTrigger>
       <DropdownMenuContent className="base-border w-56 bg-background-default">
         <DropdownMenuLabel>Gradient Colors</DropdownMenuLabel>
-        <DropdownMenuSeparator />
+        <DropdownMenuSeparator className="bg-font/[.12]" />
         <DropdownMenuGroup>
           <DropdownMenuItem
             onClick={() => copyToClipboard(linearCSSGradient, false)}>

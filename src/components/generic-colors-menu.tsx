@@ -24,6 +24,7 @@ import { Button } from './ui/button';
 export type GenericMenuProps = {
   originalColor: RGBA;
   values: Array<RGBA>;
+  title: string;
 };
 
 export const GenericColorsMenu: FC<GenericMenuProps> = (props) => {
@@ -56,9 +57,9 @@ export const GenericColorsMenu: FC<GenericMenuProps> = (props) => {
           <MoreVerticalIcon className="w-4 transition-colors group-hover:stroke-blue-400 group-active:stroke-blue-400" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="base-border w-56 bg-background-default">
-        <DropdownMenuLabel>Analogous Colors</DropdownMenuLabel>
-        <DropdownMenuSeparator />
+      <DropdownMenuContent className="base-border w-56">
+        <DropdownMenuLabel>{props.title}</DropdownMenuLabel>
+        <DropdownMenuSeparator className="bg-font/[.12]" />
         <DropdownMenuGroup>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>

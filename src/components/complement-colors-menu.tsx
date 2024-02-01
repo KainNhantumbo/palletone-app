@@ -56,7 +56,7 @@ export const ComplementColorsMenu: FC<ComplementColorsMenuProps> = (props) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="base-border w-56 bg-background-default">
         <DropdownMenuLabel>Complement Colors</DropdownMenuLabel>
-        <DropdownMenuSeparator />
+        <DropdownMenuSeparator className="bg-font/[.12]" />{' '}
         <DropdownMenuGroup>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>

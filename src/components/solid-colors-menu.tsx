@@ -47,7 +47,7 @@ export const SolidOptionsMenu: FC<SolidOptionsMenuProps> = ({ color }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="base-border w-56 bg-background-default">
         <DropdownMenuLabel>Solid Colors</DropdownMenuLabel>
-        <DropdownMenuSeparator />
+        <DropdownMenuSeparator className="bg-font/[.12]" />
         <DropdownMenuGroup>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
