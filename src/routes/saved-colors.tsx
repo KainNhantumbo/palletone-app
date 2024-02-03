@@ -24,6 +24,7 @@ import {
   Dice4Icon,
   DicesIcon,
   DropletIcon,
+  DropletsIcon,
   Layers2Icon,
   Layers3Icon,
   PaintbrushIcon,
@@ -154,71 +155,49 @@ export default function SavedColors() {
         <Separator decorative />
 
         <Tabs defaultValue="solid" className="w-full px-2">
-          <TabsList className="mx-auto mb-3 grid w-fit grid-cols-8 place-content-center place-items-center gap-8 bg-background-default">
-            <TabsTrigger value="solid" className="rounded-3xl">
-              <div className="group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-full">
-                <DropletIcon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
+          <TabsList className="mb-3 w-full bg-background-default">
+            <section className="flex w-full flex-row flex-nowrap gap-1 overflow-x-auto  bg-background-default py-3 px-2">
+              <TabsTrigger value="solid" className="rounded-full px-2">
                 <span className="font-semibold transition-colors group-hover:text-blue-400">
                   Solids
                 </span>
-              </div>
-            </TabsTrigger>
-            <TabsTrigger value="gradient" className="rounded-3xl">
-              <div className="group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl">
-                <PaintbrushIcon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
+              </TabsTrigger>
+              <TabsTrigger value="gradient" className="rounded-full px-2">
                 <span className="font-semibold transition-colors group-hover:text-blue-400">
                   Gradients
                 </span>
-              </div>
-            </TabsTrigger>
-            <TabsTrigger value="complement" className="rounded-3xl">
-              <div className="group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl">
-                <DicesIcon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
+              </TabsTrigger>
+              <TabsTrigger value="complement" className="rounded-full px-2">
                 <span className="font-semibold transition-colors group-hover:text-blue-400">
                   Complement
                 </span>
-              </div>
-            </TabsTrigger>
-            <TabsTrigger value="analogous" className="rounded-3xl">
-              <div className="group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl">
-                <Dice2Icon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
+              </TabsTrigger>
+              <TabsTrigger value="analogous" className="rounded-full px-2">
                 <span className="font-semibold transition-colors group-hover:text-blue-400">
                   Analogous
                 </span>
-              </div>
-            </TabsTrigger>
-            <TabsTrigger value="split-complement" className="rounded-3xl">
-              <div className="group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl">
-                <Dice2Icon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
+              </TabsTrigger>
+              <TabsTrigger value="split-complement" className="rounded-full px-2">
                 <span className="font-semibold transition-colors group-hover:text-blue-400">
                   Complement/2
                 </span>
-              </div>
-            </TabsTrigger>
-            <TabsTrigger value="triadic" className="rounded-3xl">
-              <div className="group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl">
-                <Dice3Icon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
+              </TabsTrigger>
+              <TabsTrigger value="triadic" className="rounded-full px-2">
                 <span className="font-semibold transition-colors group-hover:text-blue-400">
                   Triadic
                 </span>
-              </div>
-            </TabsTrigger>
-            <TabsTrigger value="tetradic" className="rounded-3xl">
-              <div className="group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl">
-                <Dice4Icon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
+              </TabsTrigger>
+              <TabsTrigger value="tetradic" className="rounded-full px-2">
                 <span className="font-semibold transition-colors group-hover:text-blue-400">
                   Tetradic
                 </span>
-              </div>
-            </TabsTrigger>
-            <TabsTrigger value="monochromatic" className="rounded-3xl">
-              <div className="group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl">
-                <Dice4Icon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
+              </TabsTrigger>
+              <TabsTrigger value="monochromatic" className="rounded-full px-2">
                 <span className="font-semibold transition-colors group-hover:text-blue-400">
                   Monochromatic
                 </span>
-              </div>
-            </TabsTrigger>
+              </TabsTrigger>
+            </section>
           </TabsList>
 
           <TabsContent value="solid">
@@ -264,7 +243,7 @@ export default function SavedColors() {
 
               {solidColorsDB.length < 1 ? (
                 <EmptyMessage
-                  icon={BirdIcon}
+                  icon={DropletIcon}
                   message="Your saved colors will appear here. Collect and save some colors to start."
                 />
               ) : null}
@@ -329,7 +308,7 @@ export default function SavedColors() {
 
               {gradientColorsDB.length < 1 ? (
                 <EmptyMessage
-                  icon={CandyCaneIcon}
+                  icon={DropletsIcon}
                   message="Your saved gradients will appear here. Collect and save some gradient colors to start."
                 />
               ) : null}

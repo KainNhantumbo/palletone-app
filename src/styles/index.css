@@ -98,11 +98,11 @@
   }
 
   h1 {
-    @apply font-sans text-3xl leading-10 font-semibold;
+    @apply font-sans text-3xl font-semibold leading-10;
   }
 
   h2 {
-    @apply font-sans font-semibold leading-6 text-xl;
+    @apply font-sans text-xl font-semibold leading-6;
   }
 
   h3 {
@@ -110,7 +110,7 @@
   }
 
   li {
-    @apply list-disc list-inside;
+    @apply list-inside list-disc;
   }
 
   em {
@@ -131,35 +131,36 @@
 
   hr,
   .hr-class {
-    @apply text-font stroke-font my-2 rounded-[3px];
+    @apply my-2 rounded-[3px] stroke-font text-font;
   }
 
   body {
-    @apply w-[100%] relative font-sans m-0 bg-background-default text-font selection:bg-primary-default/20 selection:text-font selection:text-opacity-90 font-normal;
+    @apply relative m-0 w-[100%] bg-background-default font-sans font-normal text-font selection:bg-primary-default/20 selection:text-font selection:text-opacity-90;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   html {
-    @apply overflow-x-hidden m-0 p-0 scroll-smooth text-font;
+    @apply m-0 overflow-x-hidden scroll-smooth p-0 text-font;
   }
 
   ::-webkit-scrollbar {
-    @apply w-[8px] bg-transparent bg-opacity-70 hover:transition-all hover:delay-200 hover:ease-in-out;
+    @apply w-[6px] h-1 bg-transparent bg-opacity-70 hover:transition-all hover:delay-200 hover:ease-in-out;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply rounded-lg bg-primary-default hover:transition-all hover:delay-200 hover:ease-in-out absolute top-[50%] bottom-[50%] before:w-[100%] before:h-[100%] before:min-h-[44px] before:min-w-[44px] before:translate-x-[50%] before:translate-y-[50%];
+    @apply absolute bottom-[50%] top-[50%] rounded-lg bg-primary-default before:h-[100%] before:min-h-[44px] before:w-[100%] before:min-w-[44px] before:translate-x-[50%] before:translate-y-[50%] hover:transition-all hover:delay-200 hover:ease-in-out;
   }
 
   * {
-    @apply text-font box-border;
+    @apply box-border text-font;
   }
 }
 
 @layer components {
+
   .base-image {
-    @apply rounded-full object-cover w-[100%] h-[100%];
+    @apply h-[100%] w-[100%] rounded-full object-cover;
   }
 
   .base-range-input {
@@ -181,15 +182,15 @@
     border: 2px solid rgb(var(--white));
     outline: none;
     border-radius: 20px;
-    cursor: pointer
+    cursor: pointer;
   }
 
   .base-border {
-    @apply border-solid border-[1px] border-font/[.12];
+    @apply border-[1px] border-solid border-font/[.12];
   }
 
   .base-link {
-    @apply text-center sm:text-left transition-colors hover:underline hover:underline-offset-4 w-fit;
+    @apply w-fit text-center transition-colors hover:underline hover:underline-offset-4 sm:text-left;
   }
 
   .base-shadow {
@@ -197,10 +198,10 @@
   }
 
   .base-input {
-    @apply w-full base-border py-[10px] px-[18px] outline-none rounded-lg bg-background-default/70 transition-colors focus:shadow-[0_0_20px_rgba(0,0,0,.06)] placeholder:text-font/60 resize-y disabled:bg-foreground disabled:placeholder:text-transparent disabled:border-none;
+    @apply base-border w-full resize-y rounded-lg bg-background-default/70 px-[18px] py-[10px] outline-none transition-colors placeholder:text-font/60 focus:shadow-[0_0_20px_rgba(0,0,0,.06)] disabled:border-none disabled:bg-foreground disabled:placeholder:text-transparent;
   }
 
   .inputs {
-    @apply w-[100%] max-w-[200px] mobile:max-w-[260px] sm:max-w-md md:max-w-lg h-fit py-[10px] px-[18px] leading-7 outline-none resize-y rounded-xl bg-background-default bg-opacity-70 border-solid border-[1px] border-opacity-50 border-font text-font focus:border-font focus:border-opacity-70 focus:transition-shadow focus:shadow-[0_0_20px_rgba(0,0,0,0.1)] placeholder:text-[0.9rem] disabled:bg-foreground disabled:placeholder:text-transparent disabled:border-none;
+    @apply h-fit w-[100%] max-w-[200px] resize-y rounded-xl border-[1px] border-solid border-font border-opacity-50 bg-background-default bg-opacity-70 px-[18px] py-[10px] leading-7 text-font outline-none placeholder:text-[0.9rem] focus:border-font focus:border-opacity-70 focus:shadow-[0_0_20px_rgba(0,0,0,0.1)] focus:transition-shadow disabled:border-none disabled:bg-foreground disabled:placeholder:text-transparent mobile:max-w-[260px] sm:max-w-md md:max-w-lg;
   }
 }
