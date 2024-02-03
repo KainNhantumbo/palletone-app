@@ -1,13 +1,20 @@
-import {
-  normalizeColorOutput,
-  buildGradient,
-  getDate,
-  transformColorsToString,
-  cn
-} from '@/lib/utils';
+import { ComplementColorsMenu } from '@/components/complement-colors-menu';
+import { EmptyMessage } from '@/components/empty-message';
+import { GenericColorsMenu } from '@/components/generic-colors-menu';
+import { GradientsColorsMenu } from '@/components/gradient-colors-menu';
+import { RemoveColorAlert } from '@/components/remove-color-alert';
+import { SolidOptionsMenu } from '@/components/solid-colors-menu';
 import { TooltipWrapper } from '@/components/tooltip-wrapper';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  buildGradient,
+  cn,
+  getDate,
+  normalizeColorOutput,
+  transformColorsToString
+} from '@/lib/utils';
 import {
   HARMONY_COLOR_STORAGE_KEY,
   MIXED_GRADIENT_STORAGE_KEY,
@@ -15,32 +22,18 @@ import {
 } from '@/shared/constants';
 import { HarmonyColorsDB, MixedGradient, SolidColor } from '@/types';
 import { useDocumentTitle, useLocalStorage } from '@uidotdev/usehooks';
+import { m as motion } from 'framer-motion';
 import {
   ArrowLeftIcon,
-  BirdIcon,
-  CandyCaneIcon,
-  Dice2Icon,
-  Dice3Icon,
-  Dice4Icon,
-  DicesIcon,
   DropletIcon,
   DropletsIcon,
   Layers2Icon,
   Layers3Icon,
-  PaintbrushIcon,
   PocketIcon,
   SailboatIcon
 } from 'lucide-react';
-import tinycolor from 'tinycolor2';
-import { m as motion } from 'framer-motion';
-import { SolidOptionsMenu } from '@/components/solid-colors-menu';
-import { RemoveColorAlert } from '@/components/remove-color-alert';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { EmptyMessage } from '@/components/empty-message';
 import { Fragment, useMemo } from 'react';
-import { GradientsColorsMenu } from '@/components/gradient-colors-menu';
-import { ComplementColorsMenu } from '@/components/complement-colors-menu';
-import { GenericColorsMenu } from '@/components/generic-colors-menu';
+import tinycolor from 'tinycolor2';
 
 export default function SavedColors() {
   useDocumentTitle('Palletone - Saved colors');
@@ -156,7 +149,7 @@ export default function SavedColors() {
 
         <Tabs defaultValue="solid" className="w-full px-2">
           <TabsList className="mb-3 w-full bg-background-default">
-            <section className="flex w-full flex-row flex-nowrap gap-1 overflow-x-auto  bg-background-default py-3 px-2">
+            <section className="flex w-full flex-row flex-nowrap gap-1 overflow-x-auto  bg-background-default px-2 py-3">
               <TabsTrigger value="solid" className="rounded-full px-2">
                 <span className="font-semibold transition-colors group-hover:text-blue-400">
                   Solids
