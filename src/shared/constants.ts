@@ -1,4 +1,3 @@
-import type { Option } from '@/types';
 import {
   CoffeeIcon,
   GithubIcon,
@@ -41,15 +40,6 @@ export const metadata = {
     }
   ]
 };
-
-export const sortOptions: Option[] = [
-  { value: 'title', label: 'Title [A-Z]' },
-  { value: '-title', label: 'Title [Z-A]' },
-  { value: '-createdAt', label: 'Date Created' },
-  { value: 'createdAt', label: 'Date Created [Inverted]' },
-  { value: '-updatedAt', label: 'Date Updated' },
-  { value: 'updatedAt', label: 'Date Updated [Inverted]' }
-];
 
 export const SOLID_COLORS_STORAGE_KEY = 'solids-db';
 

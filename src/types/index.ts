@@ -4,8 +4,6 @@ import type { ChangeEvent, FormEvent } from 'react';
 
 export type RouteType = { path: string; element: JSX.ElementType };
 
-export type Option = { value: string; label: string };
-
 export type InputEvent =
   | ChangeEvent<HTMLInputElement>
   | ChangeEvent<HTMLSelectElement>

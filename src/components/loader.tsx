@@ -1,16 +1,16 @@
 import { RiseLoader } from 'react-spinners';
 
 const messages: Array<string> = [
-  'floating color backets',
+  'floating color buckets',
   'sync execute => colors.mode(rgb - hex - hsl - hsv);',
-  'mixing colors',
+  'mixing color gradients',
   'organizing your tools and brushes',
-  'creating your palettes',
-  'backing your colors',
+  'creating colorful palettes',
+  'backing your favored colors',
   'colouring your environment'
 ];
 
-const ramdomMessage = (): string => {
+const randomMessage = (): string => {
   return messages[Math.floor(Math.random() * messages.length)];
 };
 
@@ -18,7 +18,7 @@ export const Loader = () => (
   <div className='w-[100vw] h-[100vh] grid place-content-center place-items-center'>
     <section className='w-full h-full font-medium flex flex-col gap-8 items-center p-[calc(25%_-_1px)_12px]'>
       <h3 className='font-medium uppercase font-sans-display text-lg text-center'>
-        {ramdomMessage()}
+        {randomMessage()}
       </h3>
       <RiseLoader
         color={`rgb(var(--primary-default))`}
