@@ -1,6 +1,6 @@
-import { RGBA } from '@/types';
+import type { RGBA } from '@/types';
 import { type ClassValue, clsx } from 'clsx';
-import { CSSProperties } from 'react';
+import type { CSSProperties } from 'react';
 import { toast } from 'sonner';
 import { twMerge } from 'tailwind-merge';
 import tinycolor from 'tinycolor2';
