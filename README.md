@@ -2,6 +2,13 @@
 
 > **Access this app live at: [https://palletone-demo.vercel.app](https://palletone-demo.vercel.app)**
 
+<div align="center">
+
+[![Build](https://github.com/KainNhantumbo/palletone-app/actions/workflows/build.yml/badge.svg)](https://github.com/KainNhantumbo/palletone-app/actions/workflows/build.yml)
+[![Release](https://github.com/KainNhantumbo/palletone-app/actions/workflows/release.yml/badge.svg)](https://github.com/KainNhantumbo/palletone-app/actions/workflows/release.yml)
+
+</div>
+
 🎉 Welcome to **Palletone** app repository, a multi-platform application built with Electron.JS, React and Typescript, and of course, with a flavour of other awesome community open source packages.
 
 This app aims to bring a new experience of collecting, managing and building color palettes for designers and web developers.
@@ -64,29 +71,23 @@ See all important logs that are documented here, on this [changelog file](CHANGE
 Make sure you have installed **Node.js (v18.17.0 or later recommended) which also comes with npm v9.6.7**.\
 In the project directory, you can run in terminal:
 
+- Runs the app in the development mode and the server will reload when you make changes to the source code for the render and electron scripts:
+
 ```bash
 npm ci && npm run dev
 ```
 
-- Runs the app in the development mode and the server will reload when you make changes to the source code for the render and electron scripts.
+- Builds the web version of the app for production to the **dist folder**:
 
 ```bash
 npm run build
 ```
 
-- Builds the web version of the app for production to the **dist folder**.
+- Builds the electron app for locally production. **Note that only** windows and linux application packages a pre-configured to be built. Please refer to other scripts in the [package.jon](package.json):
 
 ```bash
-npm run start
+npm run electron:build
 ```
-
-- Builds and starts the server in production.
-
-```bash
-electron:build
-```
-
-- Builds the electron app for production. **Note that only** windows and linux application packages a pre-configured to be built. Please refer to other scripts in the [package.jon](package.json)
 
 ## ☘️ Find me!
 

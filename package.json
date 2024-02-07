@@ -3,7 +3,7 @@
   "productName": "Palletone",
   "description": "Color palette creator and picker app",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.1.0",
   "url": "palletone-demo.vercel.app",
   "website_name": "palletone-app",
   "browserslist": [
