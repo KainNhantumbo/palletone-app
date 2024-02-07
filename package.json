@@ -30,10 +30,6 @@
     "react",
     "electron"
   ],
-  "engines": {
-    "node": ">=18.17.0",
-    "npm": ">=9.6.7"
-  },
   "license": "Apache License Version 2.0",
   "repository": "https://github.com/KainNhantumbo/palletone-app.git",
   "main": "dist-electron/main.js",
