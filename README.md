@@ -83,7 +83,7 @@ npm ci && npm run dev
 npm run build
 ```
 
-- Builds the electron app for locally production. **Note that only** windows and linux application packages a pre-configured to be built. Please refer to other scripts in the [package.jon](package.json):
+- Builds the electron app for locally production. **Note that only** windows and linux application packages a pre-configured to be built. Please refer to other scripts in the [package.json](package.json):
 
 ```bash
 npm run electron:build
@@ -108,7 +108,7 @@ See this [Contributing Guide](CONTRIBUTING.md).
 ## 📜 License
 
 Licensed under Apache License Version 2.0. All rights reserved.\
-Copyright &copy; 2023 Kain Nhantumbo.
+Copyright &copy; 2024 Kain Nhantumbo.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
 
