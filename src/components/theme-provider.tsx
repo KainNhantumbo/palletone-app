@@ -1,22 +1,14 @@
-import { toast } from 'sonner';
-import { ReactNode, createContext, useContext, useEffect } from 'react';
 import { useLocalStorage } from '@uidotdev/usehooks';
-
-type Props = { children: ReactNode };
+import * as React from 'react';
+import { toast } from 'sonner';
 
 type ThemeVariants = 'light' | 'dark';
 
-type Context = {
-  theme: ThemeVariants;
-  setTheme: () => void;
-};
+type Context = { theme: ThemeVariants; setTheme: () => void };
 
-const context = createContext<Context>({
-  theme: 'light',
-  setTheme: () => {}
-});
+const context = React.createContext<Context>({ theme: 'light', setTheme: () => {} });
 
-export const ThemeProvider = ({ children }: Props) => {
+export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [theme, setTheme] = useLocalStorage<ThemeVariants>('ui-theme', 'light');
 
   const toggleTheme = () => {
@@ -27,21 +19,19 @@ export const ThemeProvider = ({ children }: Props) => {
     setTheme(currentTheme);
   };
 
-  const onLoad = () => {
+  const onLoad = React.useCallback(() => {
     const html = document.querySelector('html');
     if (!html) return toast.error('Failed to change theme');
     html.setAttribute('class', theme);
-  };
+  }, [theme]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     onLoad();
-  }, []);
+  }, [onLoad]);
 
   return (
-    <context.Provider value={{ theme, setTheme: toggleTheme }}>
-      {children}
-    </context.Provider>
+    <context.Provider value={{ theme, setTheme: toggleTheme }}>{children}</context.Provider>
   );
 };
 
-export const useTheme = () => useContext(context);
+export const useTheme = () => React.useContext(context);

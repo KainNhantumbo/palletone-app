@@ -29,7 +29,7 @@ export const DropzoneArea = ({ handler }: DropZoneProps) => {
         handler(encodedImage);
         setIsLoading(false);
       };
-    }, [])
+    }, [handler])
   });
 
   if (isLoading) {

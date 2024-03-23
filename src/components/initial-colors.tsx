@@ -5,27 +5,22 @@ import { CopyIcon } from 'lucide-react';
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import tinyColors from 'tinycolor2';
+import { TooltipWrapper } from './tooltip-wrapper';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Separator } from './ui/separator';
-import { TooltipWrapper } from './tooltip-wrapper';
 
 export const InitialColors = () => {
   const [params, setParams] = useSearchParams();
   const debouncedParams = useDebounce(params, 300);
 
-  const colors = useMemo(
-    (): Array<{ value: string; name: string }> =>
+  const colors: Array<{ value: string; name: string }> = useMemo(
+    () =>
       Object.entries(tinyColors.names)
-        .map(([key, value]) => ({
-          name: key,
-          value: `#${value}`
-        }))
-        .filter((element) =>
-          element.name
-            .toLowerCase()
-            .includes(String(params.get('q') || '').toLowerCase())
+        .map(([key, value]) => ({ name: key, value: `#${value}` }))
+        .filter(({ name }) =>
+          name.toLowerCase().includes(String(debouncedParams.get('q') || '').toLowerCase())
         ),
     [debouncedParams]
   );
@@ -57,8 +52,7 @@ export const InitialColors = () => {
         </form>
 
         <p className="leading-relaxed">
-          About{' '}
-          <span className="font-sans-display font-medium">{colors.length}</span>{' '}
+          About <span className="font-sans-display font-medium">{colors.length}</span>{' '}
           colors in your workspace!
         </p>
       </section>
