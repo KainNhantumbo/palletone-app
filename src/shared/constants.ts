@@ -1,9 +1,4 @@
-import {
-  CoffeeIcon,
-  GithubIcon,
-  MailCheckIcon,
-  SquareStackIcon
-} from 'lucide-react';
+import { CoffeeIcon, GithubIcon, MailCheckIcon, SquareStackIcon } from 'lucide-react';
 import Package from '../../package.json';
 
 export const metadata = {
