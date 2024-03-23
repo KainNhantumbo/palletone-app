@@ -8,6 +8,15 @@ import * as React from 'react';
 import { toast } from 'sonner';
 import tinycolor from 'tinycolor2';
 
+export const initialHarmonyColorsValue = {
+  complement: [],
+  splitComplement: [],
+  analogous: [],
+  triadic: [],
+  tetradic: [],
+  monochromatic: []
+};
+
 export const useHarmonyColors = () => {
   const [harmonyColors, setHarmonyColors] = React.useState<HarmonyColors>({
     complement: { originalColor: randomColor(), value: randomColor() },
@@ -20,14 +29,7 @@ export const useHarmonyColors = () => {
 
   const [, updateHarmonyColorsDB] = useLocalStorage<HarmonyColorsDB>(
     HARMONY_COLOR_STORAGE_KEY,
-    {
-      complement: [],
-      splitComplement: [],
-      analogous: [],
-      triadic: [],
-      tetradic: [],
-      monochromatic: []
-    }
+    initialHarmonyColorsValue
   );
 
   // complement functions

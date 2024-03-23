@@ -4,130 +4,27 @@ import { PaletteRenderer } from '@/components/palette-renderer';
 import { PickerColorsRenderer } from '@/components/picker-colors-renderer';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { transformColorsToString } from '@/lib/utils';
-import type { ExtractedColors, RGBA } from '@/types';
+import { useColorExtractor } from '@/hooks/use-color-extractor';
 import { useDocumentTitle } from '@uidotdev/usehooks';
-import { extractColors } from 'extract-colors';
-import { FinalColor } from 'extract-colors/lib/types/Color';
-import { ImageColorPicker } from 'react-image-color-picker';
 import { BirdIcon, SparklesIcon, XIcon } from 'lucide-react';
-import { useState } from 'react';
-import { toast } from 'sonner';
-import tinycolor from 'tinycolor2';
-import compareObjects from 'lodash.isequal';
+import { ImageColorPicker } from 'react-image-color-picker';
 
 export default function ColorExtractor() {
   useDocumentTitle('Palletone - Color Extractor');
-
-  const [extractedColors, setExtractedColors] = useState<ExtractedColors>({
-    palette: { colors: [], image: '' },
-    picker: { colors: [], image: '' }
-  });
-
-  const generateAutoPalette = async (imageData: string) => {
-    try {
-      const result = await extractColors(imageData, { distance: 0.12 });
-      setExtractedColors((current) => ({
-        ...current,
-        palette: { colors: result, image: imageData }
-      }));
-    } catch (error) {
-      console.error(error);
-      toast.error('Error: failed to generate palette from selected image.');
-    }
-  };
-
-  const handlePickColorImage = async (imageData: string) => {
-    setExtractedColors((current) => ({
-      ...current,
-      picker: { ...current.picker, image: imageData }
-    }));
-  };
-
-  const onPickColor = (rawRGBColorString: string) => {
-    const pickedColor = tinycolor(rawRGBColorString).toRgb();
-
-    const isDuplicate = extractedColors.picker.colors
-      .map((color) => color.value)
-      .some((value: RGBA) => compareObjects(value, pickedColor));
-
-    if (isDuplicate) return toast.error('Color already picked.');
-
-    setExtractedColors((current) => ({
-      ...current,
-      picker: {
-        ...current.picker,
-        colors: [
-          ...current.picker.colors,
-          {
-            id: String.prototype.concat(crypto.randomUUID(), '-', rawRGBColorString),
-            value: pickedColor
-          }
-        ]
-      }
-    }));
-  };
-
-  const handleClearPaletteColors = () => {
-    setExtractedColors((state) => ({
-      ...state,
-      palette: { ...state.palette, colors: [] }
-    }));
-  };
-
-  const removeColorFromPalette = (color: FinalColor) =>
-    setExtractedColors((state) => ({
-      ...state,
-      palette: {
-        ...state.palette,
-        colors: state.palette.colors.filter((item) => item.hex != color.hex)
-      }
-    }));
-
-  const removeColorFromPicker = (id: string) =>
-    setExtractedColors((state) => ({
-      ...state,
-      picker: {
-        ...state.picker,
-        colors: state.picker.colors.filter((item) => item.id != id)
-      }
-    }));
-
-  const handleClearPaletteImage = () => {
-    setExtractedColors((state) => ({
-      ...state,
-      palette: { ...state.palette, image: '' }
-    }));
-  };
-
-  const handleClearPickerColors = () => {
-    setExtractedColors((state) => ({
-      ...state,
-      picker: { ...state.picker, colors: [] }
-    }));
-  };
-
-  const handleClearPickerImage = () => {
-    setExtractedColors((state) => ({
-      ...state,
-      picker: { ...state.picker, image: '' }
-    }));
-  };
-
-  const mappedPaletteColors = (color: RGBA) =>
-    [...Object.entries(transformColorsToString(color))].map(([key, value]) => ({
-      name: key,
-      value
-    }));
-
-  const mappedPickerColors = (color: { id: string; value: RGBA }) =>
-    [...Object.entries(transformColorsToString(color.value))].map(
-      ([key, value]) => ({
-        id: color.id,
-        name: key,
-        value
-      })
-    );
+  const {
+    extractedColors,
+    mappedPaletteColors,
+    mappedPickerColors,
+    handleClearPaletteColors,
+    handleClearPaletteImage,
+    handleClearPickerColors,
+    handleClearPickerImage,
+    handlePickColorImage,
+    removeColorFromPalette,
+    removeColorFromPicker,
+    onPickColor,
+    onGeneratePalette
+  } = useColorExtractor();
 
   return (
     <main className="mx-auto w-full max-w-5xl pb-24 pt-20">
@@ -160,7 +57,7 @@ export default function ColorExtractor() {
                   <ImageViewer imageData={extractedColors.palette.image} />
                 </section>
               ) : (
-                <DropzoneArea handler={generateAutoPalette} />
+                <DropzoneArea handler={onGeneratePalette} />
               )}
 
               <div className="flex w-full flex-wrap items-center justify-center gap-3">
@@ -193,13 +90,12 @@ export default function ColorExtractor() {
                   <h3 className="text-md">Notes:</h3>
                   <ul className="text-sm">
                     <li>
-                      Add an image to extract to automatically extract colors and
-                      build a palette.
+                      Add an image to extract to automatically extract colors and build a
+                      palette.
                     </li>
                     <li>Extracted colors form image will appear here.</li>
                     <li>
-                      You can click on the delete button to delete color from the
-                      list.
+                      You can click on the delete button to delete color from the list.
                     </li>
                   </ul>
                 </div>
@@ -259,13 +155,12 @@ export default function ColorExtractor() {
                   <h3 className="text-md">Notes:</h3>
                   <ul className="text-sm">
                     <li>
-                      Add an image to activate picker and select colors you want to
-                      picker from image to build a palette.
+                      Add an image to activate picker and select colors you want to picker
+                      from image to build a palette.
                     </li>
                     <li>Extracted colors form image will appear here.</li>
                     <li>
-                      You can click on the delete button to delete color from the
-                      list.
+                      You can click on the delete button to delete color from the list.
                     </li>
                   </ul>
                 </div>

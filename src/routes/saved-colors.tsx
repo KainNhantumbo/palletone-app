@@ -8,6 +8,7 @@ import { TooltipWrapper } from '@/components/tooltip-wrapper';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { initialHarmonyColorsValue } from '@/hooks/use-harmony-colors';
 import {
   buildGradient,
   cn,
@@ -43,20 +44,14 @@ export default function SavedColors() {
     []
   );
 
-  const [gradientColorsDB, updateGradientColorsDB] = useLocalStorage<
-    MixedGradient[]
-  >(MIXED_GRADIENT_STORAGE_KEY, []);
+  const [gradientColorsDB, updateGradientColorsDB] = useLocalStorage<MixedGradient[]>(
+    MIXED_GRADIENT_STORAGE_KEY,
+    []
+  );
 
   const [harmonyColorsDB, updateHarmonyColorsDB] = useLocalStorage<HarmonyColorsDB>(
     HARMONY_COLOR_STORAGE_KEY,
-    {
-      complement: [],
-      splitComplement: [],
-      analogous: [],
-      triadic: [],
-      tetradic: [],
-      monochromatic: []
-    }
+    initialHarmonyColorsValue
   );
 
   const gradients = useMemo(() => {
@@ -65,19 +60,13 @@ export default function SavedColors() {
       color_1: {
         raw: item.color_1,
         stringColors: Object.entries(transformColorsToString(item.color_1)).map(
-          ([key, value]) => ({
-            name: key,
-            color: value
-          })
+          ([key, value]) => ({ name: key, color: value })
         )
       },
       color_2: {
         raw: item.color_2,
         stringColors: Object.entries(transformColorsToString(item.color_2)).map(
-          ([key, value]) => ({
-            name: key,
-            color: value
-          })
+          ([key, value]) => ({ name: key, color: value })
         )
       },
       CSSGradient: buildGradient(item.color_1, item.color_2)
@@ -285,12 +274,8 @@ export default function SavedColors() {
                             <GradientsColorsMenu
                               color_1={color_1}
                               color_2={color_2}
-                              linearCSSGradient={
-                                CSSGradient.linearGradient.cssString
-                              }
-                              radialCSSGradient={
-                                CSSGradient.radialGradient.cssString
-                              }
+                              linearCSSGradient={CSSGradient.linearGradient.cssString}
+                              radialCSSGradient={CSSGradient.radialGradient.cssString}
                             />
                           </div>
                         </div>
@@ -436,8 +421,7 @@ export default function SavedColors() {
           <TabsContent value="split-complement">
             <section className="base-border flex w-full flex-col gap-3  rounded-2xl bg-foreground-default p-4">
               <h3>
-                About {harmonyColorsDB.splitComplement.length} split complement
-                colors.
+                About {harmonyColorsDB.splitComplement.length} split complement colors.
               </h3>
               <Separator decorative className="mb-2" />
 

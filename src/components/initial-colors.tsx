@@ -26,16 +26,9 @@ export const InitialColors = () => {
   );
 
   const onChange = (e: InputEvent) =>
-    setParams(
-      (params) => ({
-        ...params,
-        r: params.get('r'),
-        q: e.target.value
-      }),
-      {
-        replace: false
-      }
-    );
+    setParams((params) => ({ ...params, r: params.get('r'), q: e.target.value }), {
+      replace: false
+    });
 
   return (
     <section className="mx-auto flex w-full max-w-5xl flex-col gap-3 p-2">
