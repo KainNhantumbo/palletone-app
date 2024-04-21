@@ -1,7 +1,7 @@
 import { transformColorsToString } from '@/lib/utils';
-import { ExtractedColors, RGBA } from '@/types';
+import type { ExtractedColors, RGBA } from '@/types';
 import { extractColors } from 'extract-colors';
-import { FinalColor } from 'extract-colors/lib/types/Color';
+import type { FinalColor } from 'extract-colors/lib/types/Color';
 import compareObjects from 'lodash.isequal';
 import * as React from 'react';
 import { toast } from 'sonner';
@@ -13,12 +13,12 @@ export const useColorExtractor = () => {
     picker: { colors: [], image: '' }
   });
 
-  const onGeneratePalette = async (imageData: string) => {
+  const onGeneratePalette = async (base64Image: string) => {
     try {
-      const result = await extractColors(imageData, { distance: 0.12 });
+      const result = await extractColors(base64Image, { distance: 0.12 });
       setExtractedColors((current) => ({
         ...current,
-        palette: { colors: result, image: imageData }
+        palette: { colors: result, image: base64Image }
       }));
     } catch (error) {
       console.error(error);
@@ -26,10 +26,10 @@ export const useColorExtractor = () => {
     }
   };
 
-  const handlePickColorImage = async (imageData: string) => {
+  const handlePickColorImage = async (base64Image: string) => {
     setExtractedColors((current) => ({
       ...current,
-      picker: { ...current.picker, image: imageData }
+      picker: { ...current.picker, image: base64Image }
     }));
   };
 

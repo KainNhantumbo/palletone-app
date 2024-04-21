@@ -1,22 +1,20 @@
 import { cn } from '@/lib/utils';
 import { ALLOWED_MIMETYPES } from '@/shared/constants';
 import { DownloadIcon } from 'lucide-react';
-import { useCallback, useState } from 'react';
+import * as React from 'react';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'sonner';
 import { Input } from './ui/input';
 import { Skeleton } from './ui/skeleton';
 
-export type DropzoneProps = {
-  handler: (file: string) => void;
-};
+export type DropzoneProps = { handler: (file: string) => void };
 
 export const DropzoneArea = ({ handler }: DropzoneProps) => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     maxFiles: 1,
-    onDrop: useCallback(
+    onDrop: React.useCallback(
       <T extends File>(acceptedFiles: T[]) => {
         const file = acceptedFiles[0];
         if (!file || !ALLOWED_MIMETYPES.includes(String(file.type)))

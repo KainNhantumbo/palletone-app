@@ -27,7 +27,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
 
   React.useEffect(() => {
     onLoad();
-  }, [onLoad]);
+  }, []);
 
   return (
     <context.Provider value={{ theme, setTheme: toggleTheme }}>{children}</context.Provider>
