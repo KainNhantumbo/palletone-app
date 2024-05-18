@@ -33,10 +33,9 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "electron:build": "tsc && vite build && electron-builder",
-    "typecheck": "tsc --noEmit -p ./tsconfig.json",
-    "format": "npx prettier --write \"**/*.{js,mjs,cjs,ts,mts,cts,jsx, tsx,json}\"",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "format": "npx prettier --write \"**/*.{js,cjs,md,ts,jsx,tsx,json}\"",
+    "ts:lint": "tsc --noEmit -p ./tsconfig.json",
+    "es:lint": "eslint . --ext ts,tsx --max-warnings 0"
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.0.5",

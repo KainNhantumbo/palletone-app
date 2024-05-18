@@ -11,18 +11,9 @@ export type InputEvent =
 
 export type SubmitEvent = FormEvent<HTMLFormElement>;
 
-export type RGBA = {
-  r: number;
-  g: number;
-  b: number;
-  a: number;
-};
+export type RGBA = { r: number; g: number; b: number; a: number };
 
-export type SolidColor = {
-  id: string;
-  value: RGBA;
-  createdAt: string;
-};
+export type SolidColor = { id: string; value: RGBA; createdAt: string };
 
 export type MixedGradient = {
   id: string;
@@ -40,10 +31,7 @@ export type ColorActions = Array<{
 }>;
 
 export type ExtractedColors = {
-  palette: {
-    colors: FinalColor[];
-    image: string;
-  };
+  palette: { colors: FinalColor[]; image: string };
   picker: {
     colors: Array<{ id: string; value: RGBA }>;
     image: string;
@@ -58,10 +46,7 @@ export type RouteList = Array<{
   description: string;
 }>;
 
-export type ColorVariantsHeadings = Array<{
-  name: string;
-  color: string;
-}>;
+export type ColorVariantsHeadings = Array<{ name: string; color: string }>;
 
 export type HarmonyColors = {
   complement: { originalColor: RGBA; value: RGBA };

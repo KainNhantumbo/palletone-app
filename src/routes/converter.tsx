@@ -24,6 +24,10 @@ export default function ConverterPage() {
         </div>
 
         <Separator decorative />
+
+        <section className="mt-3 flex w-full flex-col gap-3">
+          <div className="base-border flex w-full flex-col gap-2 rounded-2xl bg-foreground-default p-3"></div>
+        </section>
       </section>
     </main>
   );
