@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import compareObjects from 'lodash.isequal';
 import {
   buildGradient,
   copyToClipboard,
@@ -11,10 +10,7 @@ import {
   randomColor,
   transformColorsToString
 } from '@/lib/utils';
-import {
-  MIXED_GRADIENT_STORAGE_KEY,
-  SOLID_COLORS_STORAGE_KEY
-} from '@/shared/constants';
+import { MIXED_GRADIENT_STORAGE_KEY, SOLID_COLORS_STORAGE_KEY } from '@/shared/constants';
 import type {
   ColorActions,
   ColorVariantsHeadings,
@@ -23,13 +19,8 @@ import type {
   SolidColor
 } from '@/types';
 import { useDocumentTitle, useLocalStorage } from '@uidotdev/usehooks';
-import {
-  CopyIcon,
-  DownloadIcon,
-  DropletIcon,
-  PaintbrushIcon,
-  ShuffleIcon
-} from 'lucide-react';
+import compareObjects from 'lodash.isequal';
+import * as Lucide from 'lucide-react';
 import { Fragment, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 import tinycolor from 'tinycolor2';
@@ -39,28 +30,24 @@ export default function Palettes() {
 
   const [rgbaColor, setRgbaColor] = useState<RGBA>(() => randomColor());
 
-  const [gradientRGBA, setGradientRGBA] = useState<
-    Omit<MixedGradient, 'id' | 'createdAt'>
-  >(() => {
-    return {
+  const [gradientRGBA, setGradientRGBA] = useState<Omit<MixedGradient, 'id' | 'createdAt'>>(
+    () => ({
       color_1: randomColor(),
       color_2: randomColor()
-    };
-  });
+    })
+  );
 
   const [solidColorsDB, updateSolidColorDB] = useLocalStorage<SolidColor[]>(
     SOLID_COLORS_STORAGE_KEY,
     []
   );
 
-  const [gradientColorsDB, updateGradientColorsDB] = useLocalStorage<
-    MixedGradient[]
-  >(MIXED_GRADIENT_STORAGE_KEY, []);
-
-  const colorVariants = useMemo(
-    () => transformColorsToString(rgbaColor),
-    [rgbaColor]
+  const [gradientColorsDB, updateGradientColorsDB] = useLocalStorage<MixedGradient[]>(
+    MIXED_GRADIENT_STORAGE_KEY,
+    []
   );
+
+  const colorVariants = useMemo(() => transformColorsToString(rgbaColor), [rgbaColor]);
 
   const gradients = useMemo(
     () => buildGradient(gradientRGBA.color_1, gradientRGBA.color_2),
@@ -77,12 +64,12 @@ export default function Palettes() {
   const solidColorActions: ColorActions = [
     {
       name: 'random color',
-      icon: ShuffleIcon,
+      icon: Lucide.ShuffleIcon,
       handler: () => setRgbaColor(randomColor())
     },
     {
       name: 'save color',
-      icon: DownloadIcon,
+      icon: Lucide.DownloadIcon,
       handler: () => handleSaveSolidColor()
     }
   ];
@@ -90,7 +77,7 @@ export default function Palettes() {
   const gradientColorActions: ColorActions = [
     {
       name: 'randomize',
-      icon: ShuffleIcon,
+      icon: Lucide.ShuffleIcon,
       handler: () =>
         setGradientRGBA((current) => ({
           ...current,
@@ -100,12 +87,12 @@ export default function Palettes() {
     },
     {
       name: 'copy as CSS',
-      icon: CopyIcon,
-      handler: () => copyToClipboard(String(gradients.linearGradient.value))
+      icon: Lucide.CopyIcon,
+      handler: () => copyToClipboard(gradients.linearGradient.cssString)
     },
     {
       name: 'save',
-      icon: DownloadIcon,
+      icon: Lucide.DownloadIcon,
       handler: () => handleSaveGradient()
     }
   ];
@@ -157,7 +144,7 @@ export default function Palettes() {
           <TabsTrigger
             value="solid"
             className="group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl">
-            <DropletIcon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
+            <Lucide.DropletIcon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
             <span className="font-semibold transition-colors group-hover:text-blue-400">
               Solids
             </span>
@@ -165,7 +152,7 @@ export default function Palettes() {
           <TabsTrigger
             value="gradient"
             className="group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl">
-            <PaintbrushIcon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
+            <Lucide.PaintbrushIcon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
             <span className="font-semibold transition-colors group-hover:text-blue-400">
               Gradients
             </span>
@@ -191,20 +178,16 @@ export default function Palettes() {
                           </h3>
                         </div>
                         <div className="flex items-center gap-1">
-                          <p className="text-sm font-medium uppercase">
-                            {item.color}
-                          </p>
+                          <p className="text-sm font-medium uppercase">{item.color}</p>
                           <TooltipWrapper content="Copy to clipboard">
                             <Button
                               variant={'ghost'}
                               size={'icon'}
                               className="group rounded-full"
                               onClick={() =>
-                                copyToClipboard(
-                                  normalizeColorOutput(item.color, item.name)
-                                )
+                                copyToClipboard(normalizeColorOutput(item.color, item.name))
                               }>
-                              <CopyIcon className="w-4 transition-colors group-hover:stroke-primary group-active:stroke-blue-400" />
+                              <Lucide.CopyIcon className="w-4 transition-colors group-hover:stroke-primary group-active:stroke-blue-400" />
                             </Button>
                           </TooltipWrapper>
                         </div>
