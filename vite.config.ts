@@ -12,12 +12,8 @@ export default defineConfig({
     react(),
     tsconfigPaths(),
     electron({
-      main: {
-        entry: 'electron/main.ts'
-      },
-      preload: {
-        input: path.join(__dirname, 'electron/preload.ts')
-      },
+      main: { entry: 'electron/main.ts' },
+      preload: { input: path.join(__dirname, 'electron/preload.ts') },
       renderer: {}
     }),
     VitePWA({

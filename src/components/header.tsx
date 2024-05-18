@@ -1,10 +1,16 @@
 import logoImage from '@/assets/favicon.png';
-import { PocketIcon, Settings2 } from 'lucide-react';
+import { PocketIcon, RefreshCwIcon, Settings2,  } from 'lucide-react';
 import { Button } from './ui/button';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { m as motion } from 'framer-motion';
 import { TooltipWrapper } from './tooltip-wrapper';
+
+const paths = [
+  { label: 'Color Converter', path: '/converter', icon: RefreshCwIcon},
+  { label: 'Saved Colors', path: '/saved' , icon: PocketIcon},
+  { label: 'Preferences', path: '/preferences', icon: Settings2 }
+];
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -31,20 +37,17 @@ export const Header = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          <Link to={'/saved'}>
-            <TooltipWrapper content="Saved colors">
-              <Button variant={'ghost'} size={'icon'} className="group rounded-full">
-                <PocketIcon className="h-auto w-5 transition-colors group-hover:stroke-primary-default group-active:stroke-blue-400" />
-              </Button>
-            </TooltipWrapper>
-          </Link>
-          <Link to={'/preferences'}>
-            <TooltipWrapper content="Preferences">
-              <Button variant={'ghost'} size={'icon'} className="group rounded-full">
-                <Settings2 className="h-auto w-5 transition-colors group-hover:stroke-primary-default group-active:stroke-blue-400" />
-              </Button>
-            </TooltipWrapper>
-          </Link>
+          {paths.map((item, index) => (
+            <Link to={item.path} key={index}>
+              <TooltipWrapper content={item.label}>
+                <Button variant={'ghost'} size={'icon'} className="group rounded-full">
+                  <span className="sr-only">{item.label}</span>
+                  <item.icon className="h-auto w-5 transition-colors group-hover:stroke-primary-default group-active:stroke-blue-400" />
+                </Button>
+              </TooltipWrapper>
+            </Link>
+          ))}
+
         </div>
       </div>
     </motion.header>

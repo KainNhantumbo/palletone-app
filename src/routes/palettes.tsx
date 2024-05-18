@@ -29,7 +29,6 @@ export default function Palettes() {
   useDocumentTitle('Palletone - Palettes');
 
   const [rgbaColor, setRgbaColor] = useState<RGBA>(() => randomColor());
-
   const [gradientRGBA, setGradientRGBA] = useState<Omit<MixedGradient, 'id' | 'createdAt'>>(
     () => ({
       color_1: randomColor(),

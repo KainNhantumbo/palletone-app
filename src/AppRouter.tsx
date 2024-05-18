@@ -9,6 +9,7 @@ import HarmonyColors from './routes/harmony-colors';
 import { Route, Routes } from 'react-router-dom';
 import { Layout } from './components/layout';
 import type { RouteType } from './types';
+import ConverterPage from './routes/converter';
 
 const routes: RouteType[] = [
   { path: '/', element: Home },
@@ -17,6 +18,7 @@ const routes: RouteType[] = [
   { path: '/harmony-colors', element: HarmonyColors },
   { path: '/palettes', element: Palettes },
   { path: '/saved', element: SavedColors },
+  { path: '/converter', element: ConverterPage },
   { path: '*', element: NotFoundPage }
 ];
 
