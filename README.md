@@ -40,6 +40,8 @@ Note: This project is concluded, but I am maintaining it. You can expect to see 
 
 ```bash
 $ROOT
+├── docs
+│   └── assets
 ├── electron
 ├── public
 └── src
