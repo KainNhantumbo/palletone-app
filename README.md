@@ -17,8 +17,10 @@ The main goal is to simplify the process providing the right tools for choosing 
 
 Feel free to try it on any device of yours and bake your own color flavor for your next project! 🥳
 
-> - ✨ **Supported modes:** Solid colors, gradients, auto palette generator and color extrator (extracts color form images), analogous palette, triadic palette, complement and split complement palettes, tetradic palette and monochromatic palette.
+> - ✨ **Supported modes:** Solid colors, gradients, auto palette generator and color extractor (extracts color form images), analogous palette, triadic palette, complement and split complement palettes, tetradic palette and monochromatic palette.
 > - ✨ **Supported color channels:** HSVA, HSLA, RGBA and HEX.
+> - ✨ **Integrated color converter:** convert to and from HSVA, HSLA, RGBA and HEX.
+> - ✨ **Palette color saver:** save colors for later usage offline.
 > - ✨ **Platforms:** PWA, Web and desktop (Linux and Windows).
 > - ✨ **App Themes:** Light and dark.
 
