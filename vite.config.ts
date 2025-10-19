@@ -1,9 +1,9 @@
-import { defineConfig } from 'vite';
-import path from 'node:path';
 import react from '@vitejs/plugin-react-swc';
-import tsconfigPaths from 'vite-tsconfig-paths';
-import electron from 'vite-plugin-electron/simple';
+import path from 'node:path';
+import { defineConfig } from 'vite';
+import electron from 'vite-plugin-electron';
 import { VitePWA } from 'vite-plugin-pwa';
+import tsconfigPaths from 'vite-tsconfig-paths';
 import Package from './package.json';
 
 export default defineConfig({
@@ -11,11 +11,17 @@ export default defineConfig({
   plugins: [
     react(),
     tsconfigPaths(),
-    electron({
-      main: { entry: 'electron/main.ts' },
-      preload: { input: path.join(__dirname, 'electron/preload.ts') },
-      renderer: {}
-    }),
+    electron([
+      {
+        entry: path.join(__dirname, 'electron/main.ts')
+      },
+      {
+        entry: path.join(__dirname, 'electron/preload.ts'),
+        onstart(args) {
+          args.reload();
+        }
+      }
+    ]),
     VitePWA({
       mode: 'production',
       disable: false,
