@@ -19,7 +19,7 @@ import type {
   SolidColor
 } from '@/types';
 import { useDocumentTitle, useLocalStorage } from '@uidotdev/usehooks';
-import compareObjects from 'lodash.isequal';
+import compareObjects from 'fast-deep-equal';
 import * as Lucide from 'lucide-react';
 import { Fragment, useMemo, useState } from 'react';
 import { toast } from 'sonner';

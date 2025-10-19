@@ -2,7 +2,7 @@ import { randomColor, transformColorsToString } from '@/lib/utils';
 import { HARMONY_COLOR_STORAGE_KEY } from '@/shared/constants';
 import { ColorActions, HarmonyColors, HarmonyColorsDB, RGBA } from '@/types';
 import { useLocalStorage } from '@uidotdev/usehooks';
-import compareObjects from 'lodash.isequal';
+import compareObjects from 'fast-deep-equal';
 import { DownloadIcon, ShuffleIcon } from 'lucide-react';
 import * as React from 'react';
 import { toast } from 'sonner';
