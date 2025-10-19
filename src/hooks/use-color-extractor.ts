@@ -2,7 +2,7 @@ import { transformColorsToString } from '@/lib/utils';
 import type { ExtractedColors, RGBA } from '@/types';
 import { extractColors } from 'extract-colors';
 import type { FinalColor } from 'extract-colors/lib/types/Color';
-import compareObjects from 'lodash.isequal';
+import compareObjects from 'fast-deep-equal';
 import * as React from 'react';
 import { toast } from 'sonner';
 import tinycolor from 'tinycolor2';
