@@ -6,7 +6,29 @@ import eslintPluginReactHooks from 'eslint-plugin-react-hooks';
 import eslintPluginReactRefresh from 'eslint-plugin-react-refresh';
 
 export default defineConfig(
-  { ignores: ['**/node_modules', '**/dist', '**/out'] },
+  {
+    ignores: [
+      'dist/**/*',
+      '.next/**/*',
+      '.astro/**/*',
+      'public/**/*',
+      '.vite/**/*',
+      'node_modules/**/*',
+      '.env',
+      '.env.*',
+      '*.config.js',
+      '*.config.cjs',
+      '*.config.mjs',
+      '*.config.ts',
+      '.DS_Store',
+      'Thumbs.db',
+      '.idea/**/*',
+      'out/**/*',
+      'dist/**/*',
+      '.vscode/**/*',
+      '!dist/important.js'
+    ]
+  },
   tseslint.configs.recommended,
   eslintPluginReact.configs.flat.recommended,
   eslintPluginReact.configs.flat['jsx-runtime'],
@@ -25,7 +47,9 @@ export default defineConfig(
     },
     rules: {
       ...eslintPluginReactHooks.configs.recommended.rules,
-      ...eslintPluginReactRefresh.configs.vite.rules
+      ...eslintPluginReactRefresh.configs.vite.rules,
+      'react/no-unescaped-entities': 'warn',
+      'react-hooks/exhaustive-deps': 'warn'
     }
   },
   eslintConfigPrettier

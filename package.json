@@ -34,7 +34,8 @@
     "build": "tsc && vite build",
     "electron:build": "tsc && vite build && electron-builder",
     "lint": "npx prettier --write \"**/*.{js,cjs,md,ts,jsx,tsx,json}\"",
-    "ts:lint": "tsc --noEmit -p ./tsconfig.json"
+    "ts:lint": "tsc --noEmit -p ./tsconfig.json",
+    "es:lint": "eslint ."
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.2",
