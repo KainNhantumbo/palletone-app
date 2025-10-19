@@ -1,7 +1,10 @@
 **/node_modules
 **/dist
+**/out
 **/*.svg
 
+pnpm-lock.yaml
+yarn-lock.json
 package-lock.json
 .electron-vendors.cache.json
 
