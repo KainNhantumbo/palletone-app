@@ -28,14 +28,20 @@
   ],
   "license": "Apache License Version 2.0",
   "repository": "https://github.com/KainNhantumbo/palletone-app.git",
-  "main": "dist-electron/main.js",
+  "main": "out/main/main.js",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "start": "electron-vite preview",
+    "dev": "electron-vite dev",
+    "build": "npm run format && npm run es:lint && npm run ts:lint && electron-vite build",
+    "postinstall": "electron-builder install-app-deps",
+    "build:unpack": "npm run build && electron-builder --dir",
+    "build:win": "npm run build && electron-builder --win",
+    "build:mac": "electron-vite build && electron-builder --mac",
+    "build:linux": "electron-vite build && electron-builder --linux",
     "electron:build": "tsc && vite build && electron-builder",
-    "lint": "npx prettier --write \"**/*.{js,cjs,md,ts,jsx,tsx,json}\"",
+    "format": "npx prettier --write \"**/*.{js,cjs,md,ts,jsx,tsx,json}\"",
     "ts:lint": "tsc --noEmit -p ./tsconfig.json",
-    "es:lint": "eslint ."
+    "es:lint": "eslint --cache ."
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.2",
@@ -81,7 +87,7 @@
     "@types/tinycolor2": "^1.4.6",
     "@vitejs/plugin-react-swc": "^4.1.0",
     "autoprefixer": "^10.4.16",
-    "electron": "^38.1.2",
+    "electron": "^38.3.0",
     "electron-builder": "^25.1.8",
     "electron-vite": "^4.0.1",
     "eslint": "^9.36.0",
@@ -96,7 +102,6 @@
     "tailwindcss": "^3.4.1",
     "tree-kill": "^1.2.2",
     "typescript": "^5.9.2",
-    "vite": "^7.1.6",
     "vite-tsconfig-paths": "^5.1.4",
     "workbox-window": "^7.3.0"
   }

@@ -7,16 +7,33 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   main: {
-    plugins: [externalizeDepsPlugin()]
+    plugins: [externalizeDepsPlugin()],
+    build: {
+      outDir: 'out/main',
+      lib: {
+        entry: resolve(__dirname, 'electron/main.ts')
+      }
+    }
   },
   preload: {
-    plugins: [externalizeDepsPlugin()]
+    plugins: [externalizeDepsPlugin()],
+    build: {
+      outDir: 'out/preload',
+      lib: {
+        entry: resolve(__dirname, 'electron/preload.ts')
+      }
+    }
   },
   renderer: {
     server: { port: 3200 },
     resolve: {
       alias: {
-        '@renderer': resolve('src/')
+        '@/*': resolve('./src/*')
+      }
+    },
+    build: {
+      rollupOptions: {
+        input: resolve(__dirname, 'src/main.tsx')
       }
     },
     plugins: [
