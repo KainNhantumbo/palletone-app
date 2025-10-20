@@ -34,8 +34,8 @@ function createWindow() {
     win?.webContents.send('main-process-message', new Date().toLocaleString());
   });
 
-  if (VITE_DEV_SERVER_URL) {
-    win.loadURL(VITE_DEV_SERVER_URL);
+  if (!app.isPackaged) {
+    win.loadFile(path.join(__dirname, '../../src/index.html'));
   } else {
     // win.loadFile(path.join(process.env.DIST, 'index.html'));
     win.loadFile(path.join(__dirname, '../dist/index.html'));
