@@ -49,13 +49,11 @@ export const GradientsColorsMenu: FC<GradientColorsMenuProps> = ({
         <DropdownMenuLabel>Gradient Colors</DropdownMenuLabel>
         <DropdownMenuSeparator className="bg-font/[.12]" />
         <DropdownMenuGroup>
-          <DropdownMenuItem
-            onClick={() => copyToClipboard(linearCSSGradient, false)}>
+          <DropdownMenuItem onClick={() => copyToClipboard(linearCSSGradient, false)}>
             <BrushIcon className="mr-2 h-4 w-4" />
             <span>Copy linear css gradient</span>
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => copyToClipboard(radialCSSGradient, false)}>
+          <DropdownMenuItem onClick={() => copyToClipboard(radialCSSGradient, false)}>
             <ApertureIcon className="mr-2 h-4 w-4" />
             <span>Copy radial css gradient</span>
           </DropdownMenuItem>

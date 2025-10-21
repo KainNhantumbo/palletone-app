@@ -1,13 +1,13 @@
-import "./styles/index.css";
-import React, { lazy, Suspense } from "react";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter as Router } from "react-router-dom";
-import { Loader } from "./components/loader";
-import { ThemeProvider } from "./components/theme-provider";
+import './styles/index.css';
+import React, { lazy, Suspense } from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Loader } from './components/loader';
+import { ThemeProvider } from './components/theme-provider';
 
-const AppRouter = lazy(() => import("./AppRouter"));
+const AppRouter = lazy(() => import('./AppRouter'));
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ThemeProvider>
       <Router>
@@ -20,4 +20,4 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 );
 
 // Remove Preload scripts loading
-postMessage({ payload: "removeLoading" }, "*");
+postMessage({ payload: 'removeLoading' }, '*');

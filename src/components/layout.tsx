@@ -8,7 +8,7 @@ type Props = { children: ReactNode };
 
 export const Layout = ({ children }: Props) => {
   return (
-    <MotionConfig reducedMotion='user'>
+    <MotionConfig reducedMotion="user">
       <LazyMotion strict={true} features={domAnimation}>
         <Header />
         {children}

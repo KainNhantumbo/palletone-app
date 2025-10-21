@@ -30,12 +30,12 @@ export type GenericMenuProps = {
 export const GenericColorsMenu: FC<GenericMenuProps> = (props) => {
   const { originalColor, colors } = useMemo(
     () => ({
-      originalColor: Object.entries(
-        transformColorsToString(props.originalColor)
-      ).map(([key, value]) => ({
-        name: key,
-        color: value
-      })),
+      originalColor: Object.entries(transformColorsToString(props.originalColor)).map(
+        ([key, value]) => ({
+          name: key,
+          color: value
+        })
+      ),
       colors: props.values
         .map((value) => transformColorsToString(value))
         .map((item) =>

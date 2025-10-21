@@ -1,9 +1,8 @@
-import { resolve } from 'path';
-import { defineConfig, externalizeDepsPlugin } from 'electron-vite';
 import react from '@vitejs/plugin-react';
+import { defineConfig, externalizeDepsPlugin } from 'electron-vite';
+import { resolve } from 'path';
 import { VitePWA } from 'vite-plugin-pwa';
 import Package from './package.json';
-import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   main: {
@@ -18,7 +17,7 @@ export default defineConfig({
   preload: {
     plugins: [externalizeDepsPlugin()],
     build: {
-      outDir: 'out/preload',
+      // outDir: 'out/preload',
       lib: {
         entry: resolve(__dirname, 'electron/preload.ts')
       }
@@ -28,17 +27,17 @@ export default defineConfig({
     server: { port: 3200 },
     resolve: {
       alias: {
-        '@/*': resolve('./src/*')
+        '@': resolve(__dirname, 'src')
       }
     },
     build: {
+      outDir: 'out/renderer',
       rollupOptions: {
         input: resolve(__dirname, 'src/main.tsx')
       }
     },
     plugins: [
       react(),
-      tsconfigPaths(),
       VitePWA({
         mode: 'production',
         disable: false,

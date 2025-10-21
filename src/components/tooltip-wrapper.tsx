@@ -12,11 +12,7 @@ export type TooltipProps = {
   offsetDistance?: number | undefined;
 };
 
-export const TooltipWrapper: FC<TooltipProps> = ({
-  offsetDistance,
-  children,
-  content
-}) => (
+export const TooltipWrapper: FC<TooltipProps> = ({ offsetDistance, children, content }) => (
   <TooltipProvider>
     <Tooltip>
       <TooltipTrigger asChild>{children}</TooltipTrigger>

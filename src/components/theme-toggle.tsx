@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/button";
-import { MoonIcon } from "@radix-ui/react-icons";
-import { SunIcon } from "lucide-react";
-import { useTheme } from "./theme-provider";
-import { TooltipWrapper } from "./tooltip-wrapper";
+import { Button } from '@/components/ui/button';
+import { MoonIcon } from '@radix-ui/react-icons';
+import { SunIcon } from 'lucide-react';
+import { useTheme } from './theme-provider';
+import { TooltipWrapper } from './tooltip-wrapper';
 
 export const ThemeToggle = () => {
   const { setTheme: onClick } = useTheme();

@@ -29,18 +29,18 @@ export type ComplementColorsMenuProps = {
 export const ComplementColorsMenu: FC<ComplementColorsMenuProps> = (props) => {
   const { originalColor, complementColor } = useMemo(
     () => ({
-      originalColor: Object.entries(
-        transformColorsToString(props.originalColor)
-      ).map(([key, value]) => ({
-        name: key,
-        color: value
-      })),
-      complementColor: Object.entries(
-        transformColorsToString(props.complementColor)
-      ).map(([key, value]) => ({
-        name: key,
-        color: value
-      }))
+      originalColor: Object.entries(transformColorsToString(props.originalColor)).map(
+        ([key, value]) => ({
+          name: key,
+          color: value
+        })
+      ),
+      complementColor: Object.entries(transformColorsToString(props.complementColor)).map(
+        ([key, value]) => ({
+          name: key,
+          color: value
+        })
+      )
     }),
     [props]
   );

@@ -1,15 +1,15 @@
-import logoImage from "@/assets/favicon.png";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { TooltipWrapper } from "@/components/tooltip-wrapper";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { metadata } from "@/shared/constants";
-import { useDocumentTitle } from "@uidotdev/usehooks";
-import { ArrowLeftIcon, Settings2Icon } from "lucide-react";
-import { Link } from "react-router-dom";
+import logoImage from '@/assets/favicon.png';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { TooltipWrapper } from '@/components/tooltip-wrapper';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { metadata } from '@/shared/constants';
+import { useDocumentTitle } from '@uidotdev/usehooks';
+import { ArrowLeftIcon, Settings2Icon } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Preferences() {
-  useDocumentTitle("Palletone - Preferences");
+  useDocumentTitle('Palletone - Preferences');
 
   return (
     <main className="w-full pb-24 pt-20">
@@ -17,8 +17,8 @@ export default function Preferences() {
         <div className=" flex items-center gap-4 ">
           <TooltipWrapper content="Get back">
             <Button
-              variant={"ghost"}
-              size={"icon"}
+              variant={'ghost'}
+              size={'icon'}
               onClick={() => history.back()}
               className="rounded-full">
               <ArrowLeftIcon />
@@ -36,14 +36,13 @@ export default function Preferences() {
           <div className="base-border flex w-full flex-col gap-2 rounded-2xl bg-foreground-default p-3">
             <h2 className="text-md">Donate</h2>
             <p>
-              Thank your for trying this app. If you enjoy or find this
-              something useful, please consider donating to support my
-              development.
+              Thank your for trying this app. If you enjoy or find this something useful,
+              please consider donating to support my development.
             </p>
 
             <p>
-              Feel free to contact me to report a bug or even request to
-              implement your desired feature.
+              Feel free to contact me to report a bug or even request to implement your
+              desired feature.
             </p>
 
             <div className="mt-2 flex w-full flex-wrap gap-2">
@@ -68,8 +67,8 @@ export default function Preferences() {
 
             <div className=" flex w-full items-center justify-between gap-3">
               <p className="md:max-w-[calc(100%_-_200px)]">
-                Improves visibility for users with low vision condition and
-                those who are sensitive to bright light.
+                Improves visibility for users with low vision condition and those who are
+                sensitive to bright light.
               </p>
 
               <ThemeToggle />
@@ -92,8 +91,8 @@ export default function Preferences() {
               </h3>
             </div>
             <p className="text-center">
-              &copy; {new Date().getFullYear()} {metadata.appName} - Distributed
-              under {metadata.license}.
+              &copy; {new Date().getFullYear()} {metadata.appName} - Distributed under{' '}
+              {metadata.license}.
             </p>
           </div>
         </section>

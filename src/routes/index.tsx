@@ -6,7 +6,7 @@ export default function Home() {
 
   return (
     <main>
-      <article className='w-full pb-24 pt-20'>
+      <article className="w-full pb-24 pt-20">
         <InitialColors />
       </article>
     </main>

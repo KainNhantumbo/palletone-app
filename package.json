@@ -41,7 +41,7 @@
     "electron:build": "tsc && vite build && electron-builder",
     "format": "npx prettier --write \"**/*.{js,cjs,md,ts,jsx,tsx,json}\"",
     "ts:lint": "tsc --noEmit -p ./tsconfig.json",
-    "es:lint": "eslint --cache ."
+    "es:lint": "eslint ."
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.2",
