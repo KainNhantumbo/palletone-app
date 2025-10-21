@@ -2,6 +2,7 @@ import { app, BrowserWindow, Menu } from 'electron';
 import path from 'node:path';
 import { menuTemplate } from './menu';
 
+process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 process.env.DIST = path.join(__dirname, '../dist');
 process.env.VITE_PUBLIC = app.isPackaged
   ? process.env.DIST
@@ -14,6 +15,13 @@ const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL'];
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
+}
+
+// ensure this is the main and single app instance
+// otherwise terminate the process immediately
+if (!app.requestSingleInstanceLock()) {
+  app.quit();
+  process.exit(0);
 }
 
 function createWindow() {
@@ -36,6 +44,7 @@ function createWindow() {
 
   if (!app.isPackaged) {
     win.loadFile(path.join(__dirname, '../../src/index.html'));
+    win.webContents.openDevTools();
   } else {
     // win.loadFile(path.join(process.env.DIST, 'index.html'));
     win.loadFile(path.join(__dirname, '../dist/index.html'));
