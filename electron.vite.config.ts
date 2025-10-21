@@ -25,6 +25,8 @@ export default defineConfig({
   },
   renderer: {
     server: { port: 3200 },
+    root: './src',
+    appType: 'spa',
     resolve: {
       alias: {
         '@': resolve(__dirname, 'src')
