@@ -35,7 +35,7 @@ export default defineConfig({
     build: {
       outDir: 'out/renderer',
       rollupOptions: {
-        input: resolve(__dirname, 'src/main.tsx')
+        input: resolve(__dirname, 'src/index.html')
       }
     },
     plugins: [

@@ -3,7 +3,7 @@ import path from 'node:path';
 import { menuTemplate } from './menu';
 
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
-process.env.DIST = path.join(__dirname, '../out');
+process.env.DIST = path.join(__dirname, '../out/renderer');
 process.env.VITE_PUBLIC = app.isPackaged
   ? process.env.DIST
   : path.join(process.env.DIST, '../public');
@@ -44,7 +44,8 @@ function createWindow() {
     win.loadURL(process.env.VITE_DEV_SERVER_URL || 'http://localhost:3200');
     win.webContents.openDevTools();
   } else {
-    win.loadFile(path.join(process.env.DIST, '../out/renderer/index.html'));
+    const indexHtml = path.join(__dirname, '../renderer/index.html');
+    win.loadFile(indexHtml);
   }
 }
 

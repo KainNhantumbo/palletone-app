@@ -1,6 +1,6 @@
 import type { FinalColor } from 'extract-colors/lib/types/Color';
 import type { LucideIcon } from 'lucide-react';
-import type { ChangeEvent, FormEvent } from 'react';
+import type { ChangeEvent, FormEvent, JSX } from 'react';
 
 export type RouteType = { path: string; element: JSX.ElementType };
 
