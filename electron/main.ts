@@ -8,6 +8,8 @@ process.env.VITE_PUBLIC = app.isPackaged
   ? process.env.DIST
   : path.join(process.env.DIST, '../public');
 
+const INDEX_ROUTE = path.join(__dirname, '../renderer/index.html');
+
 let win: BrowserWindow | null;
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -40,12 +42,21 @@ function createWindow() {
     win?.webContents.send('main-process-message', new Date().toLocaleString());
   });
 
+  win.webContents.on('will-navigate', (event, url) => {
+    if (!url.startsWith('file://')) return;
+
+    const filePath = url.replace('file://', '');
+    if (!filePath.endsWith('index.html')) {
+      event.preventDefault();
+      win?.loadFile(INDEX_ROUTE);
+    }
+  });
+
   if (!app.isPackaged) {
     win.loadURL(process.env.VITE_DEV_SERVER_URL || 'http://localhost:3200');
     win.webContents.openDevTools();
   } else {
-    const indexHtml = path.join(__dirname, '../renderer/index.html');
-    win.loadFile(indexHtml);
+    win.loadFile(INDEX_ROUTE);
   }
 }
 

@@ -1,15 +1,14 @@
 import type { JSX } from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { Layout } from './components/layout';
 import Home from './routes';
-import SavedColors from './routes/saved-colors';
 import ColorExtractor from './routes/color-extractor';
+import ConverterPage from './routes/converter';
+import HarmonyColors from './routes/harmony-colors';
 import Palettes from './routes/palettes';
 import Preferences from './routes/preferences';
-import NotFoundPage from './routes/404';
-import HarmonyColors from './routes/harmony-colors';
-import { Route, Routes } from 'react-router-dom';
-import { Layout } from './components/layout';
+import SavedColors from './routes/saved-colors';
 import type { RouteType } from './types';
-import ConverterPage from './routes/converter';
 
 const routes: RouteType[] = [
   { path: '/', element: Home },
@@ -19,8 +18,12 @@ const routes: RouteType[] = [
   { path: '/palettes', element: Palettes },
   { path: '/saved', element: SavedColors },
   { path: '/converter', element: ConverterPage },
-  { path: '*', element: NotFoundPage }
+  { path: '*', element: Redirect }
 ];
+
+function Redirect() {
+  return <Navigate to="/" replace />;
+}
 
 const AppRouter = (): JSX.Element => (
   <Layout>
