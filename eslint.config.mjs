@@ -1,9 +1,9 @@
-import { defineConfig } from 'eslint/config';
-import tseslint from '@electron-toolkit/eslint-config-ts';
 import eslintConfigPrettier from '@electron-toolkit/eslint-config-prettier';
+import tseslint from '@electron-toolkit/eslint-config-ts';
 import eslintPluginReact from 'eslint-plugin-react';
 import eslintPluginReactHooks from 'eslint-plugin-react-hooks';
 import eslintPluginReactRefresh from 'eslint-plugin-react-refresh';
+import { defineConfig } from 'eslint/config';
 
 export default defineConfig(
   {
@@ -49,7 +49,9 @@ export default defineConfig(
       ...eslintPluginReactHooks.configs.recommended.rules,
       ...eslintPluginReactRefresh.configs.vite.rules,
       'react/no-unescaped-entities': 'warn',
-      'react-hooks/exhaustive-deps': 'warn'
+      'react-hooks/exhaustive-deps': 'warn',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      'react-refresh/only-export-components': 'off'
     }
   },
   eslintConfigPrettier

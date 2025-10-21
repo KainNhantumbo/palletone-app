@@ -10,7 +10,7 @@ process.env.VITE_PUBLIC = app.isPackaged
 
 let win: BrowserWindow | null;
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
-// eslint-disable-next-line no-require-imports
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
