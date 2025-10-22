@@ -81,6 +81,13 @@ In the project directory, you can run in terminal:
 npm ci && npm run dev
 ```
 
+To build for linux, install these packages before (for rpm packages):
+
+```bash
+sudo dnf install rpm-build fakeroot ruby ruby-devel make gcc redhat-rpm-config
+sudo gem install --no-document fpm
+```
+
 - Builds the web version of the app for production to the **dist folder**:
 
 ```bash

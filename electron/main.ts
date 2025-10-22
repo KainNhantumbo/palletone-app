@@ -1,6 +1,7 @@
 import { app, BrowserWindow, globalShortcut, Menu } from 'electron';
 import path from 'node:path';
 import Package from '../package.json';
+
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 process.env.DIST = path.join(__dirname, '../out/renderer');
 process.env.VITE_PUBLIC = app.isPackaged
