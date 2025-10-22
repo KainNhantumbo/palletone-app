@@ -1,19 +1,19 @@
-import './styles/index.css';
-import React, { lazy, Suspense } from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Loader } from './components/loader';
 import { ThemeProvider } from './components/theme-provider';
+import './styles/index.css';
 
-const AppRouter = lazy(() => import('./AppRouter'));
+const AppRouter = React.lazy(() => import('./router'));
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ThemeProvider>
       <Router>
-        <Suspense fallback={<Loader />}>
+        <React.Suspense fallback={<Loader />}>
           <AppRouter />
-        </Suspense>
+        </React.Suspense>
       </Router>
     </ThemeProvider>
   </React.StrictMode>
