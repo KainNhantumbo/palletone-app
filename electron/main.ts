@@ -1,7 +1,6 @@
 import { app, BrowserWindow, globalShortcut, Menu } from 'electron';
 import path from 'node:path';
-import { menuTemplate } from './menu';
-
+import Package from '../package.json';
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 process.env.DIST = path.join(__dirname, '../out/renderer');
 process.env.VITE_PUBLIC = app.isPackaged
@@ -9,8 +8,8 @@ process.env.VITE_PUBLIC = app.isPackaged
   : path.join(process.env.DIST, '../public');
 
 const INDEX_ROUTE = path.join(__dirname, '../renderer/index.html');
-
 let win: BrowserWindow | null;
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 if (require('electron-squirrel-startup')) {
@@ -25,11 +24,15 @@ if (!app.requestSingleInstanceLock()) {
 }
 
 function createWindow() {
+  Menu.setApplicationMenu(null);
+
   win = new BrowserWindow({
     icon: path.join(process.env.VITE_PUBLIC, 'favicon.png'),
     minHeight: 410,
     minWidth: 420,
     show: true,
+    title: Package.productName,
+    autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, '../preload/preload.js'),
       sandbox: true,
@@ -82,8 +85,6 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
-    const menu = Menu.buildFromTemplate(menuTemplate);
-    Menu.setApplicationMenu(null);
   }
 });
 
