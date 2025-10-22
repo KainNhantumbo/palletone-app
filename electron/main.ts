@@ -28,8 +28,8 @@ function createWindow() {
 
   win = new BrowserWindow({
     icon: path.join(process.env.VITE_PUBLIC, 'favicon.png'),
-    minHeight: 410,
-    minWidth: 420,
+    minWidth: 1080,
+    minHeight: 720,
     show: true,
     title: Package.productName,
     autoHideMenuBar: true,
