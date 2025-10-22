@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu } from 'electron';
+import { app, BrowserWindow, globalShortcut, Menu } from 'electron';
 import path from 'node:path';
 import { menuTemplate } from './menu';
 
@@ -43,13 +43,14 @@ function createWindow() {
   });
 
   win.webContents.on('will-navigate', (event, url) => {
-    if (!url.startsWith('file://')) return;
-
-    const filePath = url.replace('file://', '');
-    if (!filePath.endsWith('index.html')) {
+    if (url.startsWith('file://')) {
       event.preventDefault();
       win?.loadFile(INDEX_ROUTE);
     }
+  });
+
+  win.webContents.on('did-fail-load', () => {
+    win?.loadFile(INDEX_ROUTE);
   });
 
   if (!app.isPackaged) {
@@ -59,6 +60,17 @@ function createWindow() {
     win.loadFile(INDEX_ROUTE);
   }
 }
+
+// remove reload to avoid breaking the view
+app.on('browser-window-focus', () => {
+  globalShortcut.register('CommandOrControl+R', () => {});
+  globalShortcut.register('F5', () => {});
+});
+
+app.on('browser-window-blur', () => {
+  globalShortcut.unregister('CommandOrControl+R');
+  globalShortcut.unregister('F5');
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -71,7 +83,7 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
     const menu = Menu.buildFromTemplate(menuTemplate);
-    Menu.setApplicationMenu(menu);
+    Menu.setApplicationMenu(null);
   }
 });
 
