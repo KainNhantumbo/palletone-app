@@ -12,12 +12,14 @@ import {
   type TabsProps,
   type TabsTriggerProps
 } from '@/components/ui/tabs/tabs';
+import { cn } from '@/lib/utils';
+import { LucideIcon } from 'lucide-react';
 import * as React from 'react';
 
 export type TabTriggerItem<T extends string = string> = {
   value: T;
   label: React.ReactNode;
-  icon?: React.ReactNode;
+  icon?: LucideIcon;
   iconPosition?: 'left' | 'right';
   props?: Omit<TabsTriggerProps, 'value' | 'children'>;
 };
@@ -70,13 +72,31 @@ export function TabsFactory<T extends string = string>({
 
   return (
     <Tabs {...(tabsProps as TabsProps<T>)}>
-      <TabsList {...listProps}>
-        {triggers.map(({ value, label, icon, iconPosition = 'left', props }) => (
-          <TabsTrigger key={value} value={value} {...props}>
+      <TabsList
+        {...listProps}
+        className={cn(
+          'mx-auto mb-3 grid w-fit grid-flow-col place-content-center place-items-center gap-8 bg-background-default',
+          listProps?.className
+        )}>
+        {triggers.map(({ value, label, icon: Icon, iconPosition = 'left', props }) => (
+          <TabsTrigger
+            key={value}
+            value={value}
+            className={cn(
+              'group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl',
+              props?.className
+            )}
+            {...props}>
             <span className="flex items-center gap-2">
-              {icon && iconPosition === 'left' && <span className="h-4 w-4">{icon}</span>}
-              <span>{label}</span>
-              {icon && iconPosition === 'right' && <span className="h-4 w-4">{icon}</span>}
+              {Icon && iconPosition === 'left' && (
+                <Icon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
+              )}
+              <span className="font-semibold transition-colors group-hover:text-blue-400">
+                {label}
+              </span>
+              {Icon && iconPosition === 'right' && (
+                <Icon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
+              )}
             </span>
           </TabsTrigger>
         ))}
