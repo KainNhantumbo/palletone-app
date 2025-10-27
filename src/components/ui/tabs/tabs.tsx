@@ -3,8 +3,8 @@
 import { m as motion, type HTMLMotionProps, type Transition } from 'motion/react';
 import * as React from 'react';
 
-import { MotionHighlight, MotionHighlightItem } from '@/components/ui/tabs/tab-hilighter';
 import { cn } from '@/lib/utils';
+import { MotionHighlight, MotionHighlightItem } from './tab-highlighter';
 
 type TabsContextType<T extends string> = {
   activeValue: T;
@@ -124,7 +124,7 @@ function TabsList({
   return (
     <MotionHighlight
       controlledItems
-      className={cn('rounded-sm bg-background shadow-sm', activeClassName)}
+      className={cn('rounded-full bg-background shadow-sm', activeClassName)}
       value={activeValue}
       transition={transition}>
       <div
@@ -167,7 +167,7 @@ function TabsTrigger({ ref, value, children, className, ...props }: TabsTriggerP
         onClick={() => handleValueChange(value)}
         data-state={activeValue === value ? 'active' : 'inactive'}
         className={cn(
-          'z-[1] inline-flex size-full cursor-pointer items-center justify-center whitespace-nowrap rounded-sm px-2 py-1 text-sm font-medium ring-offset-background transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-foreground',
+          'data-[state=active]:base-border relative z-[1] inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-foreground-default data-[state=active]:text-foreground data-[state=active]:shadow-none data-[state=active]:before:absolute data-[state=active]:before:-bottom-2 data-[state=active]:before:left-[calc(50%_-_8px)] data-[state=active]:before:h-1 data-[state=active]:before:w-4 data-[state=active]:before:rounded-full data-[state=active]:before:bg-blue-400 md:data-[state=active]:before:left-[calc(50%_-_16px)] md:data-[state=active]:before:w-8',
           className
         )}
         {...props}>
