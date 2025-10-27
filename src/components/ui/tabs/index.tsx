@@ -1,61 +1,40 @@
 'use client';
 
-import * as React from 'react';
 import {
   Tabs,
+  TabsContent,
+  TabsContents,
   TabsList,
   TabsTrigger,
-  TabsContents,
-  TabsContent,
-  type TabsProps,
-  type TabsListProps,
-  type TabsTriggerProps,
+  type TabsContentProps,
   type TabsContentsProps,
-  type TabsContentProps
+  type TabsListProps,
+  type TabsProps,
+  type TabsTriggerProps
 } from '@/components/ui/tabs/tabs';
-
-/* ---------------------------------------------------------
- * Types
- * --------------------------------------------------------- */
+import * as React from 'react';
 
 export type TabTriggerItem<T extends string = string> = {
-  /** Identificador único da tab */
   value: T;
-  /** Texto ou elemento exibido no botão */
   label: React.ReactNode;
-  /** Ícone opcional exibido ao lado do label */
   icon?: React.ReactNode;
-  /** Posição do ícone (esquerda ou direita) */
   iconPosition?: 'left' | 'right';
-  /** Props opcionais adicionais */
   props?: Omit<TabsTriggerProps, 'value' | 'children'>;
 };
 
 export type TabContentItem<T extends string = string> = {
-  /** Valor que corresponde ao trigger */
   value: T;
-  /** Conteúdo da aba */
   element: React.ReactNode;
-  /** Props opcionais adicionais */
   props?: Omit<TabsContentProps, 'value' | 'children'>;
 };
 
 export type TabsFactoryProps<T extends string = string> = Omit<TabsProps<T>, 'children'> & {
-  /** Lista de triggers (botões das tabs) */
   triggers: TabTriggerItem<T>[];
-  /** Lista de conteúdos correspondentes */
   contents: TabContentItem<T>[];
-  /** Props opcionais para personalizar a lista */
   listProps?: Omit<TabsListProps, 'children'>;
-  /** Props opcionais para personalizar os conteúdos */
   contentsProps?: Omit<TabsContentsProps, 'children'>;
-  /** Exibir avisos no console sobre inconsistências */
   debugWarnings?: boolean;
 };
-
-/* ---------------------------------------------------------
- * Component
- * --------------------------------------------------------- */
 
 export function TabsFactory<T extends string = string>({
   triggers,
@@ -65,7 +44,6 @@ export function TabsFactory<T extends string = string>({
   debugWarnings = true,
   ...tabsProps
 }: TabsFactoryProps<T>) {
-  // 🚨 Validação runtime
   React.useEffect(() => {
     if (!debugWarnings) return;
 
