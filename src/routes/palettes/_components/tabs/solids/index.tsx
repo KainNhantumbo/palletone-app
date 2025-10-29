@@ -2,23 +2,15 @@ import { TooltipWrapper } from '@/components/tooltip-wrapper';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
-  buildGradient,
   copyToClipboard,
   normalizeColorOutput,
   randomColor,
   transformColorsToString
 } from '@/lib/utils';
-import { MIXED_GRADIENT_STORAGE_KEY, SOLID_COLORS_STORAGE_KEY } from '@/shared/constants';
-import type {
-  ColorActions,
-  ColorVariantsHeadings,
-  MixedGradient,
-  RGBA,
-  SolidColor
-} from '@/types';
-import { useDocumentTitle, useLocalStorage } from '@uidotdev/usehooks';
+import { SOLID_COLORS_STORAGE_KEY } from '@/shared/constants';
+import type { ColorActions, ColorVariantsHeadings, RGBA, SolidColor } from '@/types';
+import { useLocalStorage } from '@uidotdev/usehooks';
 import compareObjects from 'fast-deep-equal';
 import * as Lucide from 'lucide-react';
 import { Fragment, useMemo, useState } from 'react';
@@ -26,32 +18,14 @@ import { toast } from 'sonner';
 import tinycolor from 'tinycolor2';
 
 export function SolidsTab() {
-  useDocumentTitle('Palletone - Palettes');
-
   const [rgbaColor, setRgbaColor] = useState<RGBA>(() => randomColor());
-  const [gradientRGBA, setGradientRGBA] = useState<Omit<MixedGradient, 'id' | 'createdAt'>>(
-    () => ({
-      color_1: randomColor(),
-      color_2: randomColor()
-    })
-  );
 
   const [solidColorsDB, updateSolidColorDB] = useLocalStorage<SolidColor[]>(
     SOLID_COLORS_STORAGE_KEY,
     []
   );
 
-  const [gradientColorsDB, updateGradientColorsDB] = useLocalStorage<MixedGradient[]>(
-    MIXED_GRADIENT_STORAGE_KEY,
-    []
-  );
-
   const colorVariants = useMemo(() => transformColorsToString(rgbaColor), [rgbaColor]);
-
-  const gradients = useMemo(
-    () => buildGradient(gradientRGBA.color_1, gradientRGBA.color_2),
-    [gradientRGBA]
-  );
 
   const colorHeadings: ColorVariantsHeadings = [
     { name: 'rgba', color: colorVariants.rgba },
@@ -70,29 +44,6 @@ export function SolidsTab() {
       name: 'save color',
       icon: Lucide.DownloadIcon,
       handler: () => handleSaveSolidColor()
-    }
-  ];
-
-  const gradientColorActions: ColorActions = [
-    {
-      name: 'randomize',
-      icon: Lucide.ShuffleIcon,
-      handler: () =>
-        setGradientRGBA((current) => ({
-          ...current,
-          color_1: randomColor(),
-          color_2: randomColor()
-        }))
-    },
-    {
-      name: 'copy as CSS',
-      icon: Lucide.CopyIcon,
-      handler: () => copyToClipboard(gradients.linearGradient.cssString)
-    },
-    {
-      name: 'save',
-      icon: Lucide.DownloadIcon,
-      handler: () => handleSaveGradient()
     }
   ];
 
@@ -115,27 +66,6 @@ export function SolidsTab() {
     });
     toast.success('Color saved successfully.');
   };
-
-  const handleSaveGradient = () => {
-    const isDuplicate = gradientColorsDB.some(
-      (values) =>
-        compareObjects(values.color_1, gradientRGBA.color_1) &&
-        compareObjects(values.color_2, gradientRGBA.color_2)
-    );
-
-    if (isDuplicate) return toast.error('Gradient already saved.');
-
-    updateGradientColorsDB((current) => [
-      ...current,
-      {
-        ...gradientRGBA,
-        id: crypto.randomUUID(),
-        createdAt: new Date().toISOString()
-      }
-    ]);
-    toast.success('Gradient saved successfully.');
-  };
-
 
   return (
     <section className="flex w-full flex-col">
