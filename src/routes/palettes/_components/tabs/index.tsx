@@ -8,7 +8,7 @@ export function PalettesTabsContainer() {
     <TabsFactory
       defaultValue="solids"
       triggers={[
-        { value: 'solids', label: 'Home', icon: DropletIcon },
+        { value: 'solids', label: 'Solids', icon: DropletIcon },
         { value: 'gradients', label: 'Gradients', icon: PaintbrushIcon }
       ]}
       contents={[
