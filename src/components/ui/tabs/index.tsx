@@ -15,6 +15,7 @@ import {
 import { cn } from '@/lib/utils';
 import { LucideIcon } from 'lucide-react';
 import * as React from 'react';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 export type TabTriggerItem<T extends string = string> = {
   value: T;
@@ -33,6 +34,7 @@ export type TabContentItem<T extends string = string> = {
 export type TabsFactoryProps<T extends string = string> = Omit<TabsProps<T>, 'children'> & {
   triggers: TabTriggerItem<T>[];
   contents: TabContentItem<T>[];
+  queryKey?: string;
   listProps?: Omit<TabsListProps, 'children'>;
   contentsProps?: Omit<TabsContentsProps, 'children'>;
   debugWarnings?: boolean;
@@ -43,9 +45,36 @@ export function TabsFactory<T extends string = string>({
   contents,
   listProps,
   contentsProps,
+  queryKey = 'tab',
   debugWarnings = true,
   ...tabsProps
 }: TabsFactoryProps<T>) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+
+  const triggerValues = React.useMemo(() => triggers.map((t) => t.value), [triggers]);
+
+  const [activeTab, setActiveTab] = React.useState<T | undefined>(undefined);
+
+  React.useEffect(() => {
+    const param = searchParams.get(queryKey) as T | null;
+    if (param && triggerValues.includes(param)) {
+      setActiveTab(param);
+    } else {
+      setActiveTab(triggers[0]?.value);
+    }
+  }, [searchParams, triggerValues, queryKey, triggers]);
+
+  const handleValueChange = (value: T) => {
+    if (value === activeTab) return;
+    setActiveTab(value);
+
+    const params = new URLSearchParams(location.search);
+    params.set(queryKey, value);
+    navigate({ search: params.toString() }, { replace: true });
+  };
+
   React.useEffect(() => {
     if (!debugWarnings) return;
 
@@ -71,7 +100,11 @@ export function TabsFactory<T extends string = string>({
   }, [triggers, contents, debugWarnings]);
 
   return (
-    <Tabs {...(tabsProps as TabsProps<T>)}>
+    <Tabs
+      // @ts-ignore ignore this error, its a compiler type mismatch
+      value={activeTab as string}
+      onValueChange={handleValueChange!}
+      {...(tabsProps as TabsProps<T>)}>
       <TabsList
         {...listProps}
         className={cn(
