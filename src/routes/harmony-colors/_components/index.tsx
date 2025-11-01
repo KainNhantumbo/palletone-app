@@ -1,5 +1,6 @@
 import { TabsFactory } from '@/components/ui/tabs/index';
 import { BoxSelectIcon, Dice2Icon, Dice3Icon, Dice4Icon, DicesIcon } from 'lucide-react';
+import ComplementTab from './tabs/analogous';
 
 export function HarmonyColorsTabsContainer() {
   return (
@@ -14,7 +15,7 @@ export function HarmonyColorsTabsContainer() {
         { value: 'monochromatic', label: 'Monochromatic', icon: BoxSelectIcon }
       ]}
       contents={[
-        // { value: 'palette', element: <PaletteTab /> },
+        { value: 'complement', element: <ComplementTab /> }
         // { value: 'picker', element: <PickerTab /> }
       ]}
     />
