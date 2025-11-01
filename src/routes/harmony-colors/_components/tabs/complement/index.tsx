@@ -3,13 +3,11 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { useHarmonyColors } from '@/hooks/use-harmony-colors';
 import { cn, copyToClipboard, normalizeColorOutput } from '@/lib/utils';
-import { useDocumentTitle } from '@uidotdev/usehooks';
 import { CopyIcon } from 'lucide-react';
 import { Fragment } from 'react';
 import tinycolor from 'tinycolor2';
 
 export function ComplementTab() {
-  useDocumentTitle('Palletone - Harmony Colors');
   const { complementColorActions, harmonyColors, rawComplementColors, setHarmonyColors } =
     useHarmonyColors();
 
