@@ -84,7 +84,7 @@ npm ci && npm run dev
 To build for linux, install these packages before (for rpm packages):
 
 ```bash
-sudo dnf install rpm-build fakeroot ruby ruby-devel make gcc redhat-rpm-config
+sudo dnf install rpm rpm-build fakeroot ruby ruby-devel make gcc redhat-rpm-config
 sudo gem install --no-document fpm
 ```
 
@@ -109,7 +109,7 @@ My Blog: [https://codenut-dev.vercel.app/en/blog](https://codenut-dev.vercel.app
 
 #### If you like this project, let me know by leaving a star on this repository so I can keep improving this app or [send support](https://www.buymeacoffee.com/nhantumbokU/)!\*\* .😊😘
 
-Best regards, Kain Nhantumbo.\
+Best regards, Ubelloch.\
 ✌️🇲🇿 **Made with ❤ Electron.JS + React + Vite and Typescript**
 
 ## Contributing
@@ -119,7 +119,7 @@ See this [Contributing Guide](CONTRIBUTING.md).
 ## 📜 License
 
 Licensed under Apache License Version 2.0. All rights reserved.\
-Copyright &copy; 2024 Kain Nhantumbo.
+Copyright &copy; 2024 Ubelloch.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
 

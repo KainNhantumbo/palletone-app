@@ -6,6 +6,7 @@ const electronBuilderConfig: Configuration = {
   appId: 'com.palletone.app',
   asar: { smartUnpack: true },
   productName: pkg.productName,
+  icon: 'public/icon-512x512.png',
   directories: {
     output: 'dist',
     buildResources: 'build',
@@ -26,8 +27,9 @@ const electronBuilderConfig: Configuration = {
 
   // ---------------- Windows ----------------
   win: {
-    executableName: 'Palletone',
-    target: 'nsis'
+    executableName: pkg.productName,
+    target: 'nsis',
+    icon: 'public/icon-512x512.png'
   },
   nsis: {
     artifactName: '${name}-${version}-setup.${ext}',
@@ -49,24 +51,56 @@ const electronBuilderConfig: Configuration = {
       NSDownloadsFolderUsageDescription:
         "Application requests access to the user's Downloads folder."
     },
-    notarize: false
+    notarize: false,
+    icon: 'public/icon-512x512.png'
   },
   dmg: {
     artifactName: '${name}-${version}.${ext}'
   },
 
   // ---------------- Linux ----------------
+  linux: {
+    appId: 'com.palletone.app',
+    icon: 'public/icon-512x512.png',
+    category: 'Utility',
+    compression: null,
+    publish: undefined,
+    maintainer: 'Ubelloch <nhantumbok@gmail.com>',
+    vendor: 'Ubelloch <nhantumbok@gmail.com>',
+    asar: true,
+    description: pkg.description,
+    packageCategory: 'Utility',
+    target: ['rpm', 'deb', 'AppImage'],
+    defaultArch: 'x64'
+  },
   rpm: {
-    category: 'Utility'
+    category: 'Utility',
+    icon: 'public/icon-512x512.png',
+    packageName: pkg.productName,
+    description: pkg.description,
+    compression: 'xz',
+    packageCategory: 'Utility',
+    publish: undefined,
+    fpm: ['--rpm-compression', 'gzip'],
+    artifactName: '${name}-${version}.${ext}'
   },
   deb: {
-    category: 'Utility'
+    category: 'Utility',
+    packageCategory: 'Utility',
+    icon: 'public/icon-512x512.png',
+    packageName: pkg.productName,
+    description: pkg.description,
+    compression: null
   },
   appImage: {
-    category: 'Utility'
+    category: 'Utility',
+    description: pkg.description
   },
   apk: {
-    category: 'Utility'
+    category: 'Utility',
+    icon: 'public/icon-512x512.png',
+    description: pkg.description,
+    packageName: pkg.productName
   }
 };
 
