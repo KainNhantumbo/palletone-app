@@ -1,10 +1,9 @@
 import logoImage from '@/assets/favicon.png';
-import { PocketIcon, RefreshCwIcon, Settings2 } from 'lucide-react';
-import { Button } from './ui/button';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 import { m as motion } from 'framer-motion';
+import { PocketIcon, RefreshCwIcon, Settings2 } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 import { TooltipWrapper } from './tooltip-wrapper';
+import { Button } from './ui/button';
 
 const paths = [
   { label: 'Color Converter', path: '/converter', icon: RefreshCwIcon },
@@ -38,7 +37,7 @@ export const Header = () => {
 
         <div className="flex items-center gap-2">
           {paths.map((item, index) => (
-            <Link to={item.path} key={index}>
+            <Link to={item.path} key={index} viewTransition>
               <TooltipWrapper content={item.label}>
                 <Button variant={'ghost'} size={'icon'} className="group rounded-full">
                   <span className="sr-only">{item.label}</span>

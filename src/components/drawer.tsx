@@ -44,7 +44,7 @@ export const Drawer = () => {
     <motion.footer
       initial={{ y: 500 }}
       animate={{ y: 0 }}
-      transition={{ delay: 0.6, duration: 0.6 }}
+      transition={{ delay: 0.4, duration: 0.6 }}
       className="fixed bottom-2 z-50 flex min-h-12 w-full items-center justify-center rounded-3xl px-2">
       <div className="base-shadow mx-auto flex h-full w-fit max-w-5xl items-center justify-between rounded-3xl bg-foreground-default/80 px-3 py-2 pb-3 backdrop-blur-md">
         <div className="flex items-center gap-2">
@@ -52,6 +52,7 @@ export const Drawer = () => {
             <Link
               to={route.path}
               key={i}
+              viewTransition
               className={cn('relative', {
                 'before:absolute before:-bottom-2 before:left-[calc(50%_-_4px)] before:h-1 before:w-2 before:rounded-full before:bg-blue-400 min-[540px]:before:left-[calc(50%_-_16px)] min-[540px]:before:w-8':
                   window.location.href.includes(route.alias)
