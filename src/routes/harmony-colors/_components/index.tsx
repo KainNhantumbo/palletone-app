@@ -4,6 +4,7 @@ import { AnalogousTab } from './tabs/analogous';
 import { ComplementTab } from './tabs/complement';
 import { MonochromaticTab } from './tabs/monochromatic';
 import { SplitComplement } from './tabs/split-complement';
+import { TriadicTab } from './tabs/triadic';
 
 export function HarmonyColorsTabsContainer() {
   return (
@@ -21,6 +22,7 @@ export function HarmonyColorsTabsContainer() {
         { value: 'complement', element: <ComplementTab /> },
         { value: 'analogous', element: <AnalogousTab /> },
         { value: 'split-complement', element: <SplitComplement /> },
+        { value: 'triadic', element: <TriadicTab /> },
         { value: 'monochromatic', element: <MonochromaticTab /> }
       ]}
     />
