@@ -12,6 +12,7 @@ import AnalogousTab from './tabs/analogous';
 import { ComplementTab } from './tabs/complement';
 import { GradientsTab } from './tabs/gradients';
 import { SplitComplementTab } from './tabs/split-complement';
+import { TetradicTab } from './tabs/tetradic';
 import { TriadicTab } from './tabs/triadic';
 
 export function SavedColorsTabsContainer() {
@@ -33,8 +34,10 @@ export function SavedColorsTabsContainer() {
         { value: 'gradients', element: <GradientsTab /> },
         { value: 'complement', element: <ComplementTab /> },
         { value: 'analogous', element: <AnalogousTab /> },
+        { value: 'split-complement', element: <SplitComplementTab /> },
         { value: 'triadic', element: <TriadicTab /> },
-        { value: 'split-complement', element: <SplitComplementTab /> }
+        { value: 'tetradic', element: <TetradicTab /> },
+        { value: 'monochromatic', element: <TriadicTab /> }
       ]}
     />
   );
