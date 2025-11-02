@@ -179,8 +179,8 @@ function DockIcon({ children, label, className, ...rest }: DockIconProps) {
     return (
       <div
         className={cn(
-          'relative flex flex-col items-center justify-center rounded-lg transition-all duration-200',
-          'hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+          'group relative flex flex-col items-center justify-center rounded-lg transition-all duration-200',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
           'text-muted-foreground hover:text-foreground'
         )}>
         <motion.div
@@ -191,7 +191,7 @@ function DockIcon({ children, label, className, ...rest }: DockIconProps) {
 
         <span
           className={cn(
-            'font-medium capitalize transition-colors duration-200',
+            'font-medium capitalize transition-colors duration-200 group-hover:text-blue-400',
             'whitespace-nowrap text-xs'
           )}>
           {label}

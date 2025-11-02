@@ -62,7 +62,7 @@ export const Drawer = () => {
                 className={cn(
                   'relative h-auto w-5 transition-colors group-hover:stroke-primary-default group-active:stroke-blue-400'
                 )}>
-                <route.icon />
+                <route.icon className=" group-hover:stroke-blue-400 group-active:stroke-blue-400" />
               </DockIcon>
             </DockItem>
           </Link>
