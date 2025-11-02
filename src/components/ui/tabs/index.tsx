@@ -111,28 +111,30 @@ export function TabsFactory<T extends string = string>({
           'mx-auto mb-3 grid w-fit grid-flow-col place-content-center place-items-center gap-8 bg-background-default',
           listProps?.className
         )}>
-        {triggers.map(({ value, label, icon: Icon, iconPosition = 'left', props }) => (
-          <TabsTrigger
-            key={value}
-            value={value}
-            className={cn(
-              'group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl',
-              props?.className
-            )}
-            {...props}>
-            <span className="flex items-center gap-2">
-              {Icon && iconPosition === 'left' && (
-                <Icon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
+        <section className="flex w-full flex-row flex-nowrap gap-1 overflow-x-auto  bg-background-default px-2 py-3">
+          {triggers.map(({ value, label, icon: Icon, iconPosition = 'left', props }) => (
+            <TabsTrigger
+              key={value}
+              value={value}
+              className={cn(
+                'group mx-auto flex w-full max-w-[200px] items-center gap-1 rounded-3xl',
+                props?.className
               )}
-              <span className="font-semibold transition-colors group-hover:text-blue-400">
-                {label}
+              {...props}>
+              <span className="flex items-center gap-2">
+                {Icon && iconPosition === 'left' && (
+                  <Icon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
+                )}
+                <span className="font-semibold transition-colors group-hover:text-blue-400">
+                  {label}
+                </span>
+                {Icon && iconPosition === 'right' && (
+                  <Icon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
+                )}
               </span>
-              {Icon && iconPosition === 'right' && (
-                <Icon className="w-[18px] transition-colors group-hover:stroke-blue-400" />
-              )}
-            </span>
-          </TabsTrigger>
-        ))}
+            </TabsTrigger>
+          ))}
+        </section>
       </TabsList>
 
       <TabsContents {...contentsProps}>
