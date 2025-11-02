@@ -1,17 +1,15 @@
 import { TabsFactory } from '@/components/ui/tabs/index';
-import { PaletteTab } from '@/routes/color-extractor/_components/tabs/palette';
-import { PickerTab } from '@/routes/color-extractor/_components/tabs/picker';
 import {
-  BirdIcon,
   BoxSelectIcon,
   Dice2Icon,
   Dice3Icon,
   Dice4Icon,
   DicesIcon,
   DropletIcon,
-  PaintbrushIcon,
-  SparklesIcon
+  PaintbrushIcon
 } from 'lucide-react';
+import { ComplementTab } from './tabs/complement';
+import { GradientsTab } from './tabs/gradients';
 
 export function SavedColorsTabsContainer() {
   return (
@@ -20,8 +18,6 @@ export function SavedColorsTabsContainer() {
       triggers={[
         { value: 'solids', label: 'Solids', icon: DropletIcon },
         { value: 'gradients', label: 'Gradients', icon: PaintbrushIcon },
-        { value: 'palette', label: 'Palette', icon: SparklesIcon },
-        { value: 'picker', label: 'Picker', icon: BirdIcon },
         { value: 'complement', label: 'Complement', icon: DicesIcon },
         { value: 'analogous', label: 'Analogous', icon: Dice2Icon },
         { value: 'split-complement', label: 'Complement/2', icon: Dice2Icon },
@@ -30,8 +26,9 @@ export function SavedColorsTabsContainer() {
         { value: 'monochromatic', label: 'Monochromatic', icon: BoxSelectIcon }
       ]}
       contents={[
-        { value: 'palette', element: <PaletteTab /> },
-        { value: 'picker', element: <PickerTab /> }
+        { value: 'solids', element: <GradientsTab /> },
+        { value: 'gradients', element: <GradientsTab /> },
+        { value: 'complement', element: <ComplementTab /> }
       ]}
     />
   );

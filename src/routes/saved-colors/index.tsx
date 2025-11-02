@@ -1,21 +1,13 @@
 import { ComplementColorsMenu } from '@/components/complement-colors-menu';
 import { EmptyMessage } from '@/components/empty-message';
 import { GenericColorsMenu } from '@/components/generic-colors-menu';
-import { GradientsColorsMenu } from '@/components/gradient-colors-menu';
 import { RemoveColorAlert } from '@/components/remove-color-alert';
-import { SolidOptionsMenu } from '@/components/solid-colors-menu';
 import { TooltipWrapper } from '@/components/tooltip-wrapper';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsContent } from '@/components/ui/tabs';
 import { initialHarmonyColorsValue } from '@/hooks/use-harmony-colors';
-import {
-  buildGradient,
-  cn,
-  getDate,
-  normalizeColorOutput,
-  transformColorsToString
-} from '@/lib/utils';
+import { buildGradient, cn, getDate, transformColorsToString } from '@/lib/utils';
 import {
   HARMONY_COLOR_STORAGE_KEY,
   MIXED_GRADIENT_STORAGE_KEY,
@@ -26,8 +18,6 @@ import { useDocumentTitle, useLocalStorage } from '@uidotdev/usehooks';
 import { m as motion } from 'framer-motion';
 import {
   ArrowLeftIcon,
-  DropletIcon,
-  DropletsIcon,
   Layers2Icon,
   Layers3Icon,
   PocketIcon,
@@ -109,12 +99,6 @@ export default function SavedColors() {
       analogous: [...db.analogous.filter((item) => item.id !== id)]
     }));
 
-  const handleRemoveSolidColor = (id: string) =>
-    updateSolidColorDB((db) => [...db.filter((color) => color.id !== id)]);
-
-  const handleRemoveGradientColor = (id: string) =>
-    updateGradientColorsDB((db) => [...db.filter((color) => color.id !== id)]);
-
   return (
     <main className="w-full pb-24 pt-20">
       <section className="mx-auto flex w-full max-w-3xl flex-col gap-3 p-2">
@@ -137,162 +121,6 @@ export default function SavedColors() {
         <Separator decorative />
 
         <Tabs defaultValue="solid" className="w-full px-2">
-          <TabsList className="mb-3 w-full bg-background-default">
-            <section className="flex w-full flex-row flex-nowrap gap-1 overflow-x-auto  bg-background-default px-2 py-3">
-              <TabsTrigger value="solid" className="rounded-full px-2">
-                <span className="font-semibold transition-colors group-hover:text-blue-400">
-                  Solids
-                </span>
-              </TabsTrigger>
-              <TabsTrigger value="gradient" className="rounded-full px-2">
-                <span className="font-semibold transition-colors group-hover:text-blue-400">
-                  Gradients
-                </span>
-              </TabsTrigger>
-              <TabsTrigger value="complement" className="rounded-full px-2">
-                <span className="font-semibold transition-colors group-hover:text-blue-400">
-                  Complement
-                </span>
-              </TabsTrigger>
-              <TabsTrigger value="analogous" className="rounded-full px-2">
-                <span className="font-semibold transition-colors group-hover:text-blue-400">
-                  Analogous
-                </span>
-              </TabsTrigger>
-              <TabsTrigger value="split-complement" className="rounded-full px-2">
-                <span className="font-semibold transition-colors group-hover:text-blue-400">
-                  Complement/2
-                </span>
-              </TabsTrigger>
-              <TabsTrigger value="triadic" className="rounded-full px-2">
-                <span className="font-semibold transition-colors group-hover:text-blue-400">
-                  Triadic
-                </span>
-              </TabsTrigger>
-              <TabsTrigger value="tetradic" className="rounded-full px-2">
-                <span className="font-semibold transition-colors group-hover:text-blue-400">
-                  Tetradic
-                </span>
-              </TabsTrigger>
-              <TabsTrigger value="monochromatic" className="rounded-full px-2">
-                <span className="font-semibold transition-colors group-hover:text-blue-400">
-                  Monochromatic
-                </span>
-              </TabsTrigger>
-            </section>
-          </TabsList>
-
-          <TabsContent value="solid">
-            <section className="base-border flex w-full flex-col gap-3  rounded-2xl bg-foreground-default p-4">
-              <h3>About {solidColorsDB.length} solid colors.</h3>
-              <Separator decorative className="mb-2" />
-
-              {solidColorsDB.length > 0 ? (
-                <section className="grid w-full grid-cols-1 gap-2 mobile:grid-cols-2 md:grid-cols-3 md:flex-row md:gap-3">
-                  {solidColorsDB
-                    .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1))
-                    .map(({ id, value, createdAt }, i) => (
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1, transition: { delay: i * 0.1 } }}
-                        whileHover={{ y: -10, transition: { delay: 0 } }}
-                        className="base-border base-shadow flex w-full flex-col gap-3 rounded-2xl p-1 pb-2"
-                        key={id}>
-                        <div
-                          style={{ background: tinycolor(value).toRgbString() }}
-                          className="base-shadow base-border relative min-h-[200px] rounded-2xl md:w-full md:max-w-[220px]">
-                          <span className="base-border absolute left-2 top-2 h-fit w-fit rounded-full bg-background-default p-1 px-2 text-xs font-semibold">
-                            {normalizeColorOutput(
-                              transformColorsToString(value).hex,
-                              'hex'
-                            )}
-                          </span>
-                        </div>
-
-                        <div className="flex w-full items-center justify-between gap-1 px-2">
-                          <p className="text-xs font-medium">{getDate(createdAt)}</p>
-                          <div className="flex items-center gap-1">
-                            <RemoveColorAlert
-                              onConfirm={() => handleRemoveSolidColor(id)}
-                            />
-                            <SolidOptionsMenu color={value} />
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
-                </section>
-              ) : null}
-
-              {solidColorsDB.length < 1 ? (
-                <EmptyMessage
-                  icon={DropletIcon}
-                  message="Your saved colors will appear here. Collect and save some colors to start."
-                />
-              ) : null}
-            </section>
-          </TabsContent>
-
-          <TabsContent value="gradient">
-            <section className="base-border flex w-full flex-col gap-3  rounded-2xl bg-foreground-default p-4">
-              <h3>About {gradientColorsDB.length} gradient colors.</h3>
-              <Separator decorative className="mb-2" />
-
-              {gradientColorsDB.length > 0 ? (
-                <section className="grid w-full grid-cols-1 gap-2 mobile:grid-cols-2 md:grid-cols-3 md:flex-row md:gap-3">
-                  {gradients
-                    .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1))
-                    .map(({ id, color_1, color_2, CSSGradient, createdAt }, i) => (
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1, transition: { delay: i * 0.1 } }}
-                        whileHover={{ y: -10, transition: { delay: 0 } }}
-                        className="base-border base-shadow flex w-full flex-col gap-3 rounded-2xl p-1 pb-2"
-                        key={id}>
-                        <div
-                          style={{ ...CSSGradient.linearGradient.value }}
-                          className="base-shadow base-border relative min-h-[200px] rounded-2xl md:w-full md:max-w-[220px]">
-                          <span className="base-border absolute left-2 top-2 h-fit w-fit rounded-full bg-background-default p-1 px-2 text-xs font-semibold">
-                            {normalizeColorOutput(
-                              transformColorsToString(color_1.raw).hex,
-                              'hex'
-                            )}
-                          </span>
-                          <span className="base-border absolute left-2 top-10 h-fit w-fit rounded-full bg-background-default p-1 px-2 text-xs font-semibold">
-                            {normalizeColorOutput(
-                              transformColorsToString(color_2.raw).hex,
-                              'hex'
-                            )}
-                          </span>
-                        </div>
-
-                        <div className="flex w-full items-center justify-between gap-1 px-2">
-                          <p className="text-xs font-medium">{getDate(createdAt)}</p>
-                          <div className="flex items-center gap-1">
-                            <RemoveColorAlert
-                              onConfirm={() => handleRemoveGradientColor(id)}
-                            />
-                            <GradientsColorsMenu
-                              color_1={color_1}
-                              color_2={color_2}
-                              linearCSSGradient={CSSGradient.linearGradient.cssString}
-                              radialCSSGradient={CSSGradient.radialGradient.cssString}
-                            />
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
-                </section>
-              ) : null}
-
-              {gradientColorsDB.length < 1 ? (
-                <EmptyMessage
-                  icon={DropletsIcon}
-                  message="Your saved gradients will appear here. Collect and save some gradient colors to start."
-                />
-              ) : null}
-            </section>
-          </TabsContent>
-
           <TabsContent value="complement">
             <section className="base-border flex w-full flex-col gap-3  rounded-2xl bg-foreground-default p-4">
               <h3>About {harmonyColorsDB.complement.length} complement colors.</h3>

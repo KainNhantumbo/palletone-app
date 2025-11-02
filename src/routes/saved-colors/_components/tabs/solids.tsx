@@ -10,7 +10,7 @@ import { m as motion } from 'framer-motion';
 import { DropletIcon } from 'lucide-react';
 import tinycolor from 'tinycolor2';
 
-export function SavedTab() {
+export function SolidsTab() {
   const [solidColorsDB, updateSolidColorDB] = useLocalStorage<SolidColor[]>(
     SOLID_COLORS_STORAGE_KEY,
     []
