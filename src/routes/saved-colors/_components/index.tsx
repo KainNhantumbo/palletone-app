@@ -8,6 +8,7 @@ import {
   DropletIcon,
   PaintbrushIcon
 } from 'lucide-react';
+import AnalogousTab from './tabs/analogous';
 import { ComplementTab } from './tabs/complement';
 import { GradientsTab } from './tabs/gradients';
 import { SplitComplementTab } from './tabs/split-complement';
@@ -30,8 +31,8 @@ export function SavedColorsTabsContainer() {
         { value: 'solids', element: <GradientsTab /> },
         { value: 'gradients', element: <GradientsTab /> },
         { value: 'complement', element: <ComplementTab /> },
-        { value: 'complement', element: <ComplementTab /> },
-        { value: 'complement', element: <SplitComplementTab /> }
+        { value: 'analogous', element: <AnalogousTab /> },
+        { value: 'split-complement', element: <SplitComplementTab /> }
       ]}
     />
   );
