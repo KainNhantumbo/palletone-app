@@ -61,7 +61,7 @@ export function GradientsTab() {
                 key={id}>
                 <div
                   style={{ ...CSSGradient.linearGradient.value }}
-                  className="base-shadow base-border relative min-h-[200px] rounded-2xl md:w-full md:max-w-[220px]">
+                  className="base-shadow base-border relative min-h-[200px] w-full rounded-2xl">
                   <span className="base-border absolute left-2 top-2 h-fit w-fit rounded-full bg-background-default p-1 px-2 text-xs font-semibold">
                     {normalizeColorOutput(transformColorsToString(color_1.raw).hex, 'hex')}
                   </span>
