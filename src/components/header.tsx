@@ -23,7 +23,7 @@ export const Header = () => {
       <div className="base-shadow mx-auto flex h-full w-full max-w-4xl items-center justify-between rounded-3xl bg-foreground-default/80 px-4 py-2 backdrop-blur-md">
         <div
           className="flex cursor-pointer select-none items-center gap-4"
-          onClick={() => navigate('/')}>
+          onClick={() => navigate('/?r=default-colors')}>
           <img
             src={logoImage}
             loading="lazy"
