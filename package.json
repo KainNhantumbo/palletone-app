@@ -43,6 +43,13 @@
     "ts:lint": "tsc --noEmit -p ./tsconfig.json",
     "es:lint": "eslint ."
   },
+  "build": {
+    "publish": [
+      {
+        "provider": "github"
+      }
+    ]
+  },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.2",
     "@electron-toolkit/utils": "^4.0.0",
