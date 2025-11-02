@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { ComplementTab } from './tabs/complement';
 import { GradientsTab } from './tabs/gradients';
+import { SplitComplementTab } from './tabs/split-complement';
 
 export function SavedColorsTabsContainer() {
   return (
@@ -28,7 +29,9 @@ export function SavedColorsTabsContainer() {
       contents={[
         { value: 'solids', element: <GradientsTab /> },
         { value: 'gradients', element: <GradientsTab /> },
-        { value: 'complement', element: <ComplementTab /> }
+        { value: 'complement', element: <ComplementTab /> },
+        { value: 'complement', element: <ComplementTab /> },
+        { value: 'complement', element: <SplitComplementTab /> }
       ]}
     />
   );
