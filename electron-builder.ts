@@ -8,7 +8,7 @@ const electronBuilderConfig: Configuration = {
   productName: pkg.productName,
   icon: 'public/icon-512x512.png',
   directories: {
-    output: 'dist',
+    output: 'out',
     buildResources: 'build',
     app: process.cwd()
   },
@@ -70,20 +70,20 @@ const electronBuilderConfig: Configuration = {
     asar: true,
     description: pkg.description,
     packageCategory: 'Utility',
-    target: ['rpm', 'deb', 'AppImage'],
+    target: ['deb', 'AppImage'],
     defaultArch: 'x64'
   },
-  rpm: {
-    category: 'Utility',
-    icon: 'public/icon-512x512.png',
-    packageName: pkg.productName,
-    description: pkg.description,
-    compression: 'xz',
-    packageCategory: 'Utility',
-    publish: undefined,
-    fpm: ['--rpm-compression', 'gzip'],
-    artifactName: '${name}-${version}.${ext}'
-  },
+  // rpm: {
+  //   category: 'Utility',
+  //   icon: 'public/icon-512x512.png',
+  //   packageName: pkg.productName,
+  //   description: pkg.description,
+  //   compression: 'xz',
+  //   packageCategory: 'Utility',
+  //   publish: undefined,
+  //   fpm: ['--rpm-compression', 'gzip'],
+  //   artifactName: '${name}-${version}.${ext}'
+  // },
   deb: {
     category: 'Utility',
     packageCategory: 'Utility',
@@ -95,12 +95,6 @@ const electronBuilderConfig: Configuration = {
   appImage: {
     category: 'Utility',
     description: pkg.description
-  },
-  apk: {
-    category: 'Utility',
-    icon: 'public/icon-512x512.png',
-    description: pkg.description,
-    packageName: pkg.productName
   }
 };
 

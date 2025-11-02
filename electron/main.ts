@@ -3,12 +3,12 @@ import path from 'node:path';
 import Package from '../package.json';
 
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
-process.env.DIST = path.join(__dirname, '../out/renderer');
+process.env.DIST = path.join(__dirname, '../dist');
 process.env.VITE_PUBLIC = app.isPackaged
   ? process.env.DIST
   : path.join(process.env.DIST, '../public');
 
-const INDEX_ROUTE = path.join(__dirname, '../renderer/index.html');
+const INDEX_ROUTE = path.join(__dirname, '../dist/index.html');
 let win: BrowserWindow | null;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -35,7 +35,7 @@ function createWindow() {
     title: Package.productName,
     autoHideMenuBar: true,
     webPreferences: {
-      preload: path.join(__dirname, '../preload/preload.js'),
+      preload: path.join(__dirname, '../preload.js'),
       sandbox: true,
       contextIsolation: true
     }
