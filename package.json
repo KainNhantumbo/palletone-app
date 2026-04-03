@@ -95,7 +95,7 @@
     "@types/tinycolor2": "^1.4.6",
     "@vitejs/plugin-react-swc": "^4.1.0",
     "autoprefixer": "^10.4.16",
-    "electron": "^38.3.0",
+    "electron": "^39.8.4",
     "electron-builder": "^26.6.0",
     "electron-vite": "^4.0.1",
     "eslint": "^9.36.0",
